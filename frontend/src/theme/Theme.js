@@ -8,6 +8,7 @@ const Theme = {
   grey: "#3A3A3A",
   lightgrey: "#E1E1E1",
   offWhite: "#EDEDED",
+  padding: "5px",
 };
 
 export default Theme;

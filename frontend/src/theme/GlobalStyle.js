@@ -12,21 +12,9 @@ export default createGlobalStyle`
     padding: 0;
     margin: 0;
     font-size: 2rem;
-    line-height: 1rem;
-    ${
-      "" /* background: ${props => props.theme.black};
-    color: ${props => props.theme.offWhite}; */
-    }
+    line-height: 2.5rem;
   }
-  
- @keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
+
 
 
   `;

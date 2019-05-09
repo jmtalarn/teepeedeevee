@@ -1,9 +1,17 @@
 import React from "react";
 import logo from "./logo.svg";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 
+const animationLogo = keyframes`
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+`;
 const Logo = styled.img`
-  animation: App-logo-spin infinite 20s linear;
+  animation: ${animationLogo} infinite 20s linear;
   height: 6rem;
   pointer-events: none;
 `;
