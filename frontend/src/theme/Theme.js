@@ -9,6 +9,7 @@ const Theme = {
   lightgrey: "#E1E1E1",
   offWhite: "#EDEDED",
   padding: "5px",
+  boxShadow: "2px 2px 4px #393939",
 };
 
 export default Theme;
