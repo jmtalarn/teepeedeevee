@@ -1,0 +1,28 @@
+[
+  { "name": "Bebidas", "parent": null },
+  { "name": "Bebidas calientes", "parent": "Bebidas" },
+  { "name": "Refrescos", "parent": "Bebidas" },
+  {
+    "name": "Cervezas",
+    "parent": "Bebidas"
+  },
+  { "name": "Sandwhiches", "parent": null },
+  { "name": "Bocadillos fríos", "parent": "Sandwhiches" },
+  {
+    "name": "Bocadillos Calientes",
+    "parent": "Sandwhiches"
+  },
+  { "name": "Platos", "parent": null },
+  {
+    "name": "Platos combinados",
+    "parent": "Platos"
+  },
+  {
+    "name": "Tapas",
+    "parent": "Platos"
+  },
+  {
+    "name": "Raciones",
+    "parent": "Platos"
+  }
+]
