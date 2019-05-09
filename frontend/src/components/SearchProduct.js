@@ -3,6 +3,8 @@ import styled from "styled-components";
 import Select from "react-select";
 import products from "../data/products.json";
 import categories from "../data/categories.json";
+import { addProduct } from "../actions/orderActions";
+import { connect } from "react-redux";
 
 const Container = styled.div`
   padding: ${props => props.theme.padding};
@@ -22,6 +24,7 @@ const ListView = styled.div`
     padding: ${props => props.theme.padding};
   }
 `;
+
 class CategorySelect extends React.Component {
   constructor(props) {
     super(props);
@@ -47,7 +50,7 @@ class CategorySelect extends React.Component {
             const currentCategory = categories.find(
               category => category.name === this.state.parent,
             );
-            console.log(currentCategory);
+
             this.filterCategory(
               currentCategory ? currentCategory.parent : null,
             );
@@ -69,7 +72,7 @@ class CategorySelect extends React.Component {
           <button
             key={product.code}
             onClick={() => {
-              console.log(product);
+              this.props.addProduct(product);
             }}
           >
             {product.name}
@@ -79,6 +82,15 @@ class CategorySelect extends React.Component {
     );
   }
 }
+
+const CategorySelectContainer = connect(
+  (state, props) => Object.assign({}, state),
+  dispatch => ({
+    addProduct: product => {
+      dispatch(addProduct(product));
+    },
+  }),
+)(CategorySelect);
 
 class SearchProduct extends React.Component {
   constructor(props) {
@@ -95,20 +107,30 @@ class SearchProduct extends React.Component {
         value={this.state.value}
         onChange={(value, action) => {
           console.log(value, action);
+          this.props.addProduct(value);
           this.setState({ value: "" });
         }}
       />
     );
   }
 }
-
+const SearchProductContainer = connect(
+  (state, props) => ({
+    order: state.order,
+  }),
+  dispatch => ({
+    addProduct: product => {
+      dispatch(addProduct(product));
+    },
+  }),
+)(SearchProduct);
 export default props => (
   <Container>
     <InnerContainer>
-      <SearchProduct />
+      <SearchProductContainer />
     </InnerContainer>
     <InnerContainer>
-      <CategorySelect />
+      <CategorySelectContainer />
     </InnerContainer>
   </Container>
 );

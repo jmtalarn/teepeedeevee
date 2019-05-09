@@ -5,7 +5,7 @@ import theme from "./theme/Theme";
 import GlobalStyle from "./theme/GlobalStyle";
 import Header from "./components/Header";
 import SearchProduct from "./components/SearchProduct";
-import TicketDashboard from "./components/TicketDashboard";
+import OrderingDashboard from "./components/OrderingDashboard";
 import Layout from "./components/Layout";
 function App() {
   return (
@@ -14,7 +14,7 @@ function App() {
         <Header />
         <Layout>
           <SearchProduct />
-          <TicketDashboard />
+          <OrderingDashboard />
         </Layout>
         <GlobalStyle />
       </div>
