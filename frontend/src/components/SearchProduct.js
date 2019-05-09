@@ -19,12 +19,21 @@ const SelectProduct = styled(Select)`
 `;
 
 const ListView = styled.div`
-  button {
-    width: 100%;
-    padding: ${props => props.theme.padding};
-  }
+  display: grid;
 `;
+const ListViewItem = styled.button`
+  &:first-child {
+    margin: 1rem 0;
+  }
+  color: ${props => props.theme.black};
 
+  font-size: 2rem;
+  line-height: ${props => props.theme.touchableLineHeight};
+  font-weight: 200;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
 class CategorySelect extends React.Component {
   constructor(props) {
     super(props);
@@ -45,7 +54,7 @@ class CategorySelect extends React.Component {
   render() {
     return (
       <ListView>
-        <button
+        <ListViewItem
           onClick={() => {
             const currentCategory = categories.find(
               category => category.name === this.state.parent,
@@ -55,28 +64,32 @@ class CategorySelect extends React.Component {
               currentCategory ? currentCategory.parent : null,
             );
           }}
+          disabled={this.state.parent === null}
         >
-          &lt; {this.state.parent}
-        </button>
+          <span>&lt;</span>
+          <span>{this.state.parent}</span>
+        </ListViewItem>
         {this.state.categories.map(category => (
-          <button
+          <ListViewItem
             key={category.name}
             onClick={() => {
               this.filterCategory(category.name);
             }}
           >
-            {category.name} >
-          </button>
+            <span>{category.name}</span>
+            <span>&gt;</span>
+          </ListViewItem>
         ))}
         {this.state.products.map(product => (
-          <button
+          <ListViewItem
             key={product.code}
             onClick={() => {
               this.props.addProduct(product);
             }}
           >
             {product.name}
-          </button>
+            <span>&middot;</span>
+          </ListViewItem>
         ))}
       </ListView>
     );
