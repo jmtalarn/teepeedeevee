@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import Select from "react-select";
 import products from "../data/products.json";
+import categories from "../data/categories.json";
 
 const Container = styled.div`
   padding: ${props => props.theme.padding};
@@ -13,29 +14,72 @@ const InnerContainer = styled.div`
 `;
 const SelectProduct = styled(Select)`
   position: relative;
-  ${"" /* 
-  input {
-    margin: ${props => props.theme.padding};
-    padding: ${props => props.theme.padding};
-    width: calc(100% - 1rem);
-  }
-  .typeahead-selector {
-    position: absolute;
-    top: 1.2rem;
-    left: 0.5rem;
-    width: calc(100% - 1rem);
-    background-color: white;
-    box-shadow: ${props => props.theme.boxShadow};
-    list-style: none;
-    padding: 0;
-    li a {
-      text-decoration: none;
-      color: inherit;
-      line-height: 48px;
-      padding: 1rem;
-    }
-  } */}
 `;
+
+const ListView = styled.div`
+  button {
+    width: 100%;
+    padding: ${props => props.theme.padding};
+  }
+`;
+class CategorySelect extends React.Component {
+  constructor(props) {
+    super(props);
+    // Don't call this.setState() here!
+    this.state = {
+      parent: null,
+      categories: categories.filter(category => category.parent === null),
+      products: [],
+    };
+  }
+  filterCategory(parent) {
+    this.setState({
+      parent,
+      categories: categories.filter(category => category.parent === parent),
+      products: products.filter(product => product.category === parent),
+    });
+  }
+  render() {
+    return (
+      <ListView>
+        <button
+          onClick={() => {
+            const currentCategory = categories.find(
+              category => category.name === this.state.parent,
+            );
+            console.log(currentCategory);
+            this.filterCategory(
+              currentCategory ? currentCategory.parent : null,
+            );
+          }}
+        >
+          &lt; {this.state.parent}
+        </button>
+        {this.state.categories.map(category => (
+          <button
+            key={category.name}
+            onClick={() => {
+              this.filterCategory(category.name);
+            }}
+          >
+            {category.name} >
+          </button>
+        ))}
+        {this.state.products.map(product => (
+          <button
+            key={product.code}
+            onClick={() => {
+              console.log(product);
+            }}
+          >
+            {product.name}
+          </button>
+        ))}
+      </ListView>
+    );
+  }
+}
+
 class SearchProduct extends React.Component {
   constructor(props) {
     super(props);
@@ -63,6 +107,8 @@ export default props => (
     <InnerContainer>
       <SearchProduct />
     </InnerContainer>
-    <InnerContainer>Categories</InnerContainer>
+    <InnerContainer>
+      <CategorySelect />
+    </InnerContainer>
   </Container>
 );
