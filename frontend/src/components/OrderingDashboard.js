@@ -42,7 +42,7 @@ const EmptyOrder = styled.div`
 const QuantityLayout = styled.div`
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
 `;
 const QuantityValue = styled.span`
   margin: 0 1rem;
@@ -53,17 +53,21 @@ const Button = styled.button`
     background-color: ${props => props.theme.darkeningBackground};
   }
 `;
+const RemoveProductButton = styled(Button)`
+  cursor: pointer;
+  width: 3rem;
+  justify-self: end;
+`;
 const OrderLine = styled.div`
-  display: flex;
+  display: grid;
   align-items: center;
-  justify-content: space-between;
+  grid-template-columns: 1fr 10rem 6rem;
   padding: ${props => props.theme.padding};
   padding-left: 1rem;
   &:hover {
     background-color: ${props => props.theme.darkeningBackground};
   }
   label {
-    min-width: 30rem;
   }
 `;
 const Quantity = props => (
@@ -90,13 +94,13 @@ class OrderingDashboard extends React.Component {
                 quantity={orderedProduct.quantity}
               />
 
-              <Button
+              <RemoveProductButton
                 onClick={() => {
                   this.props.removeProduct(orderedProduct.product);
                 }}
               >
                 X
-              </Button>
+              </RemoveProductButton>
             </OrderLine>
           ))
         ) : (

@@ -28,7 +28,7 @@ export default function stuff(state = initialState.order, action) {
       if (state[index].quantity > 1) {
         state[index].quantity--;
       } else {
-        state.splice(action.index, 1);
+        state.splice(index, 1);
       }
 
       return [...state];
