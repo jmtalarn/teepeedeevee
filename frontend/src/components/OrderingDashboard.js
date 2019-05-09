@@ -12,9 +12,27 @@ const Order = styled.div`
   margin: 1rem;
   min-height: 4rem;
   line-height: ${props => props.theme.touchableLineHeight};
-
+  position: relative;
   box-shadow: ${props => props.theme.boxShadow};
   font-weight: 100;
+  clip-path: polygon(
+    calc(100% - 16px) 0,
+    calc(100% + 10px) calc(16px + 10px),
+    calc(100% + 10px) calc(100% + 10px),
+    0 calc(100% + 10px),
+    -10px -10px
+  );
+
+  &:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    border-width: 0 16px 16px 0;
+    border-style: solid;
+    border-color: rgba(0, 0, 0, 0.2) white;
+    box-shadow: ${props => props.theme.boxShadow};
+  }
 `;
 const EmptyOrder = styled.div`
   width: 100%;
