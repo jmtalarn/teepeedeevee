@@ -1,5 +1,9 @@
 import initialState from "./initialState";
-import { ADD_PRODUCT, REMOVE_PRODUCT } from "../actions/actionTypes";
+import {
+  ADD_PRODUCT,
+  REMOVE_PRODUCT,
+  REMOVE_UNIT,
+} from "../actions/actionTypes";
 
 export default function stuff(state = initialState.order, action) {
   switch (action.type) {
@@ -15,17 +19,27 @@ export default function stuff(state = initialState.order, action) {
         state.push(orderedProduct);
       }
       return [...state];
-    case REMOVE_PRODUCT:
-      const { product: removedProduct } = action;
+    case REMOVE_UNIT:
+      const { product: removedProductUnit } = action;
 
       const index = state.findIndex(orderedProduct => {
-        return orderedProduct.product.code === removedProduct.code;
+        return orderedProduct.product.code === removedProductUnit.code;
       });
       if (state[index].quantity > 1) {
         state[index].quantity--;
       } else {
         state.splice(action.index, 1);
       }
+
+      return [...state];
+    case REMOVE_PRODUCT:
+      const { product: removedProduct } = action;
+
+      const productIndex = state.findIndex(orderedProduct => {
+        return orderedProduct.product.code === removedProduct.code;
+      });
+
+      state.splice(productIndex, 1);
 
       return [...state];
     default:

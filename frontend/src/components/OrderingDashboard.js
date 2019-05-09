@@ -1,7 +1,11 @@
 import React from "react";
 import styled from "styled-components";
 import { connect } from "react-redux";
-import { removeProduct } from "../actions/orderActions";
+import {
+  removeUnitProduct,
+  removeProduct,
+  addProduct,
+} from "../actions/orderActions";
 
 const Order = styled.div`
   background-color: ${props => props.theme.yellowPaper};
@@ -17,7 +21,14 @@ const EmptyOrder = styled.div`
   text-align: center;
   font-style: italic;
 `;
-
+const QuantityLayout = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+const QuantityValue = styled.span`
+  margin: 0 1rem;
+`;
 const Button = styled.button`
   cursor: pointer;
   &:hover {
@@ -33,7 +44,17 @@ const OrderLine = styled.div`
   &:hover {
     background-color: ${props => props.theme.darkeningBackground};
   }
+  label {
+    min-width: 30rem;
+  }
 `;
+const Quantity = props => (
+  <QuantityLayout>
+    <Button onClick={() => props.removeUnitProduct(props.product)}>-</Button>
+    <QuantityValue>{props.quantity}</QuantityValue>
+    <Button onClick={() => props.addProduct(props.product)}>+</Button>
+  </QuantityLayout>
+);
 class OrderingDashboard extends React.Component {
   render() {
     return (
@@ -42,8 +63,15 @@ class OrderingDashboard extends React.Component {
         {this.props.order.length ? (
           this.props.order.map((orderedProduct, index) => (
             <OrderLine key={index}>
-              <span>{orderedProduct.product.name}</span>
-              <span>{orderedProduct.quantity}</span>
+              <label>{orderedProduct.product.name}</label>
+              <Quantity
+                removeUnitProduct={this.props.removeUnitProduct}
+                removeProduct={this.props.removeProduct}
+                addProduct={this.props.addProduct}
+                product={orderedProduct.product}
+                quantity={orderedProduct.quantity}
+              />
+
               <Button
                 onClick={() => {
                   this.props.removeProduct(orderedProduct.product);
@@ -66,8 +94,14 @@ export default connect(
     return Object.assign({}, state);
   },
   dispatch => ({
-    removeProduct: index => {
-      dispatch(removeProduct(index));
+    addProduct: product => {
+      dispatch(addProduct(product));
+    },
+    removeUnitProduct: product => {
+      dispatch(removeUnitProduct(product));
+    },
+    removeProduct: product => {
+      dispatch(removeProduct(product));
     },
   }),
 )(OrderingDashboard);
