@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.js": "/teepeedeevee/static/js/main.a0baa096.chunk.js",
+    "main.js.map": "/teepeedeevee/static/js/main.a0baa096.chunk.js.map",
+    "runtime~main.js": "/teepeedeevee/static/js/runtime~main.b7b3ed20.js",
+    "runtime~main.js.map": "/teepeedeevee/static/js/runtime~main.b7b3ed20.js.map",
+    "static/js/2.73747369.chunk.js": "/teepeedeevee/static/js/2.73747369.chunk.js",
+    "static/js/2.73747369.chunk.js.map": "/teepeedeevee/static/js/2.73747369.chunk.js.map",
+    "index.html": "/teepeedeevee/index.html",
+    "precache-manifest.2a6b520b86ce609c0f3d510867ac3120.js": "/teepeedeevee/precache-manifest.2a6b520b86ce609c0f3d510867ac3120.js",
+    "service-worker.js": "/teepeedeevee/service-worker.js",
+    "static/media/logo.svg": "/teepeedeevee/static/media/logo.5d5d9eef.svg"
+  }
+}
