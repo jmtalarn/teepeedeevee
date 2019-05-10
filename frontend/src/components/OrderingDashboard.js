@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { FormattedMessage } from "react-intl";
 import { connect } from "react-redux";
 import {
   removeUnitProduct,
@@ -96,8 +97,20 @@ class OrderingDashboard extends React.Component {
     return (
       <Order>
         <OrderTitle>
-          <OrderNumber>Order #100</OrderNumber>
-          <OrderPeople>People #1</OrderPeople>
+          <OrderNumber>
+            <FormattedMessage
+              id="order.order"
+              defaultMessage="Order #{value}"
+              values={{ value: 100 }}
+            />
+          </OrderNumber>
+          <OrderPeople>
+            <FormattedMessage
+              id="order.people"
+              defaultMessage="People #{value}"
+              values={{ value: 1 }}
+            />
+          </OrderPeople>
         </OrderTitle>
         {console.log(this.props.order)}
         {this.props.order.length ? (
@@ -122,7 +135,12 @@ class OrderingDashboard extends React.Component {
             </OrderLine>
           ))
         ) : (
-          <EmptyOrder>Nothing ordered yet</EmptyOrder>
+          <EmptyOrder>
+            <FormattedMessage
+              id="order.nothingordered"
+              defaultMessage="Nothing ordered yet"
+            />
+          </EmptyOrder>
         )}
       </Order>
     );

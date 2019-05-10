@@ -1,5 +1,6 @@
 import React from "react";
 import logo from "./logo.svg";
+import { FormattedMessage } from "react-intl";
 import styled, { keyframes } from "styled-components";
 
 const animationLogo = keyframes`
@@ -28,6 +29,8 @@ const Header = styled.header`
 export default props => (
   <Header>
     <Logo src={logo} className="App-logo" alt="logo" />
-    <h1>TeePeeDeeVee</h1>
+    <h1>
+      <FormattedMessage id="app.title" defaultMessage="TeePeeDeeVee" />
+    </h1>
   </Header>
 );
