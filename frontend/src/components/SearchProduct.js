@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-// import { FormattedMessage } from "react-intl";
-import Select from "react-select";
+import { injectIntl, FormattedMessage } from "react-intl";
+import Select from "react-select/lib/Creatable";
 import products from "../data/products.json";
 import categories from "../data/categories.json";
 import { addProduct } from "../actions/orderActions";
@@ -113,11 +113,32 @@ class SearchProduct extends React.Component {
     this.state = { value: "" };
   }
   render() {
+    const { intl } = this.props;
+
     return (
       <SelectProduct
         options={products}
         getOptionLabel={option => option.name}
         maxHeight={2}
+        allowCreateWhileLoading={false}
+        formatCreateLabel={inputValue =>
+          intl.formatMessage(
+            {
+              id: "search.addToOrder",
+              defaultMessage: "Add {value} to order",
+            },
+            {
+              value: inputValue,
+            },
+          )
+        }
+        getNewOptionData={(inputValue, optionLabel) => {
+          console.log(inputValue, optionLabel);
+          return {
+            code: inputValue,
+            name: optionLabel,
+          };
+        }}
         value={this.state.value}
         onChange={(value, action) => {
           console.log(value, action);
@@ -128,6 +149,7 @@ class SearchProduct extends React.Component {
     );
   }
 }
+
 const SearchProductContainer = connect(
   (state, props) => ({
     order: state.order,
@@ -137,7 +159,7 @@ const SearchProductContainer = connect(
       dispatch(addProduct(product));
     },
   }),
-)(SearchProduct);
+)(injectIntl(SearchProduct));
 export default props => (
   <Container>
     <InnerContainer>
