@@ -15,4 +15,4 @@ const messages = {
 };
 
 export const browserLanguage = navigator.language.split("-")[0];
-export default messages[browserLanguage];
+export default messages;

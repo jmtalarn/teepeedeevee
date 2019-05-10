@@ -8,12 +8,13 @@ import Header from "./components/Header";
 import SearchProduct from "./components/SearchProduct";
 import OrderingDashboard from "./components/OrderingDashboard";
 import Layout from "./components/Layout";
+import { connect } from "react-redux";
 
-import messages, { browserLanguage } from "./i18n";
+import messages from "./i18n";
 
-function App() {
+const App = props => {
   return (
-    <IntlProvider locale={browserLanguage} messages={messages}>
+    <IntlProvider locale={props.locale} messages={messages[props.locale]}>
       <ThemeProvider theme={theme}>
         <div className="App">
           <Header />
@@ -26,6 +27,11 @@ function App() {
       </ThemeProvider>
     </IntlProvider>
   );
-}
+};
 
-export default App;
+export default connect(
+  (state, props) => ({
+    locale: state.locale,
+  }),
+  {},
+)(App);

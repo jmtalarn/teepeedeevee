@@ -5,7 +5,7 @@ import {
   REMOVE_UNIT,
 } from "../actions/actionTypes";
 
-export default function stuff(state = initialState.order, action) {
+export default function reducer(state = initialState.order, action) {
   switch (action.type) {
     case ADD_PRODUCT:
       const { product: addedProduct } = action;
