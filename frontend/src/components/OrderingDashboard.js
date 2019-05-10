@@ -14,6 +14,7 @@ const Order = styled.div`
   line-height: ${props => props.theme.touchableLineHeight};
   position: relative;
   box-shadow: ${props => props.theme.boxShadow};
+
   font-weight: 100;
   clip-path: polygon(
     calc(100% - 16px) 0,
@@ -64,12 +65,25 @@ const OrderLine = styled.div`
   grid-template-columns: 1fr 10rem 6rem;
   padding: ${props => props.theme.padding};
   padding-left: 1rem;
+  font-weight: 100;
   &:hover {
     background-color: ${props => props.theme.darkeningBackground};
   }
   label {
   }
 `;
+
+const OrderTitle = styled.h5`
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1rem;
+  font-family: "courier", "monospace";
+  font-weight: 200;
+`;
+const OrderNumber = styled.div``;
+const OrderPeople = styled.div``;
 const Quantity = props => (
   <QuantityLayout>
     <Button onClick={() => props.removeUnitProduct(props.product)}>-</Button>
@@ -81,6 +95,10 @@ class OrderingDashboard extends React.Component {
   render() {
     return (
       <Order>
+        <OrderTitle>
+          <OrderNumber>Order #100</OrderNumber>
+          <OrderPeople>People #1</OrderPeople>
+        </OrderTitle>
         {console.log(this.props.order)}
         {this.props.order.length ? (
           this.props.order.map((orderedProduct, index) => (
