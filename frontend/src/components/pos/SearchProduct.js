@@ -1,10 +1,10 @@
 import React from "react";
 import styled from "styled-components";
-import { injectIntl, FormattedMessage } from "react-intl";
+import { injectIntl } from "react-intl";
 import Select from "react-select/lib/Creatable";
-import products from "../data/products.json";
-import categories from "../data/categories.json";
-import { addProduct } from "../actions/orderActions";
+import products from "../../data/products.json";
+import categories from "../../data/categories.json";
+import { addProduct } from "../../actions/orderActions";
 import { connect } from "react-redux";
 
 const Container = styled.div`
