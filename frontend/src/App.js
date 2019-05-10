@@ -9,11 +9,11 @@ import SearchProduct from "./components/SearchProduct";
 import OrderingDashboard from "./components/OrderingDashboard";
 import Layout from "./components/Layout";
 
-import "./i18n";
+import messages, { browserLanguage } from "./i18n";
 
 function App() {
   return (
-    <IntlProvider locale={navigator.language}>
+    <IntlProvider locale={browserLanguage} messages={messages}>
       <ThemeProvider theme={theme}>
         <div className="App">
           <Header />

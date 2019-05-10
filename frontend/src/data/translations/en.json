@@ -1,0 +1,10 @@
+{
+  "app": {
+    "title": "TeePeeDeeVee"
+  },
+  "order": {
+    "order": "Order #{value}",
+    "people": "People #{value}",
+    "nothingordered": "Nothing ordered yet"
+  }
+}
