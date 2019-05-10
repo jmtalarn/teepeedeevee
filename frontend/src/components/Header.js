@@ -2,6 +2,7 @@ import React from "react";
 import logo from "./logo.svg";
 import { FormattedMessage } from "react-intl";
 import styled, { keyframes } from "styled-components";
+import LanguageSelector from "./LanguageSwitch";
 
 const animationLogo = keyframes`
   from {
@@ -32,5 +33,7 @@ export default props => (
     <h1>
       <FormattedMessage id="app.title" defaultMessage="TeePeeDeeVee" />
     </h1>
+
+    <LanguageSelector />
   </Header>
 );

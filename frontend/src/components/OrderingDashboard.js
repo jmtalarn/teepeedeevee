@@ -112,7 +112,7 @@ class OrderingDashboard extends React.Component {
             />
           </OrderPeople>
         </OrderTitle>
-        {console.log(this.props.order)}
+
         {this.props.order.length ? (
           this.props.order.map((orderedProduct, index) => (
             <OrderLine key={index}>
