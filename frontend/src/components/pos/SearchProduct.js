@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { injectIntl } from "react-intl";
 import Select from "react-select/lib/Creatable";
 import products from "../../data/products.json";
-import categories from "../../data/categories.json";
+// import categories from "../../data/categories.json";
 import { addProduct } from "../../actions/orderActions";
 import { connect } from "react-redux";
 
@@ -39,25 +39,29 @@ class CategorySelect extends React.Component {
   constructor(props) {
     super(props);
     // Don't call this.setState() here!
+
     this.state = {
       parent: null,
-      categories: categories.filter(category => category.parent === null),
+      categories: props.categories.filter(category => category.parent === null),
       products: [],
     };
   }
   filterCategory(parent) {
     this.setState({
       parent,
-      categories: categories.filter(category => category.parent === parent),
+      categories: this.props.categories.filter(
+        category => category.parent === parent,
+      ),
       products: products.filter(product => product.category === parent),
     });
   }
   render() {
+    console.log(this.props);
     return (
       <ListView>
         <ListViewItem
           onClick={() => {
-            const currentCategory = categories.find(
+            const currentCategory = this.props.categories.find(
               category => category.name === this.state.parent,
             );
 

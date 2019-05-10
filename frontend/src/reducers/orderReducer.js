@@ -1,13 +1,13 @@
 import initialState from "./initialState";
 import {
-  ADD_PRODUCT,
-  REMOVE_PRODUCT,
-  REMOVE_UNIT,
+  ORDER_ADD_PRODUCT,
+  ORDER_REMOVE_PRODUCT,
+  ORDER_REMOVE_UNIT,
 } from "../actions/actionTypes";
 
 export default function reducer(state = initialState.order, action) {
   switch (action.type) {
-    case ADD_PRODUCT:
+    case ORDER_ADD_PRODUCT:
       const { product: addedProduct } = action;
       let orderedProduct = state.find(
         orderedProduct => orderedProduct.product.code === addedProduct.code,
@@ -19,7 +19,7 @@ export default function reducer(state = initialState.order, action) {
         state.push(orderedProduct);
       }
       return [...state];
-    case REMOVE_UNIT:
+    case ORDER_REMOVE_UNIT:
       const { product: removedProductUnit } = action;
 
       const index = state.findIndex(orderedProduct => {
@@ -32,7 +32,7 @@ export default function reducer(state = initialState.order, action) {
       }
 
       return [...state];
-    case REMOVE_PRODUCT:
+    case ORDER_REMOVE_PRODUCT:
       const { product: removedProduct } = action;
 
       const productIndex = state.findIndex(orderedProduct => {
