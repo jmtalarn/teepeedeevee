@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { FormattedMessage } from "react-intl";
 import SortableTree from "react-sortable-tree";
-import Tree from "react-ui-tree";
+
 // import { addProduct } from "../../actions/orderActions";
 import { connect } from "react-redux";
 import treeTheme from "react-sortable-tree-theme-minimal";
@@ -18,39 +18,54 @@ const Layout = styled.div`
     font-weight: 100;
   }
 `;
-const Categories = props => {
-  const treeData = [];
-  const nodeMap = {};
-  for (let category of props.categories) {
-    const treeNode = {
-      title: category.name,
-      parent: category.parent,
-      subtitle: "",
-      expanded: true,
-      children: [],
-    };
+class Categories extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { treeData: [] };
+  }
+  static getDerivedStateFromProps(props, state) {
+    const treeData = [];
+    const nodeMap = {};
+    if (state.treeData.length === 0) {
+      for (let category of props.categories) {
+        const treeNode = {
+          title: category.name,
+          parent: category.parent,
+          subtitle: "",
+          expanded: true,
+          children: [],
+        };
 
-    nodeMap[category.name] = treeNode;
-    if (category.parent === null) {
-      treeData.push(treeNode);
-    } else {
-      nodeMap[category.parent].children.push(treeNode);
+        nodeMap[category.name] = treeNode;
+        if (category.parent === null) {
+          treeData.push(treeNode);
+        } else {
+          nodeMap[category.parent].children.push(treeNode);
+        }
+      }
+      return { treeData };
     }
   }
-  console.log(treeData, nodeMap, props.categories);
 
-  return (
-    <Layout>
-      <div style={{ height: 400 }}>
-        <SortableTree
-          treeData={treeData}
-          theme={treeTheme}
-          onChange={something => console.log(something)}
-        />
-      </div>
-    </Layout>
-  );
-};
+  render() {
+    return (
+      <Layout>
+        <div style={{ height: 400 }}>
+          <SortableTree
+            treeData={this.state.treeData}
+            theme={treeTheme}
+            generateNodeProps={something => {
+              return {
+                buttons: [<button>Edit</button>, <button>Delete</button>],
+              };
+            }}
+            onChange={treeData => this.setState({ treeData })}
+          />
+        </div>
+      </Layout>
+    );
+  }
+}
 
 export default connect(
   (state, props) => Object.assign({}, { categories: state.categories }),
