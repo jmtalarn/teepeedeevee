@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { Route, Link } from "react-router-dom";
 import { FormattedMessage } from "react-intl";
+import Categories from "./categories";
 
 export default ({ match }) => (
   <div>
@@ -18,10 +19,6 @@ export default ({ match }) => (
         </li>
       </ul>
     </nav>
-    <Route
-      exact
-      path={`${match.path}/categories`}
-      render={() => <h3>Categories management</h3>}
-    />
+    <Route exact path={`${match.path}/categories`} component={Categories} />
   </div>
 );
