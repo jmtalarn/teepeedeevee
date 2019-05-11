@@ -6,6 +6,7 @@ import SortableTree from "react-sortable-tree";
 
 // import { addProduct } from "../../actions/orderActions";
 import { connect } from "react-redux";
+import { updateCategory } from "../../actions/categoriesActions";
 import treeTheme from "react-sortable-tree-theme-minimal";
 //import "react-sortable-tree/style.css"; // This only needs to be imported once in your app
 
@@ -26,6 +27,7 @@ class Categories extends React.Component {
   static getDerivedStateFromProps(props, state) {
     const treeData = [];
     const nodeMap = {};
+    console.log(state);
     if (state.treeData.length === 0) {
       for (let category of props.categories) {
         const treeNode = {
@@ -45,6 +47,7 @@ class Categories extends React.Component {
       }
       return { treeData };
     }
+    return state;
   }
 
   render() {
@@ -59,6 +62,16 @@ class Categories extends React.Component {
                 buttons: [<button>Edit</button>, <button>Delete</button>],
               };
             }}
+            onMoveNode={({ node, nextParentNode }) => {
+              console.log({ node, nextParentNode });
+              this.props.updateCategory(
+                { name: node.title, parent: node.parent },
+                {
+                  name: node.title,
+                  parent: nextParentNode ? nextParentNode.title : null,
+                },
+              );
+            }}
             onChange={treeData => this.setState({ treeData })}
           />
         </div>
@@ -69,10 +82,9 @@ class Categories extends React.Component {
 
 export default connect(
   (state, props) => Object.assign({}, { categories: state.categories }),
-  // dispatch => ({
-  //     addProduct: product => {
-  //         dispatch(addProduct(product));
-  //     },
-  // }),
-  null,
+  dispatch => ({
+    updateCategory: (prev, next) => {
+      dispatch(updateCategory(prev, next));
+    },
+  }),
 )(Categories);
