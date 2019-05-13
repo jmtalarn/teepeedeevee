@@ -18,3 +18,9 @@ export function removeCategory(category) {
     payload: { category },
   };
 }
+export function createCategory(category) {
+  return {
+    type: types.CATEGORY_CREATE,
+    payload: { category },
+  };
+}

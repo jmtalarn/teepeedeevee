@@ -3,6 +3,7 @@ import {
   CATEGORY_PARENT_UPDATE,
   CATEGORY_NAME_UPDATE,
   CATEGORY_REMOVE,
+  CATEGORY_CREATE,
 } from "../actions/actionTypes";
 
 export default function reducer(state = initialState.categories, action) {
@@ -47,6 +48,9 @@ export default function reducer(state = initialState.categories, action) {
           }
           return acc;
         }, []);
+    case CATEGORY_CREATE:
+      const { category } = action.payload;
+      return [{ name: category, parent: null }, ...state];
     default:
       return state;
   }

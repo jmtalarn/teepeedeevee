@@ -1,7 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import { FormattedMessage } from "react-intl";
+import { FormattedMessage, injectIntl } from "react-intl";
+
 import SortableTree from "react-sortable-tree";
 
 // import { addProduct } from "../../actions/orderActions";
@@ -10,6 +11,7 @@ import {
   updateParentCategory,
   updateCategoryName,
   removeCategory,
+  createCategory,
 } from "../../actions/categoriesActions";
 import treeTheme from "react-sortable-tree-theme-minimal";
 //import "react-sortable-tree/style.css"; // This only needs to be imported once in your app
@@ -32,18 +34,57 @@ const Layout = styled.div`
     font-weight: 100;
   }
 `;
+const CreateCategoryLayout = styled.div`
+  padding: 1rem 4.5rem;
+`;
+
+class CreateCategory extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { name: "" };
+  }
+  createCategory() {
+    this.props.createCategory(this.state.name);
+    this.setState({ name: "" });
+  }
+  render() {
+    const { intl } = this.props;
+    const placeholder = intl.formatMessage({
+      id: "category.createPlaceholder",
+      defaultMessage: "Category name ...",
+    });
+    return (
+      <CreateCategoryLayout>
+        <CategoryTextField
+          value={this.state.name}
+          placeholder={placeholder}
+          onChange={event => {
+            this.setState({ name: event.target.value });
+          }}
+        />
+        <button
+          onClick={() => {
+            this.createCategory();
+          }}
+          disabled={!this.state.name.length}
+        >
+          <FormattedMessage id="category.create" defaultMessage="Create" />
+        </button>
+      </CreateCategoryLayout>
+    );
+  }
+}
+const CreateCategoryIntl = injectIntl(CreateCategory);
+
 class Categories extends React.Component {
   constructor(props) {
     super(props);
     this.state = { treeData: [] };
   }
+
   static getDerivedStateFromProps(props, state) {
-    const treeData = [];
-    const nodeMap = {};
-    console.log(state);
-    // if (state.treeData.length === 0) {
-    for (let category of props.categories) {
-      const treeNode = {
+    const getTreeNode = category => {
+      return {
         title: (
           <CategoryTextField
             value={category.name}
@@ -56,16 +97,16 @@ class Categories extends React.Component {
         parent: category.parent,
         subtitle: "",
         expanded: true,
-        children: [],
+        children: props.categories
+          .filter(cat => cat.parent === category.name)
+          .map(cat => getTreeNode(cat)),
       };
+    };
 
-      nodeMap[category.name] = treeNode;
-      if (category.parent === null) {
-        treeData.push(treeNode);
-      } else {
-        nodeMap[category.parent].children.push(treeNode);
-      }
-    }
+    const treeData = props.categories
+      .filter(category => category.parent === null)
+      .map(node => getTreeNode(node));
+
     return { treeData };
     // }
     // return state;
@@ -74,6 +115,7 @@ class Categories extends React.Component {
   render() {
     return (
       <Layout>
+        <CreateCategoryIntl createCategory={this.props.createCategory} />
         <div style={{ height: 400 }}>
           <SortableTree
             treeData={this.state.treeData}
@@ -119,6 +161,9 @@ export default connect(
     },
     removeCategory: category => {
       dispatch(removeCategory(category));
+    },
+    createCategory: categoryName => {
+      dispatch(createCategory(categoryName));
     },
   }),
 )(Categories);
