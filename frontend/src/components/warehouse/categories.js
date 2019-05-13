@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { FormattedMessage, injectIntl } from "react-intl";
+import TextField from "../TextField";
 
 import SortableTree from "react-sortable-tree";
 
@@ -16,7 +17,7 @@ import {
 import treeTheme from "react-sortable-tree-theme-minimal";
 //import "react-sortable-tree/style.css"; // This only needs to be imported once in your app
 
-const CategoryTextField = styled.input`
+const CategoryTextField = styled(TextField)`
   border-top-width: 0px;
   border-left-width: 0px;
   border-right-width: 0px;
@@ -115,6 +116,12 @@ class Categories extends React.Component {
   render() {
     return (
       <Layout>
+        <h2>
+          <FormattedMessage
+            id="category.management"
+            defaultMessage="Category management"
+          />
+        </h2>
         <CreateCategoryIntl createCategory={this.props.createCategory} />
         <div style={{ height: 400 }}>
           <SortableTree
