@@ -2,12 +2,15 @@ import React from "react";
 
 import { ThemeProvider } from "styled-components";
 import { IntlProvider } from "react-intl";
+import { BrowserRouter as Router, Route } from "react-router-dom";
+
 import theme from "./theme/Theme";
 import GlobalStyle from "./theme/GlobalStyle";
+
 import Header from "./components/Header";
-import SearchProduct from "./components/SearchProduct";
-import OrderingDashboard from "./components/OrderingDashboard";
-import Layout from "./components/Layout";
+
+import POS from "./components/pos";
+import Warehouse from "./components/warehouse";
 import { connect } from "react-redux";
 
 import messages from "./i18n";
@@ -17,11 +20,11 @@ const App = props => {
     <IntlProvider locale={props.locale} messages={messages[props.locale]}>
       <ThemeProvider theme={theme}>
         <div className="App">
-          <Header />
-          <Layout>
-            <SearchProduct />
-            <OrderingDashboard />
-          </Layout>
+          <Router>
+            <Header />
+            <Route path="/" exact component={POS} />
+            <Route path="/warehouse" component={Warehouse} />
+          </Router>
           <GlobalStyle />
         </div>
       </ThemeProvider>

@@ -6,7 +6,7 @@ import {
   removeUnitProduct,
   removeProduct,
   addProduct,
-} from "../actions/orderActions";
+} from "../../actions/orderActions";
 
 const Order = styled.div`
   background-color: ${props => props.theme.yellowPaper};
