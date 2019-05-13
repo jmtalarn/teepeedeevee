@@ -12,3 +12,9 @@ export function updateCategoryName(oldName, newName) {
     payload: { oldName, newName },
   };
 }
+export function removeCategory(category) {
+  return {
+    type: types.CATEGORY_REMOVE,
+    payload: { category },
+  };
+}

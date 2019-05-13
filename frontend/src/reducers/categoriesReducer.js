@@ -2,6 +2,7 @@ import initialState from "./initialState";
 import {
   CATEGORY_PARENT_UPDATE,
   CATEGORY_NAME_UPDATE,
+  CATEGORY_REMOVE,
 } from "../actions/actionTypes";
 
 export default function reducer(state = initialState.categories, action) {
@@ -30,6 +31,22 @@ export default function reducer(state = initialState.categories, action) {
           return category;
         }),
       ];
+    case CATEGORY_REMOVE:
+      const { category: categoryRemoved } = action.payload;
+
+      return state
+        .map(category => {
+          if (category.parent === categoryRemoved.name) {
+            category.parent = categoryRemoved.parent;
+          }
+          return category;
+        })
+        .reduce((acc, curr) => {
+          if (curr.name !== categoryRemoved.name) {
+            acc.push(curr);
+          }
+          return acc;
+        }, []);
     default:
       return state;
   }

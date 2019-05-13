@@ -9,6 +9,7 @@ import { connect } from "react-redux";
 import {
   updateParentCategory,
   updateCategoryName,
+  removeCategory,
 } from "../../actions/categoriesActions";
 import treeTheme from "react-sortable-tree-theme-minimal";
 //import "react-sortable-tree/style.css"; // This only needs to be imported once in your app
@@ -77,9 +78,18 @@ class Categories extends React.Component {
           <SortableTree
             treeData={this.state.treeData}
             theme={treeTheme}
-            generateNodeProps={something => {
+            generateNodeProps={treeNode => {
               return {
-                buttons: [<button>Delete</button>],
+                buttons: [
+                  <button
+                    onClick={() => this.props.removeCategory(treeNode.node)}
+                  >
+                    <FormattedMessage
+                      id="category.delete"
+                      defaultMessage="Delete"
+                    />
+                  </button>,
+                ],
               };
             }}
             onMoveNode={({ node, nextParentNode }) => {
@@ -106,6 +116,9 @@ export default connect(
     },
     updateCategoryName: (oldName, newName) => {
       dispatch(updateCategoryName(oldName, newName));
+    },
+    removeCategory: category => {
+      dispatch(removeCategory(category));
     },
   }),
 )(Categories);
