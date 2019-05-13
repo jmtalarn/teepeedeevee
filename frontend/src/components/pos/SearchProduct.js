@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import { injectIntl } from "react-intl";
 import Select from "react-select/lib/Creatable";
-import products from "../../data/products.json";
 // import categories from "../../data/categories.json";
 import { addProduct } from "../../actions/orderActions";
 import { connect } from "react-redux";
@@ -43,7 +42,7 @@ class CategorySelect extends React.Component {
     this.state = {
       parent: null,
       categories: props.categories.filter(category => category.parent === null),
-      products: [],
+      products: props.products.filter(product => product.category === null),
     };
   }
   filterCategory(parent) {
@@ -52,7 +51,9 @@ class CategorySelect extends React.Component {
       categories: this.props.categories.filter(
         category => category.parent === parent,
       ),
-      products: products.filter(product => product.category === parent),
+      products: this.props.products.filter(
+        product => product.category === parent,
+      ),
     });
   }
   render() {
@@ -121,7 +122,7 @@ class SearchProduct extends React.Component {
 
     return (
       <SelectProduct
-        options={products}
+        options={this.props.products}
         getOptionLabel={option => option.name}
         maxHeight={2}
         allowCreateWhileLoading={false}

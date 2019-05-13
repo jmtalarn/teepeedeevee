@@ -6,9 +6,21 @@ import SortableTree from "react-sortable-tree";
 
 // import { addProduct } from "../../actions/orderActions";
 import { connect } from "react-redux";
-import { updateCategory } from "../../actions/categoriesActions";
+import {
+  updateParentCategory,
+  updateCategoryName,
+} from "../../actions/categoriesActions";
 import treeTheme from "react-sortable-tree-theme-minimal";
 //import "react-sortable-tree/style.css"; // This only needs to be imported once in your app
+
+const CategoryTextField = styled.input`
+  border-top-width: 0px;
+  border-left-width: 0px;
+  border-right-width: 0px;
+  padding: 0.5rem;
+  font-size: 2rem;
+  font-weight: 100;
+`;
 
 const Layout = styled.div`
   ${"" /* display: grid;
@@ -28,26 +40,34 @@ class Categories extends React.Component {
     const treeData = [];
     const nodeMap = {};
     console.log(state);
-    if (state.treeData.length === 0) {
-      for (let category of props.categories) {
-        const treeNode = {
-          title: category.name,
-          parent: category.parent,
-          subtitle: "",
-          expanded: true,
-          children: [],
-        };
+    // if (state.treeData.length === 0) {
+    for (let category of props.categories) {
+      const treeNode = {
+        title: (
+          <CategoryTextField
+            value={category.name}
+            onChange={event => {
+              props.updateCategoryName(category.name, event.target.value);
+            }}
+          />
+        ),
+        name: category.name,
+        parent: category.parent,
+        subtitle: "",
+        expanded: true,
+        children: [],
+      };
 
-        nodeMap[category.name] = treeNode;
-        if (category.parent === null) {
-          treeData.push(treeNode);
-        } else {
-          nodeMap[category.parent].children.push(treeNode);
-        }
+      nodeMap[category.name] = treeNode;
+      if (category.parent === null) {
+        treeData.push(treeNode);
+      } else {
+        nodeMap[category.parent].children.push(treeNode);
       }
-      return { treeData };
     }
-    return state;
+    return { treeData };
+    // }
+    // return state;
   }
 
   render() {
@@ -59,17 +79,15 @@ class Categories extends React.Component {
             theme={treeTheme}
             generateNodeProps={something => {
               return {
-                buttons: [<button>Edit</button>, <button>Delete</button>],
+                buttons: [<button>Delete</button>],
               };
             }}
             onMoveNode={({ node, nextParentNode }) => {
               console.log({ node, nextParentNode });
-              this.props.updateCategory(
-                { name: node.title, parent: node.parent },
-                {
-                  name: node.title,
-                  parent: nextParentNode ? nextParentNode.title : null,
-                },
+
+              this.props.updateParentCategory(
+                node.name,
+                nextParentNode ? nextParentNode.name : null,
               );
             }}
             onChange={treeData => this.setState({ treeData })}
@@ -83,8 +101,11 @@ class Categories extends React.Component {
 export default connect(
   (state, props) => Object.assign({}, { categories: state.categories }),
   dispatch => ({
-    updateCategory: (prev, next) => {
-      dispatch(updateCategory(prev, next));
+    updateParentCategory: (categoryName, parent) => {
+      dispatch(updateParentCategory(categoryName, parent));
+    },
+    updateCategoryName: (oldName, newName) => {
+      dispatch(updateCategoryName(oldName, newName));
     },
   }),
 )(Categories);

@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 
 import theme from "./theme/Theme";
 import GlobalStyle from "./theme/GlobalStyle";
+
 import Header from "./components/Header";
 
 import POS from "./components/pos";
