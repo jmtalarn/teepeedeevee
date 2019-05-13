@@ -135,8 +135,6 @@ class Categories extends React.Component {
               };
             }}
             onMoveNode={({ node, nextParentNode }) => {
-              console.log({ node, nextParentNode });
-
               this.props.updateParentCategory(
                 node.name,
                 nextParentNode ? nextParentNode.name : null,
