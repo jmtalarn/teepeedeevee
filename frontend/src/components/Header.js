@@ -21,6 +21,7 @@ const Logo = styled.img`
 const Header = styled.header`
   background-color: ${props => props.theme.black};
   display: flex;
+  flex-wrap: wrap;
   flex-direction: row;
   align-items: center;
   justify-content: start;
