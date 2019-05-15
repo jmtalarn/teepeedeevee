@@ -117,8 +117,8 @@ class SearchProduct extends React.Component {
     this.state = { value: "" };
   }
   render() {
-    const { intl } = this.props;
-
+    const { intl, products } = this.props;
+    console.log(products);
     return (
       <SelectProduct
         options={this.props.products}
@@ -155,6 +155,7 @@ class SearchProduct extends React.Component {
 const SearchProductContainer = connect(
   (state, props) => ({
     order: state.order,
+    products: state.products,
   }),
   dispatch => ({
     addProduct: product => {

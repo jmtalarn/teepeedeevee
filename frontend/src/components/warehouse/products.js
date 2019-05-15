@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { FormattedMessage, injectIntl } from "react-intl";
 import Select from "react-select";
 import BaseTextField from "../TextField";
-// import { addProduct } from "../../actions/orderActions";
+import { productUpdate, productRemove } from "../../actions/productActions";
 import { connect } from "react-redux";
 
 const Layout = styled.div`
@@ -125,7 +125,6 @@ class Datatable extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      categories: props.categories,
       products: props.products,
       filter: {
         code: "",
@@ -135,6 +134,13 @@ class Datatable extends React.Component {
         toggled: false,
       },
     };
+  }
+  static getDerivedStateFromProps(props, state) {
+    console.log("getDerivedStateFromProps", props, state);
+    console.log("getDerivedStateFromProps", this, Datatable);
+    return Object.assign({}, state, {
+      products: Datatable.filteredProducts(props.products, state.filter),
+    });
   }
   toggleFilter() {
     const filter = Object.assign({}, this.state.filter, {
@@ -163,25 +169,25 @@ class Datatable extends React.Component {
   renderAppliedFilters() {
     const tags = [
       this.state.filter.code ? (
-        <Tag>
+        <Tag key="code">
           <FormattedMessage id="product.code" defaultMessage="Code" />:
           {this.state.filter.code}
         </Tag>
       ) : null,
       this.state.filter.name ? (
-        <Tag>
+        <Tag key="name">
           <FormattedMessage id="product.name" defaultMessage="Name" />:
           {this.state.filter.name}
         </Tag>
       ) : null,
       this.state.filter.category ? (
-        <Tag>
+        <Tag key="category">
           <FormattedMessage id="product.category" defaultMessage="Category" />:{" "}
           {this.state.filter.category.name}
         </Tag>
       ) : null,
       this.state.filter.fav ? (
-        <Tag>
+        <Tag key="fav">
           <FormattedMessage id="product.fav" defaultMessage="Fav" />
         </Tag>
       ) : null,
@@ -201,10 +207,8 @@ class Datatable extends React.Component {
       </AppliedFilters>
     );
   }
-  setFilter(newFilter) {
-    const filter = Object.assign({}, this.state.filter, newFilter);
-    console.log(filter);
-    const products = this.props.products
+  static filteredProducts(products, filter) {
+    return products
       .filter(product =>
         filter.name.length > 0 ? product.name.includes(filter.name) : true,
       )
@@ -215,16 +219,12 @@ class Datatable extends React.Component {
         filter.category ? product.category === filter.category.name : true,
       )
       .filter(product => (filter.fav ? product.fav : true));
-    console.log(filter, this.props.products, products);
+  }
+  setFilter(newFilter) {
+    const filter = Object.assign({}, this.state.filter, newFilter);
 
-    this.setState(
-      Object.assign(
-        {},
-        { categories: this.state.categories },
-        { products },
-        { filter },
-      ),
-    );
+    const products = Datatable.filteredProducts(this.props.products, filter);
+    this.setState(Object.assign({}, { products }, { filter }));
   }
   render() {
     return (
@@ -265,7 +265,7 @@ class Datatable extends React.Component {
               </Label>
               <Select
                 id="category"
-                options={this.state.categories}
+                options={this.props.categories}
                 getOptionLabel={category => category.name}
                 value={this.state.filter.category}
                 onChange={(category, action) => {
@@ -314,9 +314,16 @@ class Datatable extends React.Component {
                   </Label>
                   <TextField
                     id="code"
-                    readOnly
                     size={10}
                     defaultValue={product.code}
+                    onChange={event =>
+                      this.props.productUpdate(
+                        product.code,
+                        Object.assign({}, product, {
+                          code: event.target.value,
+                        }),
+                      )
+                    }
                   />
                 </div>
                 <div className="category">
@@ -326,11 +333,28 @@ class Datatable extends React.Component {
                       defaultMessage="Category"
                     />
                   </Label>
+
                   <Select
                     id="category"
-                    options={this.state.categories}
+                    options={this.props.categories}
                     getOptionLabel={category => category.name}
-                    value={{ name: product.category }}
+                    value={this.props.categories.find(
+                      category => category.name === product.category,
+                    )}
+                    onChange={(category, action) => {
+                      console.log(
+                        category,
+                        Object.assign({}, product, {
+                          category: category.name,
+                        }),
+                      );
+                      this.props.productUpdate(
+                        product.code,
+                        Object.assign({}, product, {
+                          category: category.name,
+                        }),
+                      );
+                    }}
                   />
                   {/* <TextField id="category" readOnly defaultValue={product.category} /> */}
                 </div>
@@ -340,9 +364,16 @@ class Datatable extends React.Component {
                   </Label>
                   <TextField
                     id="name"
-                    readOnly
                     size={50}
                     defaultValue={product.name}
+                    onChange={event =>
+                      this.props.productUpdate(
+                        product.code,
+                        Object.assign({}, product, {
+                          name: event.target.value,
+                        }),
+                      )
+                    }
                   />
                 </div>
 
@@ -353,9 +384,15 @@ class Datatable extends React.Component {
                   <TextField
                     id="fav"
                     type="checkbox"
-                    readOnly
-                    disabled
-                    defaultValue={product.fav}
+                    checked={product.fav}
+                    onChange={event =>
+                      this.props.productUpdate(
+                        product.code,
+                        Object.assign({}, product, {
+                          fav: event.target.checked,
+                        }),
+                      )
+                    }
                   />
                 </div>
                 <div className="price">
@@ -367,10 +404,18 @@ class Datatable extends React.Component {
                   </Label>
                   <TextField
                     id="price"
-                    readOnly
+                    type="number"
                     className="numeric"
                     size={5}
                     defaultValue={product.price}
+                    onChange={event =>
+                      this.props.productUpdate(
+                        product.code,
+                        Object.assign({}, product, {
+                          price: event.target.value,
+                        }),
+                      )
+                    }
                   />
                 </div>
                 <div className="stock">
@@ -387,6 +432,14 @@ class Datatable extends React.Component {
                     step="1"
                     size={3}
                     defaultValue={product.stock}
+                    onChange={event =>
+                      this.props.productUpdate(
+                        product.code,
+                        Object.assign({}, product, {
+                          stock: event.target.stock,
+                        }),
+                      )
+                    }
                   />
                 </div>
               </DatatableRow>
@@ -402,6 +455,22 @@ class Datatable extends React.Component {
     );
   }
 }
+const DatatableContainer = connect(
+  (state, props) => {
+    return {
+      categories: state.categories,
+      products: state.products,
+    };
+  },
+  dispatch => ({
+    productUpdate: (code, product) => {
+      dispatch(productUpdate(code, product));
+    },
+    productRemove: product => {
+      dispatch(productRemove(product));
+    },
+  }),
+)(Datatable);
 class Products extends React.Component {
   render() {
     return (
@@ -412,21 +481,9 @@ class Products extends React.Component {
             defaultMessage="Product management"
           />
         </h2>
-        <Datatable
-          products={this.props.products}
-          categories={this.props.categories}
-        />
+        <DatatableContainer />
       </Layout>
     );
   }
 }
-export default connect(
-  (state, props) => {
-    console.log(state);
-    return {
-      categories: state.categories,
-      products: state.products,
-    };
-  },
-  null,
-)(Products);
+export default Products;

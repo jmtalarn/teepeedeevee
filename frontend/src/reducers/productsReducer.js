@@ -1,5 +1,10 @@
 import initialState from "./initialState";
-import { CATEGORY_NAME_UPDATE, CATEGORY_REMOVE } from "../actions/actionTypes";
+import {
+  CATEGORY_NAME_UPDATE,
+  CATEGORY_REMOVE,
+  PRODUCT_UPDATE,
+  PRODUCT_REMOVE,
+} from "../actions/actionTypes";
 
 export default function reducer(state = initialState.products, action) {
   switch (action.type) {
@@ -25,6 +30,21 @@ export default function reducer(state = initialState.products, action) {
           return product;
         }),
       ];
+    case PRODUCT_UPDATE:
+      const { code, product: data } = action.payload;
+
+      return [
+        ...state.map(product => {
+          if (product.code === code) {
+            return data;
+          }
+          return product;
+        }),
+      ];
+    case PRODUCT_REMOVE:
+      const { product: removedProduct } = action.payload;
+
+      return [...state.filter(product => product.code !== removedProduct.code)];
     default:
       return state;
   }
