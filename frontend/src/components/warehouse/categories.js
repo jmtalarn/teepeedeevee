@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
 import { FormattedMessage, injectIntl } from "react-intl";
 import TextField from "../TextField";
 
