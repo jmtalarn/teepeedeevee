@@ -118,10 +118,10 @@ class SearchProduct extends React.Component {
   }
   render() {
     const { intl, products } = this.props;
-    console.log(products);
+
     return (
       <SelectProduct
-        options={this.props.products}
+        options={products}
         getOptionLabel={option => option.name}
         maxHeight={2}
         allowCreateWhileLoading={false}
