@@ -14,7 +14,7 @@ class TextField extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: props.value,
+      value: "",
       typing: false,
       typingTimeout: 0,
     };
@@ -24,6 +24,12 @@ class TextField extends React.Component {
     } else {
       this.handleChange = this.handleChangeImmediate.bind(this);
     }
+  }
+  static getDerivedStateFromProps(props, state) {
+    return {
+      ...state,
+      value: props.value,
+    };
   }
   handleChangeImmediate(event) {
     this.setState(
