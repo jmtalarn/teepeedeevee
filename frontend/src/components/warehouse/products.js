@@ -303,8 +303,8 @@ class Datatable extends React.Component {
         </DatatableFilter>
         <DatatableBody>
           {this.state.products.length > 0 ? (
-            this.state.products.map(product => (
-              <DatatableRow key={product.code}>
+            this.state.products.map((product, index) => (
+              <DatatableRow key={`datatablerow_${index}`}>
                 <div className="code">
                   <Label htmlFor="code">
                     <FormattedMessage id="product.code" defaultMessage="Code" />
