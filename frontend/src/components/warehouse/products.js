@@ -20,10 +20,10 @@ const DatatableRow = styled.div`
   &:hover {
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.19), 0 3px 3px rgba(0, 0, 0, 0.23);
   }
-  grid-template-areas: "code category name name name name fav price price stock";
+  grid-template-areas: "code category name name name name fav price price stock delete";
 
   @media screen and (max-width: 650px) {
-    grid-template-areas: "code category name name name name" "fav price price price stock stock";
+    grid-template-areas: "code category name name name name name" "fav price price price stock stock delete";
   }
 
   > div {
@@ -55,6 +55,10 @@ const DatatableRow = styled.div`
   }
   .stock {
     grid-area: stock;
+  }
+  .delete {
+    grid-area: delete;
+    margin: auto;
   }
   .numeric {
     text-align: right;
@@ -135,6 +139,7 @@ class Datatable extends React.Component {
     };
   }
   static getDerivedStateFromProps(props, state) {
+    console.log("products", props.products);
     return Object.assign({}, state, {
       products: Datatable.filteredProducts(props.products, state.filter),
     });
@@ -302,146 +307,164 @@ class Datatable extends React.Component {
           {this.renderAppliedFilters()}
         </DatatableFilter>
         <DatatableBody>
+          {console.log(this.state.products)}
           {this.state.products.length > 0 ? (
-            this.state.products.map((product, index) => (
-              <DatatableRow key={`datatablerow_${index}`}>
-                <div className="code">
-                  <Label htmlFor="code">
-                    <FormattedMessage id="product.code" defaultMessage="Code" />
-                  </Label>
-                  <TextField
-                    id="code"
-                    size={10}
-                    defaultValue={product.code}
-                    onChange={event =>
-                      this.props.productUpdate(
-                        product.code,
-                        Object.assign({}, product, {
-                          code: event.target.value,
-                        }),
-                      )
-                    }
-                  />
-                </div>
-                <div className="category">
-                  <Label htmlFor="category">
-                    <FormattedMessage
-                      id="product.category"
-                      defaultMessage="Category"
+            this.state.products.map((product, index) => {
+              console.log(index, product);
+              return (
+                <DatatableRow key={`datatablerow_${index}`}>
+                  <div className="code">
+                    <Label htmlFor="code">
+                      <FormattedMessage
+                        id="product.code"
+                        defaultMessage="Code"
+                      />
+                    </Label>
+                    <TextField
+                      id="code"
+                      size={10}
+                      value={product.code}
+                      onChange={event =>
+                        this.props.productUpdate(
+                          product.code,
+                          Object.assign({}, product, {
+                            code: event.target.value,
+                          }),
+                        )
+                      }
                     />
-                  </Label>
+                  </div>
+                  <div className="category">
+                    <Label htmlFor="category">
+                      <FormattedMessage
+                        id="product.category"
+                        defaultMessage="Category"
+                      />
+                    </Label>
 
-                  <Select
-                    id="category"
-                    options={this.props.categories}
-                    getOptionLabel={category => category.name}
-                    value={this.props.categories.find(
-                      category => category.name === product.category,
-                    )}
-                    onChange={(category, action) => {
-                      console.log(
-                        category,
-                        Object.assign({}, product, {
-                          category: category.name,
-                        }),
-                      );
-                      this.props.productUpdate(
-                        product.code,
-                        Object.assign({}, product, {
-                          category: category.name,
-                        }),
-                      );
-                    }}
-                  />
-                  {/* <TextField id="category" readOnly defaultValue={product.category} /> */}
-                </div>
-                <div className="name">
-                  <Label htmlFor="name">
-                    <FormattedMessage id="product.name" defaultMessage="Name" />
-                  </Label>
-                  <TextField
-                    id="name"
-                    size={50}
-                    defaultValue={product.name}
-                    lazy={true}
-                    onChange={event =>
-                      this.props.productUpdate(
-                        product.code,
-                        Object.assign({}, product, {
-                          name: event.target.value,
-                        }),
-                      )
-                    }
-                  />
-                </div>
+                    <Select
+                      id="category"
+                      options={this.props.categories}
+                      getOptionLabel={category => category.name}
+                      value={this.props.categories.find(
+                        category => category.name === product.category,
+                      )}
+                      onChange={(category, action) => {
+                        console.log(
+                          category,
+                          Object.assign({}, product, {
+                            category: category.name,
+                          }),
+                        );
+                        this.props.productUpdate(
+                          product.code,
+                          Object.assign({}, product, {
+                            category: category.name,
+                          }),
+                        );
+                      }}
+                    />
+                    {/* <TextField id="category" readOnly defaultValue={product.category} /> */}
+                  </div>
+                  <div className="name">
+                    <Label htmlFor="name">
+                      <FormattedMessage
+                        id="product.name"
+                        defaultMessage="Name"
+                      />
+                    </Label>
+                    <TextField
+                      id="name"
+                      size={50}
+                      value={product.name}
+                      lazy={true}
+                      onChange={event =>
+                        this.props.productUpdate(
+                          product.code,
+                          Object.assign({}, product, {
+                            name: event.target.value,
+                          }),
+                        )
+                      }
+                    />
+                  </div>
 
-                <div className="fav">
-                  <Label htmlFor="fav">
-                    <FormattedMessage id="product.fav" defaultMessage="Fav" />
-                  </Label>
-                  <TextField
-                    id="fav"
-                    type="checkbox"
-                    checked={product.fav}
-                    onChange={event =>
-                      this.props.productUpdate(
-                        product.code,
-                        Object.assign({}, product, {
-                          fav: event.target.checked,
-                        }),
-                      )
-                    }
-                  />
-                </div>
-                <div className="price">
-                  <Label htmlFor="price">
-                    <FormattedMessage
-                      id="product.price"
-                      defaultMessage="Price"
+                  <div className="fav">
+                    <Label htmlFor="fav">
+                      <FormattedMessage id="product.fav" defaultMessage="Fav" />
+                    </Label>
+                    <TextField
+                      id="fav"
+                      type="checkbox"
+                      checked={product.fav}
+                      onChange={event =>
+                        this.props.productUpdate(
+                          product.code,
+                          Object.assign({}, product, {
+                            fav: event.target.checked,
+                          }),
+                        )
+                      }
                     />
-                  </Label>
-                  <TextField
-                    id="price"
-                    type="number"
-                    className="numeric"
-                    size={5}
-                    defaultValue={product.price}
-                    onChange={event =>
-                      this.props.productUpdate(
-                        product.code,
-                        Object.assign({}, product, {
-                          price: event.target.value,
-                        }),
-                      )
-                    }
-                  />
-                </div>
-                <div className="stock">
-                  <Label htmlFor="stock">
-                    <FormattedMessage
-                      id="product.stock"
-                      defaultMessage="Stock"
+                  </div>
+                  <div className="price">
+                    <Label htmlFor="price">
+                      <FormattedMessage
+                        id="product.price"
+                        defaultMessage="Price"
+                      />
+                    </Label>
+                    <TextField
+                      id="price"
+                      type="number"
+                      className="numeric"
+                      size={5}
+                      value={product.price}
+                      onChange={event =>
+                        this.props.productUpdate(
+                          product.code,
+                          Object.assign({}, product, {
+                            price: event.target.value,
+                          }),
+                        )
+                      }
                     />
-                  </Label>
-                  <TextField
-                    id="stock"
-                    type="number"
-                    className="numeric"
-                    step="1"
-                    size={3}
-                    defaultValue={product.stock}
-                    onChange={event =>
-                      this.props.productUpdate(
-                        product.code,
-                        Object.assign({}, product, {
-                          stock: event.target.stock,
-                        }),
-                      )
-                    }
-                  />
-                </div>
-              </DatatableRow>
-            ))
+                  </div>
+                  <div className="stock">
+                    <Label htmlFor="stock">
+                      <FormattedMessage
+                        id="product.stock"
+                        defaultMessage="Stock"
+                      />
+                    </Label>
+                    <TextField
+                      id="stock"
+                      type="number"
+                      className="numeric"
+                      step="1"
+                      size={3}
+                      value={product.stock}
+                      onChange={event =>
+                        this.props.productUpdate(
+                          product.code,
+                          Object.assign({}, product, {
+                            stock: event.target.stock,
+                          }),
+                        )
+                      }
+                    />
+                  </div>
+                  <div className="delete">
+                    <button onClick={() => this.props.productRemove(product)}>
+                      <FormattedMessage
+                        id="product.remove"
+                        defaultMessage="Delete"
+                      />
+                    </button>
+                  </div>
+                </DatatableRow>
+              );
+            })
           ) : (
             <FormattedMessage
               id="product.empty"
