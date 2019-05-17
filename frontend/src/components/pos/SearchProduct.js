@@ -57,7 +57,6 @@ class CategorySelect extends React.Component {
     });
   }
   render() {
-    console.log(this.props);
     return (
       <ListView>
         <ListViewItem
@@ -118,8 +117,8 @@ class SearchProduct extends React.Component {
     this.state = { value: "" };
   }
   render() {
-    const { intl } = this.props;
-
+    const { intl, products } = this.props;
+    console.log(products);
     return (
       <SelectProduct
         options={this.props.products}
@@ -138,7 +137,6 @@ class SearchProduct extends React.Component {
           )
         }
         getNewOptionData={(inputValue, optionLabel) => {
-          console.log(inputValue, optionLabel);
           return {
             code: inputValue,
             name: optionLabel,
@@ -146,7 +144,6 @@ class SearchProduct extends React.Component {
         }}
         value={this.state.value}
         onChange={(value, action) => {
-          console.log(value, action);
           this.props.addProduct(value);
           this.setState({ value: "" });
         }}
@@ -158,6 +155,7 @@ class SearchProduct extends React.Component {
 const SearchProductContainer = connect(
   (state, props) => ({
     order: state.order,
+    products: state.products,
   }),
   dispatch => ({
     addProduct: product => {
