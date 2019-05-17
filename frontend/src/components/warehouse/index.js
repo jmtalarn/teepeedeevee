@@ -4,6 +4,7 @@ import { Route, Link } from "react-router-dom";
 import { FormattedMessage } from "react-intl";
 import Categories from "./categories";
 import Products from "./products";
+import Vat from "./vat";
 
 const WarehouseNav = styled.nav`
   ul {
@@ -38,9 +39,15 @@ export default ({ match }) => (
             />
           </Link>
         </li>
+        <li>
+          <Link to={`${match.url}/vat`}>
+            <FormattedMessage id="warehouse.vat" defaultMessage="VAT" />
+          </Link>
+        </li>
       </ul>
     </WarehouseNav>
     <Route exact path={`${match.path}/categories`} component={Categories} />
     <Route exact path={`${match.path}/products`} component={Products} />
+    <Route path={`${match.path}/vat`} component={Vat} />
   </div>
 );
