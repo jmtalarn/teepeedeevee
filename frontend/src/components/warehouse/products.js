@@ -139,7 +139,6 @@ class Datatable extends React.Component {
     };
   }
   static getDerivedStateFromProps(props, state) {
-    console.log("products", props.products);
     return Object.assign({}, state, {
       products: Datatable.filteredProducts(props.products, state.filter),
     });
@@ -307,10 +306,8 @@ class Datatable extends React.Component {
           {this.renderAppliedFilters()}
         </DatatableFilter>
         <DatatableBody>
-          {console.log(this.state.products)}
           {this.state.products.length > 0 ? (
             this.state.products.map((product, index) => {
-              console.log(index, product);
               return (
                 <DatatableRow key={`datatablerow_${index}`}>
                   <div className="code">
@@ -350,12 +347,6 @@ class Datatable extends React.Component {
                         category => category.name === product.category,
                       )}
                       onChange={(category, action) => {
-                        console.log(
-                          category,
-                          Object.assign({}, product, {
-                            category: category.name,
-                          }),
-                        );
                         this.props.productUpdate(
                           product.code,
                           Object.assign({}, product, {
