@@ -33,6 +33,8 @@ const VatFormLayout = styled.div`
     align-items: center;
     padding: 0 2rem;
     justify-content: space-between;
+    min-height: 7rem;
+
     button {
       height: 2rem;
       width: 100%;
