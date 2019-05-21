@@ -4,6 +4,7 @@ import {
   CATEGORY_REMOVE,
   PRODUCT_UPDATE,
   PRODUCT_REMOVE,
+  VAT_APPLY_VALUE_UPDATE,
 } from "../actions/actionTypes";
 
 export default function reducer(state = initialState.products, action) {
@@ -45,6 +46,10 @@ export default function reducer(state = initialState.products, action) {
       const { product: removedProduct } = action.payload;
 
       return [...state.filter(product => product.code !== removedProduct.code)];
+
+    case VAT_APPLY_VALUE_UPDATE:
+      const { categories, products, value } = action.payload;
+      return [...state.map(product => product)]; //@TODO Apply vat value to products
     default:
       return state;
   }

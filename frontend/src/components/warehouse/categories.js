@@ -26,9 +26,8 @@ const CategoryTextField = styled(TextField)`
 `;
 
 const Layout = styled.div`
-  ${"" /* display: grid;
-  grid-gap: 1rem;
-  grid-template-columns: 1fr 1fr; */}
+  font-weight: 100;
+  padding: 1rem;
 
   .rstcustom__rowTitle {
     font-weight: 100;
