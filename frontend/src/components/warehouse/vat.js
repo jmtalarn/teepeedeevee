@@ -4,6 +4,8 @@ import { FormattedMessage } from "react-intl";
 import Select from "react-select";
 import TextField from "../TextField";
 import { Route, Link } from "react-router-dom";
+import { productUpdate } from "../../actions/productActions";
+import Datatable from "./ProductsDatatable";
 import { connect } from "react-redux";
 import { vatApplyValueUpdate } from "../../actions/vatActions";
 
@@ -52,6 +54,21 @@ const VatFormLayout = styled.div`
     }
   }
 `;
+
+const DatatableContainer = connect(
+  (state, props) => {
+    return {
+      categories: state.categories,
+      products: state.products,
+      hideFields: ["price", "stock", "delete"],
+    };
+  },
+  dispatch => ({
+    productUpdate: (code, product) => {
+      dispatch(productUpdate(code, product));
+    },
+  }),
+)(Datatable);
 
 class VatApplyForm extends React.Component {
   constructor(props) {
@@ -223,11 +240,7 @@ class Vat extends React.Component {
         <Route
           exact
           path={`${match.path}/products`}
-          render={props => (
-            <p>
-              <pre>This would be a list of products with vat field to edit</pre>
-            </p>
-          )}
+          component={DatatableContainer}
         />
       </Layout>
     );

@@ -49,7 +49,21 @@ export default function reducer(state = initialState.products, action) {
 
     case VAT_APPLY_VALUE_UPDATE:
       const { categories, products, value } = action.payload;
-      return [...state.map(product => product)]; //@TODO Apply vat value to products
+      const categoriesNames = categories.map(category => category.name);
+      const productsCodes = products.map(product => product.code);
+
+      console.log(categories, products);
+      return [
+        ...state.map(product => {
+          if (
+            categoriesNames.indexOf(product.category) !== -1 ||
+            productsCodes.indexOf(product.code) !== -1
+          ) {
+            product.vat = value;
+          }
+          return product;
+        }),
+      ]; //@TODO Apply vat value to products
     default:
       return state;
   }

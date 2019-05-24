@@ -14,48 +14,54 @@ class TextField extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: "",
-      typing: false,
+      value: props.value,
       typingTimeout: 0,
     };
 
-    if (props.lazy) {
-      this.handleChange = this.handleChangeLazy.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+  }
+  // static getDerivedStateFromProps(props, state) {
+  //   return {
+  //     ...state,
+  //     value: props.value,
+  //   };
+  // }
+  handleChange(event) {
+    const {
+      target: { value },
+    } = event;
+    const { lazy } = this.props;
+
+    console.log("HANDLE CHANGE!", value);
+    if (lazy) {
+      if (this.state.typingTimeout) {
+        clearTimeout(this.state.typingTimeout);
+      }
+      const typingTimeout = setTimeout(() => {
+        this.props.onChange({ target: { value: value } });
+      }, this.props.timeout || 500);
+      this.setState({ value, typingTimeout });
     } else {
-      this.handleChange = this.handleChangeImmediate.bind(this);
+      this.setState({ value });
     }
-  }
-  static getDerivedStateFromProps(props, state) {
-    return {
-      ...state,
-      value: props.value,
-    };
-  }
-  handleChangeImmediate(event) {
-    this.setState(
-      Object.assign({}, this.state, {
-        value: event.target.value,
-      }),
-    );
-    this.props.onChange(event);
-  }
-  handleChangeLazy(event) {
-    if (this.state.typingTimeout) {
-      clearTimeout(this.state.typingTimeout);
-    }
-    this.setState({
-      value: event.target.value,
-      typingTimeout: setTimeout(() => {
-        this.props.onChange({ target: { value: this.state.value } });
-      }, this.props.timeout || 500),
-    });
+
+    //   if (this.state.typingTimeout) {
+    //     clearTimeout(this.state.typingTimeout);
+    //   }
+    //   const typingTimeout = setTimeout(() => {
+    //     this.props.onChange({ target: { value: value } });
+    //   }, this.props.timeout || 500);
+    //   this.setState(
+    //     Object.assign({}, this.state, {
+    //       typingTimeout,
+    //     }),
+    //   );
+    // } else {
+    // this.props.onChange(event);
+    //}
   }
   render() {
-    const props = { ...this.props };
-    props.value = this.state.value;
-    props.onChange = this.handleChange;
-
-    return <Input {...props} />;
+    return <Input value={this.state.value} onChange={this.handleChange} />;
   }
 }
 
