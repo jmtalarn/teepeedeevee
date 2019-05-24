@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { FormattedMessage, injectIntl } from "react-intl";
-import TextField from "../TextField";
+import InputField from "../InputField";
 
 import SortableTree from "react-sortable-tree";
 
@@ -16,7 +16,7 @@ import {
 import treeTheme from "react-sortable-tree-theme-minimal";
 //import "react-sortable-tree/style.css"; // This only needs to be imported once in your app
 
-const CategoryTextField = styled(TextField)`
+const CategoryInputField = styled(InputField)`
   border-top-width: 0px;
   border-left-width: 0px;
   border-right-width: 0px;
@@ -54,7 +54,7 @@ class CreateCategory extends React.Component {
     });
     return (
       <CreateCategoryLayout>
-        <CategoryTextField
+        <CategoryInputField
           value={this.state.name}
           placeholder={placeholder}
           onChange={event => {
@@ -85,7 +85,7 @@ class Categories extends React.Component {
     const getTreeNode = category => {
       return {
         title: (
-          <CategoryTextField
+          <CategoryInputField
             value={category.name}
             onChange={event => {
               props.updateCategoryName(category.name, event.target.value);

@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { FormattedMessage } from "react-intl";
 
 import Select from "react-select";
-import BaseTextField from "../TextField";
+import InputField from "../InputField";
 
 const DatatableRow = styled.div`
   position: relative;
@@ -16,12 +16,17 @@ const DatatableRow = styled.div`
   }
   grid-template-areas: "code category name name name name fav price price vat stock delete";
 
-  @media screen and (max-width: 650px) {
-    grid-template-areas: "code category category name name name name name" "fav price price price vat stock stock delete";
+  @media screen and (max-width: 750px) {
+    grid-template-areas: "code category category name name name name name" "price price price vat stock stock delete";
   }
-
+  @media screen and (max-width: 500px) {
+    grid-template-areas:
+      "code code" "category category" "name name" "price vat"
+      "stock fav" ". delete";
+  }
   > div {
     padding: 0 1rem;
+    position: relative;
   }
 
   .code {
@@ -68,7 +73,7 @@ const DatatableBody = styled.div`
   ${props =>
     props.hideFields.map(hiddenField => `.${hiddenField}{ display: none }`)};
 
-  @media screen and (min-width: 650px) {
+  @media screen and (min-width: 750px) {
     div {
       label {
         display: none;
@@ -77,7 +82,7 @@ const DatatableBody = styled.div`
     > div:first-of-type label {
       display: block;
       position: absolute;
-      top: -3rem;
+      top: -4rem;
       font-size: 1.2rem;
     }
   }
@@ -86,9 +91,7 @@ const Label = styled.label`
   font-size: 1rem;
   font-weight: bold;
 `;
-const TextField = styled(BaseTextField)`
-  width: 100%;
-`;
+
 const Tag = styled.span`
   padding: 0.5rem;
   border: 1px dotted;
@@ -248,7 +251,7 @@ class Datatable extends React.Component {
               <Label htmlFor="code_filter">
                 <FormattedMessage id="product.code" defaultMessage="Code" />
               </Label>
-              <TextField
+              <InputField
                 id="code_filter"
                 size={10}
                 value={this.state.filter.code}
@@ -278,7 +281,7 @@ class Datatable extends React.Component {
               <Label htmlFor="name_filter">
                 <FormattedMessage id="product.name" defaultMessage="Name" />
               </Label>
-              <TextField
+              <InputField
                 id="name_filter"
                 size={50}
                 value={this.state.filter.name}
@@ -292,7 +295,7 @@ class Datatable extends React.Component {
               <Label htmlFor="fav_filter">
                 <FormattedMessage id="product.fav" defaultMessage="Fav" />
               </Label>
-              <TextField
+              <InputField
                 id="fav_filter"
                 type="checkbox"
                 checked={this.state.filter.fav}
@@ -317,7 +320,7 @@ class Datatable extends React.Component {
                         defaultMessage="Code"
                       />
                     </Label>
-                    <TextField
+                    <InputField
                       id="code"
                       size={10}
                       value={product.code}
@@ -364,7 +367,7 @@ class Datatable extends React.Component {
                         defaultMessage="Name"
                       />
                     </Label>
-                    <TextField
+                    <InputField
                       id="name"
                       size={50}
                       value={product.name}
@@ -385,7 +388,7 @@ class Datatable extends React.Component {
                     <Label htmlFor="fav">
                       <FormattedMessage id="product.fav" defaultMessage="Fav" />
                     </Label>
-                    <TextField
+                    <InputField
                       id="fav"
                       type="checkbox"
                       checked={product.fav}
@@ -406,7 +409,7 @@ class Datatable extends React.Component {
                         defaultMessage="Price"
                       />
                     </Label>
-                    <TextField
+                    <InputField
                       id="price"
                       type="number"
                       className="numeric"
@@ -429,7 +432,7 @@ class Datatable extends React.Component {
                         defaultMessage="Stock"
                       />
                     </Label>
-                    <TextField
+                    <InputField
                       id="stock"
                       type="number"
                       className="numeric"
@@ -450,7 +453,7 @@ class Datatable extends React.Component {
                     <Label htmlFor="vat">
                       <FormattedMessage id="product.vat" defaultMessage="VAT" />
                     </Label>
-                    <TextField
+                    <InputField
                       id="vat"
                       type="number"
                       className="numeric"

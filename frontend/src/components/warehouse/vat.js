@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { FormattedMessage } from "react-intl";
 import Select from "react-select";
-import TextField from "../TextField";
+import InputField from "../InputField";
 import { Route, Link } from "react-router-dom";
 import { productUpdate } from "../../actions/productActions";
 import Datatable from "./ProductsDatatable";
@@ -60,7 +60,7 @@ const DatatableContainer = connect(
     return {
       categories: state.categories,
       products: state.products,
-      hideFields: ["price", "stock", "delete"],
+      hideFields: ["fav", "stock", "delete"],
     };
   },
   dispatch => ({
@@ -157,7 +157,7 @@ class VatApplyForm extends React.Component {
           </div>
           <div className="column">
             <label>
-              <TextField
+              <InputField
                 id="rate"
                 type="number"
                 size={3}

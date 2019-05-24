@@ -8,9 +8,11 @@ const Input = styled.input`
   padding: 0.5rem;
   font-size: 2rem;
   font-weight: 100;
+  display: block;
+  width: 100%;
 `;
 
-class TextField extends React.Component {
+class InputField extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -20,12 +22,7 @@ class TextField extends React.Component {
 
     this.handleChange = this.handleChange.bind(this);
   }
-  // static getDerivedStateFromProps(props, state) {
-  //   return {
-  //     ...state,
-  //     value: props.value,
-  //   };
-  // }
+
   handleChange(event) {
     const {
       target: { value },
@@ -43,26 +40,19 @@ class TextField extends React.Component {
       this.setState({ value, typingTimeout });
     } else {
       this.setState({ value });
+      this.props.onChange({ target: { value: value } });
     }
-
-    //   if (this.state.typingTimeout) {
-    //     clearTimeout(this.state.typingTimeout);
-    //   }
-    //   const typingTimeout = setTimeout(() => {
-    //     this.props.onChange({ target: { value: value } });
-    //   }, this.props.timeout || 500);
-    //   this.setState(
-    //     Object.assign({}, this.state, {
-    //       typingTimeout,
-    //     }),
-    //   );
-    // } else {
-    // this.props.onChange(event);
-    //}
   }
   render() {
-    return <Input value={this.state.value} onChange={this.handleChange} />;
+    return (
+      <Input
+        type={this.props.type}
+        size={this.props.size}
+        value={this.state.value}
+        onChange={this.handleChange}
+      />
+    );
   }
 }
 
-export default TextField;
+export default InputField;
