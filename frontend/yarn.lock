@@ -3570,12 +3570,12 @@ dir-glob@2.0.0:
 disposables@^1.0.1:
   version "1.0.2"
   resolved "https://registry.npmjs.org/disposables/-/disposables-1.0.2.tgz"
-  integrity sha1-NsamdEdfVaLWkTVnpgFETkh7S24= sha512-q1XTvs/XGdfubRSemB2+QRhJjIX4PerKkSom+i8Nkw3hCv6xISNrgaN442n2BunyBI4x77Om4ZAzSlqmhM9pwA==
+  integrity sha512-q1XTvs/XGdfubRSemB2+QRhJjIX4PerKkSom+i8Nkw3hCv6xISNrgaN442n2BunyBI4x77Om4ZAzSlqmhM9pwA==
 
 dnd-core@^2.5.4:
   version "2.6.0"
   resolved "https://registry.npmjs.org/dnd-core/-/dnd-core-2.6.0.tgz"
-  integrity sha1-ErrWbVh0LG5ffPKUP7aFlED4CcQ= sha512-5BfQHIp0XVd4ioF0q4GyUeHQQNCbqP+0SnUiP9TssoQ50wrP1NgSzDqZkjD5pFngsVz9txGin6rvTQD7w0qC3w==
+  integrity sha512-5BfQHIp0XVd4ioF0q4GyUeHQQNCbqP+0SnUiP9TssoQ50wrP1NgSzDqZkjD5pFngsVz9txGin6rvTQD7w0qC3w==
   dependencies:
     asap "^2.0.6"
     invariant "^2.0.0"
@@ -4941,7 +4941,7 @@ hmac-drbg@^1.0.0:
 hoist-non-react-statics@^1.2.0:
   version "1.2.0"
   resolved "https://registry.npmjs.org/hoist-non-react-statics/-/hoist-non-react-statics-1.2.0.tgz"
-  integrity sha1-qkSM8JhtVcxAdzsXF0t90GbLfPs= sha512-r8huvKK+m+VraiRipdZYc+U4XW43j6OFG/oIafe7GfDbRpCduRoX9JI/DRxqgtBSCeL+et6N6ibZoedHS2NyOQ==
+  integrity sha512-r8huvKK+m+VraiRipdZYc+U4XW43j6OFG/oIafe7GfDbRpCduRoX9JI/DRxqgtBSCeL+et6N6ibZoedHS2NyOQ==
 
 hoist-non-react-statics@^2.1.0, hoist-non-react-statics@^2.5.5:
   version "2.5.5"
@@ -6462,9 +6462,9 @@ locate-path@^3.0.0:
     path-exists "^3.0.0"
 
 lodash-es@^4.2.1:
-  version "4.17.11"
-  resolved "https://registry.npmjs.org/lodash-es/-/lodash-es-4.17.11.tgz"
-  integrity sha512-DHb1ub+rMjjrxqlB3H56/6MXtm1lSksDp2rA2cNWjG8mlDUYFhUj3Di2Zn5IwSU87xLv8tNIQ7sSwE/YOX/D/Q==
+  version "4.17.21"
+  resolved "https://registry.npmjs.org/lodash-es/-/lodash-es-4.17.21.tgz"
+  integrity sha512-mKnC+QJ9pWVzv+C4/U3rRsHapFfHvQFoFB92e52xeyGMcX6/OlIl78je1u8vePzYZSkkogMPJ2yjxxsb89cxyw==
 
 lodash._reinterpolate@~3.0.0:
   version "3.0.0"
@@ -8550,7 +8550,7 @@ react-dnd-html5-backend@2.5.4:
 react-dnd-scrollzone@^4.0.0:
   version "4.0.0"
   resolved "https://registry.npmjs.org/react-dnd-scrollzone/-/react-dnd-scrollzone-4.0.0.tgz"
-  integrity sha1-1wcXDAzTt6s9mR3WqMwLNxJFQTk= sha512-yu9Z/K/7Fy4MtlGYp5eoaZY+Zz+wOccWdC98IeiMvkgoEP+YsC6UCjjMoZMJdeqpi8f1j3agPb4D5uB1OCwuKg==
+  integrity sha512-yu9Z/K/7Fy4MtlGYp5eoaZY+Zz+wOccWdC98IeiMvkgoEP+YsC6UCjjMoZMJdeqpi8f1j3agPb4D5uB1OCwuKg==
   dependencies:
     hoist-non-react-statics "^1.2.0"
     lodash.throttle "^4.0.1"
@@ -8744,10 +8744,10 @@ react-select@^2.4.3:
     react-input-autosize "^2.2.1"
     react-transition-group "^2.2.1"
 
-react-sortable-tree-theme-minimal@^0.0.14:
-  version "0.0.14"
-  resolved "https://registry.npmjs.org/react-sortable-tree-theme-minimal/-/react-sortable-tree-theme-minimal-0.0.14.tgz"
-  integrity sha512-pbRN3vq7YPCz4mL17DelDKIYgKaw2fs4sJhdgtEDmI1roYjuwZQdo1C2Zm6igHv8ZrciztxJ+qMgdfC8Vn45ig==
+react-sortable-tree-theme-solverboard@^0.0.9:
+  version "0.0.9"
+  resolved "https://registry.npmjs.org/react-sortable-tree-theme-solverboard/-/react-sortable-tree-theme-solverboard-0.0.9.tgz"
+  integrity sha512-Tt/4dubdzlNdDyJrS5G4n3IXtS4b/umANFANJJttqNQuxfdVQE12tGm7cXBqWTVMFkhVpu+49ig26b/ihJEa2w==
   dependencies:
     lodash.isequal "^4.4.0"
     prop-types "^15.6.0"
@@ -8756,7 +8756,7 @@ react-sortable-tree-theme-minimal@^0.0.14:
     react-dnd-scrollzone "^4.0.0"
     react-virtualized "^9.13.0"
 
-react-sortable-tree@^1.4.0, react-sortable-tree@^2.6.0, react-sortable-tree@^2.6.2:
+react-sortable-tree@^2.2.0, react-sortable-tree@^2.6.0, react-sortable-tree@^2.6.2:
   version "2.6.2"
   resolved "https://registry.npmjs.org/react-sortable-tree/-/react-sortable-tree-2.6.2.tgz"
   integrity sha512-mYX6ByTs7fywPqTEWpEUMgtvLDVyVrkm1Tw/pOPteiLwwMnOqh1LxBwJPUJBmhU2E0P2Zvw3dhnBFL14Fe4EkA==
