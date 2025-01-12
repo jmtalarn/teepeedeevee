@@ -43,7 +43,7 @@ export const BodyContent = ({
 }: Readonly<{
   children: React.ReactNode;
 }>) => (
-  <main >
+  <main className={styles.main}>
     <Header />
     <section className={styles.content}>
       {children}
