@@ -5,3 +5,16 @@
 
 	height: 50px;
 }
+
+.ComboboxDropdown{
+	box-shadow: 10px 8px 15px grey;
+}
+
+.categoryTd{
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+.productButton{
+	width: 100%;
+}

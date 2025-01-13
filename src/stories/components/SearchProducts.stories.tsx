@@ -1,8 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react';
-// import { fn } from '@storybook/test';
+import { fn } from '@storybook/test';
 import Component from "@/components/SearchProduct"
+import type { Category, Product } from '@/app/_lib/_definitions/types';
 
-const categories = [
+const categories: Category[] = [
 	{ "name": "Bebidas", "parent": null },
 	{ "name": "Bebidas calientes", "parent": "Bebidas" },
 	{ "name": "Refrescos", "parent": "Bebidas" },
@@ -30,13 +31,13 @@ const categories = [
 		"parent": "Platos"
 	}
 ];
-const products = [
+const products: Product[] = [
 	{
 		"code": "100100101",
 		"fav": false,
 		"name": "Coca-Cola",
 		"category": "Refrescos",
-		"price": "150",
+		"price": 150,
 		"stock": 0
 	},
 	{
@@ -44,7 +45,7 @@ const products = [
 		"fav": false,
 		"name": "Fanta naranja",
 		"category": "Refrescos",
-		"price": "150",
+		"price": 150,
 		"stock": 0
 	},
 	{
@@ -52,7 +53,7 @@ const products = [
 		"fav": false,
 		"name": "Fanta limón",
 		"category": "Refrescos",
-		"price": "150",
+		"price": 150,
 		"stock": 0
 	},
 	{
@@ -60,7 +61,7 @@ const products = [
 		"fav": false,
 		"name": "Café",
 		"category": "Bebidas calientes",
-		"price": "100",
+		"price": 100,
 		"stock": 0
 	},
 	{
@@ -68,7 +69,7 @@ const products = [
 		"fav": false,
 		"name": "Cortado",
 		"category": "Bebidas calientes",
-		"price": "100",
+		"price": 100,
 		"stock": 0
 	},
 	{
@@ -76,7 +77,7 @@ const products = [
 		"fav": false,
 		"name": "Café con leche",
 		"category": "Bebidas calientes",
-		"price": "110",
+		"price": 110,
 		"stock": 0
 	},
 	{
@@ -84,7 +85,7 @@ const products = [
 		"fav": false,
 		"name": "Damm 1/3",
 		"category": "Cervezas",
-		"price": "200",
+		"price": 200,
 		"stock": 0
 	},
 	{
@@ -92,7 +93,7 @@ const products = [
 		"fav": false,
 		"name": "Voll Damm 1/3",
 		"category": "Cervezas",
-		"price": "200",
+		"price": 200,
 		"stock": 0
 	},
 	{
@@ -100,7 +101,7 @@ const products = [
 		"fav": false,
 		"name": "Damm 1/5",
 		"category": "Cervezas",
-		"price": "150",
+		"price": 150,
 		"stock": 0
 	},
 	{
@@ -108,7 +109,7 @@ const products = [
 		"fav": false,
 		"name": "Voll Damm 1/5",
 		"category": "Cervezas",
-		"price": "150",
+		"price": 150,
 		"stock": 0
 	},
 	{
@@ -116,7 +117,7 @@ const products = [
 		"fav": false,
 		"name": "Bikini",
 		"category": "Bocadillos Calientes",
-		"price": "200",
+		"price": 200,
 		"stock": 0
 	},
 	{
@@ -124,7 +125,7 @@ const products = [
 		"fav": false,
 		"name": "Lomo queso",
 		"category": "Bocadillos Calientes",
-		"price": "250",
+		"price": 250,
 		"stock": 0
 	},
 	{
@@ -132,7 +133,7 @@ const products = [
 		"fav": false,
 		"name": "Jamón",
 		"category": "Bocadillos fríos",
-		"price": "250",
+		"price": 250,
 		"stock": 0
 	},
 	{
@@ -140,7 +141,7 @@ const products = [
 		"fav": false,
 		"name": "Queso",
 		"category": "Bocadillos fríos",
-		"price": "250",
+		"price": 250,
 		"stock": 0
 	},
 	{
@@ -148,7 +149,7 @@ const products = [
 		"fav": false,
 		"name": "Longaniza, patatas, huevo",
 		"category": "Platos combinados",
-		"price": "350",
+		"price": 350,
 		"stock": 0
 	},
 	{
@@ -156,7 +157,7 @@ const products = [
 		"fav": false,
 		"name": "Hamburguesa, patatas, huevo",
 		"category": "Platos combinados",
-		"price": "350",
+		"price": 350,
 		"stock": 0
 	},
 	{
@@ -164,7 +165,7 @@ const products = [
 		"fav": false,
 		"name": "Mexicano - arroz, chile, frijoles, burrito",
 		"category": "Platos combinados",
-		"price": "400",
+		"price": 400,
 		"stock": 0
 	},
 	{
@@ -172,7 +173,7 @@ const products = [
 		"fav": false,
 		"name": "Bravas",
 		"category": "Tapas",
-		"price": "300",
+		"price": 300,
 		"stock": 0
 	},
 	{
@@ -180,7 +181,7 @@ const products = [
 		"fav": false,
 		"name": "Croquetas",
 		"category": "Tapas",
-		"price": "300",
+		"price": 300,
 		"stock": 0
 	},
 	{
@@ -188,7 +189,7 @@ const products = [
 		"fav": false,
 		"name": "Patatas fritas",
 		"category": "Tapas",
-		"price": "200",
+		"price": 200,
 		"stock": 0
 	},
 	{
@@ -196,7 +197,7 @@ const products = [
 		"fav": false,
 		"name": "Callos",
 		"category": "Raciones",
-		"price": "300",
+		"price": 300,
 		"stock": 0
 	},
 	{
@@ -204,7 +205,7 @@ const products = [
 		"fav": false,
 		"name": "Arròs, col i fesòls",
 		"category": "Raciones",
-		"price": "400",
+		"price": 400,
 		"stock": 0
 	}
 ]
@@ -214,8 +215,7 @@ const meta: Meta<typeof Component> = {
 	component: Component,
 	title: "Components/SearchProduct",
 	args: {
-		// 	setActive: fn()
-		categories, products
+		categories, products, onSelectProduct: fn()
 	}
 };
 

@@ -90,7 +90,7 @@ export type Database = {
       Product: {
         Row: {
           category: string | null
-          code: number
+          code: string
           created_at: string
           fav: boolean
           id: number
@@ -100,7 +100,7 @@ export type Database = {
         }
         Insert: {
           category?: string | null
-          code: number
+          code: string
           created_at?: string
           fav?: boolean
           id?: number
@@ -110,7 +110,7 @@ export type Database = {
         }
         Update: {
           category?: string | null
-          code?: number
+          code?: string
           created_at?: string
           fav?: boolean
           id?: number

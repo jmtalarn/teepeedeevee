@@ -1,36 +1,104 @@
-import { useEffect, useState } from "react";
-import { Table, ActionIcon, Text, TextInput } from '@mantine/core';
-import { Category, Product } from "@/app/_lib/_defintions/types";
-import { IconChevronLeft, IconSearch } from "@tabler/icons-react";
+import { useState, forwardRef } from "react";
+import { Table, ActionIcon, Text, UnstyledButton, Combobox, useCombobox, InputBase, rem, } from '@mantine/core';
+import { useId } from '@mantine/hooks';
+import { Category, Product } from "@/app/_lib/_definitions/types";
+import { IconChevronLeft, IconSearch, IconChevronRight } from "@tabler/icons-react";
 import styles from "./SearchProduct.module.css"
 
-const SearchProduct = ({ categories, products }: { categories: Category[], products: Product[] }) => {
-	const [filteredCategories, setFilteredCategories] = useState<Category[]>(categories);
-	const [filteredProducts, setFilteredProducts] = useState<Product[]>(products);
+type ProductsComboboxProps =
+	{
+		products: Product[];
+		onSelectProduct: (product?: Product) => void;
+	}
+
+
+const ProductsCombobox = forwardRef<HTMLInputElement, ProductsComboboxProps>(({ products, onSelectProduct }, ref) => {
+	const combobox = useCombobox({
+		onDropdownClose: () => combobox.resetSelectedOption(),
+	});
+	const [search, setSearch] = useState<string>('');
+
+	const exactOptionMatch = products.some((item) => item.name === search);
+	const filteredOptions = products.filter((item) => item.name?.toLowerCase().includes(search.toLowerCase().trim()));
+	const options = filteredOptions
+		.map((item) => (
+			<Combobox.Option value={item.code} key={item.code}>
+				{item.name}
+			</Combobox.Option>
+		)
+		).slice(0, 9);
+
+	const _id = useId("select-product");
+	return (<div>
+		<Combobox
+			store={combobox}
+			onOptionSubmit={(val) => {
+
+				if (val !== '$create') {
+					onSelectProduct?.(products.find(item => item.code === val) ?? undefined)
+				} else {
+					onSelectProduct({ code: search, name: search, category: null, fav: false, price: null, stock: 0 })
+				}
+
+				combobox.closeDropdown();
+				setSearch('');
+			}}
+		>
+			<Combobox.Target targetType="input">
+				<InputBase
+					id={_id}
+					value={search}
+					ref={ref}
+					rightSection={
+						<IconSearch style={{ width: rem(16), height: rem(16) }} />
+					}
+					rightSectionPointerEvents='none'
+					__staticSelector="Select"
+
+					onChange={(event) => {
+						setSearch(event.currentTarget.value);
+						combobox.openDropdown();
+					}}
+					onFocus={() => {
+						if (!combobox.dropdownOpened) {
+							combobox.openDropdown();
+						}
+
+					}}
+					onBlur={() => {
+						setSearch('');
+						combobox.closeDropdown();
+					}}
+					onClick={() => {
+						if (!combobox.dropdownOpened) {
+							combobox.openDropdown()
+						} else {
+							combobox.closeDropdown();
+						}
+					}}
+				/>
+			</Combobox.Target>
+
+			<Combobox.Dropdown className={styles.ComboboxDropdown}>
+				<Combobox.Options>
+					{options}
+					{!exactOptionMatch && search.trim().length > 0 && (
+						<Combobox.Option value="$create">Add <strong>{search}</strong> to the order</Combobox.Option>
+					)}
+				</Combobox.Options>
+			</Combobox.Dropdown>
+		</Combobox>
+	</div>
+	);
+});
+ProductsCombobox.displayName = "ProductsCombobox";
+
+const SearchProduct = ({ categories, products, onSelectProduct }: { categories: Category[], products: Product[], onSelectProduct: (product?: Product) => void }) => {
 
 	const [category, setCategory] = useState<Category | null>(null);
-	const [search, setSearch] = useState('');
 
-	useEffect(() => {
-		setFilteredCategories(categories.filter(item => item.name.toLowerCase().includes(search.toLowerCase().trim())));
-		setFilteredProducts(products.filter(item => item?.name?.toLowerCase().includes(search.toLowerCase().trim())));
-	}, [search, categories, products]);
-
-	const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		const { value } = event.currentTarget;
-		setSearch(value);
-
-	};
-
-	console.log({ categories })
 	return (<div>
-		<TextInput
-			placeholder="Search by any field"
-			mb="md"
-			leftSection={<IconSearch size={16} stroke={1.5} />}
-			value={search}
-			onChange={handleSearchChange}
-		/>
+		<ProductsCombobox products={products} onSelectProduct={onSelectProduct} />
 		<Table.ScrollContainer minWidth={300}>
 			<Table verticalSpacing="xs" highlightOnHover>
 				<Table.Thead>
@@ -46,35 +114,39 @@ const SearchProduct = ({ categories, products }: { categories: Category[], produ
 									<IconChevronLeft />
 								</ActionIcon>
 							}
-							<Text c="dimmed" tt="uppercase" fw={500} size="sm">{category?.name}</Text>
+							<Text c="dimmed" tt="uppercase" fw={700} size="sm">{category?.name}</Text>
 						</Table.Th>
 					</Table.Tr>
 				</Table.Thead>
 				<Table.Tbody>
 					{
-						filteredCategories
+						categories
 							.filter(item => item.parent === (category?.name ?? null))
-							.map(item => (
-								<Table.Tr
-									key={item.name}
-									onClick={() => { setCategory(item) }}
-								>
-									<Table.Td>
-										{item.name}
-									</Table.Td>
-								</Table.Tr>
-							)
+							.map(
+								item => (
+									<Table.Tr
+										key={item.name}
+										onClick={() => { setCategory(item) }}
+									>
+										<Table.Td className={styles.categoryTd}>
+											<span>{item.name}</span> <IconChevronRight size="16" />
+										</Table.Td>
+									</Table.Tr>
+								)
 							)
 					}
 					{
-						filteredProducts
+						products
 							.filter(item => item.category === category?.name)
 							.map(item => (
 								<Table.Tr
 									key={item.name}
 								>
 									<Table.Td>
-										{item.name}
+										<UnstyledButton className={styles.productButton} onClick={() => onSelectProduct(item)}>
+											<Text size="sm">{item.name}</Text>
+										</UnstyledButton>
+
 									</Table.Td>
 								</Table.Tr>
 							)
