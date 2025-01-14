@@ -1,3 +1,43 @@
+:root {
+  --transition-properties: 250ms ease;
+}
 .category {
 	margin: 4px;
+	transition: border-color var(--transition-properties), border-style var(--transition-properties) color var(--transition-properties),background-color var(--transition-properties);
+
+}
+.tree {
+	margin: 1rem;
+}
+
+
+:global(.dragged-over) * {
+  pointer-events: none;
+}
+:global(.dragged-over){
+	border-color: var(--mantine-primary-color-filled-hover);
+	color: 	var(--mantine-primary-color-filled-hover);
+	background-color: var(--mantine-primary-color-light-hover);
+	border-style: solid;
+}
+
+.hidden {
+	visibility: hidden;
+}
+
+.rootCategoryDrop{
+	border-color: var(--mantine-primary-color-filled);
+	color: 	var(--mantine-primary-color-filled);
+	background-color: var(--mantine-primary-color-light);
+	display: flex; align-items:center;
+	gap: 5px;
+	padding: 4px;
+	border-style: dashed;
+	transition: border-color var(--transition-properties), color var(--transition-properties),background-color var(--transition-properties);
+}
+.rootCategoryDrop:global(.dragged-over){
+	border-color: var(--mantine-primary-color-filled-hover);
+	border-style: solid;
+	color: 	var(--mantine-primary-color-filled-hover);
+	background-color: var(--mantine-primary-color-light-hover);
 }

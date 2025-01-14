@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 
 import Component from "@/components/category/Categories"
 import type { Category } from '@/app/_lib/_definitions/types';
+import { fn } from '@storybook/test';
 
 const categories: Category[] = [
 	{ "name": "Bebidas", "parent": null },
@@ -37,7 +38,8 @@ const meta: Meta<typeof Component> = {
 	component: Component,
 	title: "Components/Category/Categories",
 	args: {
-		categories
+		categories,
+		onAssignParentToCategory: fn()
 	}
 };
 
