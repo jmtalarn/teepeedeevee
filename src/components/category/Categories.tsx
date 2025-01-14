@@ -1,12 +1,29 @@
-import { Group, Tree, Text, getTreeExpandedState, useTree, type RenderTreeNodePayload, type TreeNodeData, Paper, Transition, Tooltip } from '@mantine/core';
-
-import styles from './Categories.module.css'
-import type { Category } from '@/app/_lib/_definitions/types';
-import { useEffect, useMemo, useState } from 'react';
 import {
-	IconChevronDown, IconSitemapFilled
+	ActionIcon,
+	Button,
+	Flex,
+	Group,
+	Input,
+	Paper,
+	Text,
+	Tooltip,
+	Tree,
+	getTreeExpandedState,
+	useTree,
+	CloseButton,
+	type RenderTreeNodePayload,
+	type TreeNodeData,
+	rem,
+	Box
+} from '@mantine/core';
+
+import type { Category } from '@/app/_lib/_definitions/types';
+import {
+	IconChevronDown, IconSitemapFilled, IconFolderPlus, IconTrash
 } from '@tabler/icons-react';
+import { useEffect, useMemo, useState } from 'react';
 import './Categories.module.css';
+import styles from './Categories.module.css';
 
 
 const normalizeCategories = (categories: Category[]) => {
@@ -43,19 +60,31 @@ type OnDraggingProps = {
 
 
 
-function Leaf({ node,
-	expanded,
-	hasChildren,
-	elementProps,
+function Leaf(
+	{
+		node,
+		expanded,
+		hasChildren,
+		elementProps,
 
-	draggingCategory,
-	targetDropCategory,
-	onDragStart,
-	onDragEnd,
-	onDragOver,
-	onDragEnter,
-	onDragLeave,
-	onDrop }: RenderTreeNodePayload & { draggingCategory: Category | null | undefined, targetDropCategory: Category | null | undefined } & OnDraggingProps) {
+		draggingCategory,
+		targetDropCategory,
+
+		onDeleteCategory,
+		onDragStart,
+		onDragEnd,
+		onDragOver,
+		onDragEnter,
+		onDragLeave,
+		onDrop
+	}
+		: RenderTreeNodePayload
+		& {
+			draggingCategory: Category | null | undefined, targetDropCategory: Category | null | undefined,
+			onDeleteCategory: (name: string) => void
+		}
+		& OnDraggingProps
+) {
 
 	const category: Category = { name: (node as TreeNodeData & Category).name, parent: (node as TreeNodeData & Category).parent }
 
@@ -68,14 +97,25 @@ function Leaf({ node,
 			transitionProps={{ transition: 'fade-up', duration: 300 }}
 			color="blue"
 		>
-			<Paper className="category" withBorder mt="xs" mb="xs" draggable={true}
+			<Paper
+				className={["category", styles.category].join(" ")}
+				withBorder
+				mt="xs" mb="xs"
+				draggable={true}
+				p="xs"
 				onDragStart={(e) => onDragStart(e, category)}
 				onDragEnd={onDragEnd}
 				onDragOver={onDragOver}
 				onDragEnter={(e) => onDragEnter(e, category)}
 				onDragLeave={onDragLeave}
 				onDrop={(e) => onDrop(e, category)} >
-				<Group gap={5} {...elementProps}>
+				<Flex
+					gap={5}
+					justify="flex-start"
+					align="center"
+					direction="row"
+					{...elementProps}
+				>
 					{hasChildren && (
 						<IconChevronDown
 							size={18}
@@ -83,13 +123,103 @@ function Leaf({ node,
 						/>
 					)}
 
-					<Text size="lg">{node.label}</Text>
-				</Group>
+					<Text
+						className={styles.categoryLabel}
+						size="lg"
+					>
+						{node.label}
+					</Text>
+					<ActionIcon
+						ml="lg"
+						color="red"
+						variant="light"
+						radius="xl"
+						aria-label={`Delete ${node.label} category`}
+						onClick={
+							() => {
+								if (node.label) {
+									onDeleteCategory(node.value)
+								}
+							}
+						}
+					>
+						<IconTrash />
+					</ActionIcon>
+				</Flex>
 			</Paper>
 		</Tooltip>
 	);
 }
-const Categories = ({ categories, onAssignParentToCategory }: { categories: Category[], onAssignParentToCategory: (category: Category['name'], parent: Category['parent']) => void }) => {
+
+const CreateCategory = (
+	{ onCreateCategory, value = '', error = "" }:
+		{ onCreateCategory: (name: string) => void, value: string, error: string }
+) => {
+	const [inputValue, setInputValue] = useState(value);
+	const [inputError, setInputError] = useState(error);
+
+	return (
+		<Group
+			className={styles.firstRow}
+		>
+			<Input.Wrapper
+				className={styles.newCategoryInput}
+				error={inputError}
+			>
+				<Input
+
+					placeholder="New category name"
+					error={inputError}
+					onChange={
+						(event) => setInputValue(event.currentTarget.value)
+					}
+					value={inputValue}
+					rightSectionPointerEvents="all"
+					rightSection={
+						<CloseButton
+							aria-label="Clear input"
+							onClick={
+								() => {
+									setInputValue(''); setInputError('');
+								}
+							}
+							style={{ display: inputValue ? 'inherit' : 'none' }}
+						/>
+					}
+				/>
+			</Input.Wrapper>
+
+			<Button
+				disabled={inputValue === ''}
+				rightSection={<IconFolderPlus size={14} />}
+				onClick={() => onCreateCategory(inputValue)}
+			>
+				Create new category
+			</Button>
+
+		</Group>
+	)
+
+}
+const Categories = (
+	{
+		categories,
+		onAssignParentToCategory,
+		onCreateCategory,
+		newCategoryError,
+		newCategoryValue,
+		onDeleteCategory
+	}:
+		{
+			categories: Category[],
+			onAssignParentToCategory: (category: Category['name'], parent: Category['parent']) => void,
+			onCreateCategory: (name: string) => void,
+			newCategoryError: string,
+			newCategoryValue: string,
+			onDeleteCategory: (name: string) => void
+
+		}
+) => {
 	const data = useMemo(() => normalizeCategories(categories), [categories]);
 	const tree = useTree({
 		initialExpandedState: getTreeExpandedState(data, '*'),
@@ -141,33 +271,35 @@ const Categories = ({ categories, onAssignParentToCategory }: { categories: Cate
 	return (<div>
 		<h3>Categories</h3>
 
-		<Tooltip
-			label={`Drop ${draggingCategory?.name ?? "NONE"} category here to make it a main category`}
-			opened={targetDropCategory === null}
-			position="top-start"
-			transitionProps={{ transition: 'fade-up', duration: 300 }}
-			color="blue"
-		>
-			<Paper
-				className={["category", styles.rootCategoryDrop, draggingCategory ? null : styles.hidden].filter(Boolean).join(" ")}
-				withBorder
-				mt="xs"
-				mb="xs"
-				{...onDraggingPropsRemoveCategory}
-				bg="light"
+		<Box pt={rem(1)}>
+			{draggingCategory ?
+				<Tooltip
+					label={`Drop ${draggingCategory?.name ?? "NONE"} category here to make it a main category`}
+					opened={targetDropCategory === null}
+					position="top-start"
+					transitionProps={{ transition: 'fade-up', duration: 300 }}
+					color="blue"
+				>
+					<Paper
+						className={["category", styles.rootCategoryDrop, styles.firstRow].filter(Boolean).join(" ")}
+						withBorder
+						mt="xs"
+						mb="xs"
+						{...onDraggingPropsRemoveCategory}
+						bg="light"
 
-			>
-				<IconSitemapFilled color="var(--mantine-primary-color-filled)" /> Main
-			</Paper>
+					>
+						<IconSitemapFilled color="var(--mantine-primary-color-filled)" /> Main
+					</Paper>
 
-		</Tooltip>
-
-
+				</Tooltip> : <CreateCategory onCreateCategory={onCreateCategory} value={newCategoryValue ?? ''} error={newCategoryError} key={newCategoryError} />
+			}
+		</Box>
 
 		<Tree
 			data={data}
 			tree={tree}
-			renderNode={(payload) => <Leaf {...payload} {...{ onDragStart, onDragEnd, onDragOver, onDragEnter, onDragLeave, onDrop, draggingCategory, targetDropCategory }} />}
+			renderNode={(payload) => <Leaf {...payload} {...{ onDragStart, onDragEnd, onDragOver, onDragEnter, onDragLeave, onDrop, draggingCategory, targetDropCategory, onDeleteCategory }} />}
 			levelOffset='xl'
 		/>
 	</div >)

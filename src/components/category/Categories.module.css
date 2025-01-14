@@ -4,7 +4,6 @@
 .category {
 	margin: 4px;
 	transition: border-color var(--transition-properties), border-style var(--transition-properties) color var(--transition-properties),background-color var(--transition-properties);
-
 }
 .tree {
 	margin: 1rem;
@@ -24,16 +23,29 @@
 .hidden {
 	visibility: hidden;
 }
+.firstRow {
+	display: flex; 
+	align-items:flex-start;
+	gap: 5px;
+	padding: 4px;
+}
+.newCategoryInput{
+	flex-grow: 1;
+	height: 64px;
+}
 
+.categoryLabel {
+	flex-grow: 1;
+}
 .rootCategoryDrop{
 	border-color: var(--mantine-primary-color-filled);
 	color: 	var(--mantine-primary-color-filled);
 	background-color: var(--mantine-primary-color-light);
-	display: flex; align-items:center;
-	gap: 5px;
-	padding: 4px;
 	border-style: dashed;
 	transition: border-color var(--transition-properties), color var(--transition-properties),background-color var(--transition-properties);
+	height: 64px;
+	align-items: center;
+	padding-left: 12px;
 }
 .rootCategoryDrop:global(.dragged-over){
 	border-color: var(--mantine-primary-color-filled-hover);

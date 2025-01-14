@@ -11,6 +11,14 @@ const compat = new FlatCompat({
 
 const eslintConfig = [
   ...compat.extends("next/core-web-vitals", "next/typescript"),
+  {
+    rules: {
+      // Enforce semicolons at the end of statements
+      semi: [ 'error', 'always' ],
+
+      // Enforce single quotes for strings
+      quotes: [ 'error', 'single', { avoidEscape: true } ],
+    }
 ];
 
 export default eslintConfig;
