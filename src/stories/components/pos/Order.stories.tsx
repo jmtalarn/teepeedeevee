@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { fn } from '@storybook/test';
-import Component from "@/components/Order"
+import Component from "@/components/pos/Order"
 
 
 const orderedProducts = [
@@ -64,7 +64,7 @@ const orderedProducts = [
 
 const meta: Meta<typeof Component> = {
 	component: Component,
-	title: "Components/Order",
+	title: "Components/POS/Order",
 	args: {
 		orderNum: 100,
 		attribute1: "2",

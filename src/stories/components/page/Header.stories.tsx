@@ -1,7 +1,7 @@
-import Component from "@/components/Header"
+import Component from "@/components/page/Header"
 
 export default {
-	title: "Components/Header",
+	title: "Components/Page/Header",
 	component: Component,
 };
 

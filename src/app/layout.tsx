@@ -8,8 +8,8 @@ import type { Metadata } from "next";
 
 import "./globals.css";
 
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
+import Header from "@/components/page/Header";
+import Footer from "@/components/page/Footer";
 import styles from './layout.module.css'
 
 export const metadata: Metadata = {

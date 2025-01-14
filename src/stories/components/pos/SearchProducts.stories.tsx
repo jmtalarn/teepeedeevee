@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { fn } from '@storybook/test';
-import Component from "@/components/SearchProduct"
+import Component from "@/components/pos/SearchProduct"
 import type { Category, Product } from '@/app/_lib/_definitions/types';
 
 const categories: Category[] = [
@@ -213,7 +213,7 @@ const products: Product[] = [
 
 const meta: Meta<typeof Component> = {
 	component: Component,
-	title: "Components/SearchProduct",
+	title: "Components/POS/SearchProduct",
 	args: {
 		categories, products, onSelectProduct: fn()
 	}

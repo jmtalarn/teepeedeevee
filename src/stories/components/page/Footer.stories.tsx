@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { fn } from '@storybook/test';
-import Component from "@/components/Nav"
+import Component from "@/components/page/Footer"
 
 
 const meta: Meta<typeof Component> = {
 	component: Component,
-	title: "Components/Nav",
+	title: "Components/Page/Footer",
 	args: {
 		setActive: fn()
 	}
@@ -14,6 +14,6 @@ const meta: Meta<typeof Component> = {
 export default meta;
 type Story = StoryObj<typeof Component>;
 
-export const Nav: Story = {
+export const Footer: Story = {
 
 };
