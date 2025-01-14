@@ -23,4 +23,4 @@ export default {
 	],
 };
 
-export const Pos = () => <Page />
+export const Index = () => <Page />

@@ -8,7 +8,7 @@ import {
 } from '@mantine/core';
 // theme.ts file from previous step
 import { theme } from '../src/theme';
-import '@mantine/core/styles.css';
+
 // Import styles of packages that you've installed.
 // All packages except `@mantine/hooks` require styles imports
 import '@mantine/core/styles.css';
@@ -42,7 +42,7 @@ export const decorators = [
     <ColorSchemeWrapper>{renderStory()}</ColorSchemeWrapper>
   ),
   (renderStory: any) => (
-    <MantineProvider theme={theme}>{renderStory()}</MantineProvider>
+    <MantineProvider theme={theme} >{renderStory()}</MantineProvider>
   ),
 ];
 

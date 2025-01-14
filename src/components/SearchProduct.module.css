@@ -7,7 +7,7 @@
 }
 
 .ComboboxDropdown{
-	box-shadow: 10px 8px 15px grey;
+	box-shadow: var(--mantine-shadow-xl);
 }
 
 .categoryTd{
