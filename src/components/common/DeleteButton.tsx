@@ -18,7 +18,7 @@ const grow = {
 	transitionProperty: 'width'
 };
 
-const DeleteButton = ({ onClick, ariaLabel }: { onClick: (e: React.MouseEvent<HTMLButtonElement>) => void, ariaLabel: string }) => {
+const DeleteButton = ({ onClick, ariaLabel }: { onClick: (e?: React.MouseEvent<HTMLButtonElement>) => void, ariaLabel: string }) => {
 	const [confirmation, setConfirmation] = useState<boolean>(false);
 	return (
 		<Button

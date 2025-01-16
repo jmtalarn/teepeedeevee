@@ -1,30 +1,31 @@
 import {
-	ActionIcon,
+	Box,
 	Button,
+	CloseButton,
 	Flex,
 	Group,
 	Input,
 	Paper,
+	type RenderTreeNodePayload,
 	Text,
 	Tooltip,
 	Tree,
-	getTreeExpandedState,
-	useTree,
-	CloseButton,
-	type RenderTreeNodePayload,
 	type TreeNodeData,
+	getTreeExpandedState,
 	rem,
-	Box
+	useTree
 } from '@mantine/core';
 
 import type { Category } from '@/app/_lib/_definitions/types';
 import {
-	IconChevronDown, IconSitemapFilled, IconFolderPlus, IconTrash
+	IconChevronDown,
+	IconFolderPlus,
+	IconSitemapFilled
 } from '@tabler/icons-react';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
+import DeleteButton from '../common/DeleteButton';
 import './Categories.module.css';
 import styles from './Categories.module.css';
-import DeleteButton from '../common/DeleteButton';
 
 
 const normalizeCategories = (categories: Category[]) => {
@@ -131,30 +132,14 @@ function Leaf(
 						{node.label}
 					</Text>
 					<DeleteButton onClick={(evt) => {
-						evt.stopPropagation();
+						evt?.stopPropagation();
 						if (node.label) {
 							onDeleteCategory(node.value)
 						}
 					}}
 						ariaLabel={`Delete ${node.label} category`}
 					/>
-					{/* <ActionIcon
-						ml="lg"
-						color="red"
-						variant="light"
-						radius="xl"
-						aria-label={`Delete ${node.label} category`}
-						onClick={
-							(evt) => {
-								evt.stopPropagation();
-								if (node.label) {
-									onDeleteCategory(node.value)
-								}
-							}
-						}
-					>
-						<IconTrash />
-					</ActionIcon> */}
+
 				</Flex>
 			</Paper>
 		</Tooltip>

@@ -11,6 +11,7 @@ import {
 import { IconMinus, IconPlus, IconTrash } from '@tabler/icons-react';
 import type { ReactNode } from "react";
 import styles from "./Order.module.css";
+import DeleteButton from "../common/DeleteButton";
 
 
 const attributeLabel = {
@@ -44,7 +45,12 @@ const OrderLine = ({ orderNum, orderedProduct, onOrderProductQuantity }: { order
 			>
 				<IconMinus />
 			</ActionIcon>
-			<ActionIcon
+			<DeleteButton
+				onClick={() => { onOrderProductQuantity({ ...orderedProduct, quantity: 0 }, orderNum) }}
+				ariaLabel={`Remove all ${orderedProduct.name}`}
+			/>
+
+			{/* <ActionIcon
 				ml="lg"
 				color="red"
 				variant="light"
@@ -53,7 +59,7 @@ const OrderLine = ({ orderNum, orderedProduct, onOrderProductQuantity }: { order
 				onClick={() => { onOrderProductQuantity({ ...orderedProduct, quantity: 0 }, orderNum) }}
 			>
 				<IconTrash />
-			</ActionIcon>
+			</ActionIcon> */}
 		</Group>
 	</Text>
 )
