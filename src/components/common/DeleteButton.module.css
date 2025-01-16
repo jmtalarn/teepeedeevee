@@ -1,0 +1,17 @@
+.deleteButton{
+	transition: width 200ms ease;
+	width: 50px;
+}
+.deleteButtonGrow{
+	width: 175px;
+}
+.deleteButtonInner{
+
+}
+.deleteButtonSection{
+	margin-inline-end: 0;
+	margin-inline-start: 0;
+}
+.deleteButtonLabel{
+	
+}
