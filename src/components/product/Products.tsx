@@ -71,7 +71,7 @@ const Products: React.FC<ProductsProps> = ({ products: initialProducts, categori
 					<div>
 						<TextInput
 							label="Name"
-							value={selectedProduct.name}
+							value={selectedProduct?.name ?? ''}
 							onChange={(event) =>
 								setSelectedProduct({ ...selectedProduct, name: event.currentTarget.value })
 							}
@@ -79,7 +79,7 @@ const Products: React.FC<ProductsProps> = ({ products: initialProducts, categori
 						<TextInput
 							label="Price"
 							type="number"
-							value={selectedProduct.price}
+							value={selectedProduct?.price ?? 0}
 							onChange={(event) =>
 								setSelectedProduct({ ...selectedProduct, price: Number(event.currentTarget.value) })
 							}
