@@ -9,7 +9,7 @@
 		"lint": "next lint",
 		"storybook": "storybook dev -p 6006",
 		"build-storybook": "storybook build",
-		"dev:generate:supabase:types": "npx supabase gen types typescript --project-id qjufcitjeenvyfsojjyo --schema public > src/app/_lib/_defintions/database.types.ts"
+		"dev:generate:supabase:types": "npx supabase gen types typescript --project-id qjufcitjeenvyfsojjyo --schema public > database.types.ts"
 	},
 	"dependencies": {
 		"@mantine/core": "^7.15.3",
@@ -41,7 +41,7 @@
 		"postcss-simple-vars": "^7.0.1",
 		"storybook": "^8.4.7",
 		"storybook-dark-mode": "^4.0.2",
-		"supabase": "^2.2.1",
+		"supabase": "^2.6.8",
 		"typescript": "^5"
 	},
 	"eslintConfig": {

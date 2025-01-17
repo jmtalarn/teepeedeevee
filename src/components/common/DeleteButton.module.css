@@ -1,17 +1,24 @@
+.deleteButtonContent{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
 .deleteButton{
+	width: 34px;
 	transition: width 200ms ease;
-	width: 50px;
 }
-.deleteButtonGrow{
-	width: 175px;
+.deleteButtonGrow {
+	width: 160px;
 }
-.deleteButtonInner{
-
+.deleteButtonBadge {
+	padding-left: 2px;
+	padding-right:2px;
 }
 .deleteButtonSection{
 	margin-inline-end: 0;
 	margin-inline-start: 0;
 }
-.deleteButtonLabel{
-	
+
+.deleteButtonIcon:hover{
+	background-color: transparent;
 }

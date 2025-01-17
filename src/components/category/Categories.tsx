@@ -30,28 +30,28 @@ import InlineEdit from '../common/InlineEdit';
 
 
 const normalizeCategories = (categories: Category[]) => {
-
-	const categoryMap: Record<string, TreeNodeData> = {}
+	const categoryMap: Record<number, TreeNodeData> = {};
 	const tree: TreeNodeData[] = [];
 
 	categories.forEach((category) => {
-		categoryMap[category.name] = { ...category, label: category.name, value: category.name, children: [] }; // Initialize children
+		categoryMap[category.id] = { ...category, label: category.name, value: category.id, children: [] }; // Initialize children
 	});
+
 	categories.forEach((category: Category) => {
 		if (category.parent === null) {
-			tree.push(categoryMap[category.name]);
+			tree.push(categoryMap[category.id]);
 		} else {
 			const parent = categoryMap[category.parent];
 			if (parent) {
-				parent.children?.push(categoryMap[category.name]);
+				parent.children?.push(categoryMap[category.id]);
 			} else {
-				throw Error(`Parent ${category.parent} not found for category ${category.name}`)
+				throw Error(`Parent ${category.parent} not found for category ${category.name}`);
 			}
 		}
-	})
+	});
 	return tree;
-
 }
+
 type OnDraggingProps = {
 	onDragStart: (e: React.DragEvent<HTMLElement>, item: Category) => void;
 	onDragEnd: () => void;

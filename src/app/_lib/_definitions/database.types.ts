@@ -11,24 +11,32 @@ export type Database = {
     Tables: {
       Category: {
         Row: {
-          created_at: string | null
+          created_at: string
           id: number
-          name: string
-          parent: string | null
+          name: string | null
+          parent: number | null
         }
         Insert: {
-          created_at?: string | null
+          created_at?: string
           id?: number
-          name: string
-          parent?: string | null
+          name?: string | null
+          parent?: number | null
         }
         Update: {
-          created_at?: string | null
+          created_at?: string
           id?: number
-          name?: string
-          parent?: string | null
+          name?: string | null
+          parent?: number | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "Category_parent_fkey"
+            columns: ["parent"]
+            isOneToOne: false
+            referencedRelation: "Category"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       Order: {
         Row: {
@@ -70,53 +78,38 @@ export type Database = {
           product?: number | null
           quantity?: number | null
         }
-        Relationships: [
-          {
-            foreignKeyName: "OrderItems_order_fkey"
-            columns: ["order"]
-            isOneToOne: false
-            referencedRelation: "Order"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "OrderItems_product_fkey"
-            columns: ["product"]
-            isOneToOne: false
-            referencedRelation: "Product"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
       Product: {
         Row: {
-          category: string | null
-          code: string
+          category: number | null
+          code: number
           created_at: string
           fav: boolean
           id: number
-          name: string | null
+          name: string
           price: number | null
-          stock: number
+          stock: number | null
         }
         Insert: {
-          category?: string | null
-          code: string
+          category?: number | null
+          code: number
           created_at?: string
           fav?: boolean
           id?: number
-          name?: string | null
+          name: string
           price?: number | null
-          stock?: number
+          stock?: number | null
         }
         Update: {
-          category?: string | null
-          code?: string
+          category?: number | null
+          code?: number
           created_at?: string
           fav?: boolean
           id?: number
-          name?: string | null
+          name?: string
           price?: number | null
-          stock?: number
+          stock?: number | null
         }
         Relationships: [
           {
@@ -124,7 +117,7 @@ export type Database = {
             columns: ["category"]
             isOneToOne: false
             referencedRelation: "Category"
-            referencedColumns: ["name"]
+            referencedColumns: ["id"]
           },
         ]
       }

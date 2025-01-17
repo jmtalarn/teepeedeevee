@@ -1,28 +1,13 @@
 [
-  { "name": "Bebidas", "parent": null },
-  { "name": "Bebidas calientes", "parent": "Bebidas" },
-  { "name": "Refrescos", "parent": "Bebidas" },
-  {
-    "name": "Cervezas",
-    "parent": "Bebidas"
-  },
-  { "name": "Sandwhiches", "parent": null },
-  { "name": "Bocadillos fríos", "parent": "Sandwhiches" },
-  {
-    "name": "Bocadillos Calientes",
-    "parent": "Sandwhiches"
-  },
-  { "name": "Platos", "parent": null },
-  {
-    "name": "Platos combinados",
-    "parent": "Platos"
-  },
-  {
-    "name": "Tapas",
-    "parent": "Platos"
-  },
-  {
-    "name": "Raciones",
-    "parent": "Platos"
-  }
+	{ "id": 1, "name": "Bebidas", "parent": null },
+	{ "id": 2, "name": "Bebidas calientes", "parent": 1 },
+	{ "id": 3, "name": "Refrescos", "parent": 1 },
+	{ "id": 4, "name": "Cervezas", "parent": 1 },
+	{ "id": 5, "name": "Sandwhiches", "parent": null },
+	{ "id": 6, "name": "Bocadillos fríos", "parent": 5 },
+	{ "id": 7, "name": "Bocadillos Calientes", "parent": 5 },
+	{ "id": 8, "name": "Platos", "parent": null },
+	{ "id": 9, "name": "Platos combinados", "parent": 8 },
+	{ "id": 10, "name": "Tapas", "parent": 8 },
+	{ "id": 11, "name": "Raciones", "parent": 8 }
 ]

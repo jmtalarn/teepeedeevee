@@ -14,6 +14,7 @@ const meta: Meta<typeof Component> = {
 		categories,
 		products,
 		onProductEdit: fn(),
+		onProductDelete: fn(),
 
 	}
 };
@@ -21,5 +22,5 @@ const meta: Meta<typeof Component> = {
 export default meta;
 type Story = StoryObj<typeof Component>;
 
-export const Categories: Story = {
+export const Products: Story = {
 };
