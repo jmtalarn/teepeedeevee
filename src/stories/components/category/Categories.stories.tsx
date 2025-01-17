@@ -3,35 +3,8 @@ import { useArgs } from '@storybook/preview-api'
 import Component from "@/components/category/Categories"
 import type { Category } from '@/app/_lib/_definitions/types';
 import { fn } from '@storybook/test';
+import categories from '../../categories.json';
 
-const categories: Category[] = [
-	{ "name": "Bebidas", "parent": null },
-	{ "name": "Bebidas calientes", "parent": "Bebidas" },
-	{ "name": "Refrescos", "parent": "Bebidas" },
-	{
-		"name": "Cervezas",
-		"parent": "Bebidas"
-	},
-	{ "name": "Sandwhiches", "parent": null },
-	{ "name": "Bocadillos fríos", "parent": "Sandwhiches" },
-	{
-		"name": "Bocadillos Calientes",
-		"parent": "Sandwhiches"
-	},
-	{ "name": "Platos", "parent": null },
-	{
-		"name": "Platos combinados",
-		"parent": "Platos"
-	},
-	{
-		"name": "Tapas",
-		"parent": "Platos"
-	},
-	{
-		"name": "Raciones",
-		"parent": "Platos"
-	}
-];
 
 
 const meta: Meta<typeof Component> = {
@@ -42,7 +15,8 @@ const meta: Meta<typeof Component> = {
 		onAssignParentToCategory: fn(),
 		onCreateCategory: fn(),
 		newCategoryError: '',
-		onDeleteCategory: fn()
+		onDeleteCategory: fn(),
+		onEditCategory: fn()
 	}
 };
 

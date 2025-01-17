@@ -49,17 +49,6 @@ const OrderLine = ({ orderNum, orderedProduct, onOrderProductQuantity }: { order
 				onClick={() => { onOrderProductQuantity({ ...orderedProduct, quantity: 0 }, orderNum) }}
 				ariaLabel={`Remove all ${orderedProduct.name}`}
 			/>
-
-			{/* <ActionIcon
-				ml="lg"
-				color="red"
-				variant="light"
-				radius="xl"
-				aria-label={`Remove all ${orderedProduct.name}`}
-				onClick={() => { onOrderProductQuantity({ ...orderedProduct, quantity: 0 }, orderNum) }}
-			>
-				<IconTrash />
-			</ActionIcon> */}
 		</Group>
 	</Text>
 )

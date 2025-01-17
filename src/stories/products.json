@@ -1,0 +1,178 @@
+[
+	{
+		"code": "100100101",
+		"fav": false,
+		"name": "Coca-Cola",
+		"category": "Refrescos",
+		"price": 1.5,
+		"stock": 0
+	},
+	{
+		"code": "100100102",
+		"fav": false,
+		"name": "Fanta naranja",
+		"category": "Refrescos",
+		"price": 1.5,
+		"stock": 0
+	},
+	{
+		"code": "100100103",
+		"fav": false,
+		"name": "Fanta limón",
+		"category": "Refrescos",
+		"price": 1.5,
+		"stock": 0
+	},
+	{
+		"code": "100200101",
+		"fav": false,
+		"name": "Café",
+		"category": "Bebidas calientes",
+		"price": 1.0,
+		"stock": 0
+	},
+	{
+		"code": "100200102",
+		"fav": false,
+		"name": "Cortado",
+		"category": "Bebidas calientes",
+		"price": 1.0,
+		"stock": 0
+	},
+	{
+		"code": "100200103",
+		"fav": false,
+		"name": "Café con leche",
+		"category": "Bebidas calientes",
+		"price": 1.1,
+		"stock": 0
+	},
+	{
+		"code": "100300101",
+		"fav": false,
+		"name": "Damm 1/3",
+		"category": "Cervezas",
+		"price": 2.0,
+		"stock": 0
+	},
+	{
+		"code": "100300102",
+		"fav": false,
+		"name": "Voll Damm 1/3",
+		"category": "Cervezas",
+		"price": 2.0,
+		"stock": 0
+	},
+	{
+		"code": "100300103",
+		"fav": false,
+		"name": "Damm 1/5",
+		"category": "Cervezas",
+		"price": 1.5,
+		"stock": 0
+	},
+	{
+		"code": "100300104",
+		"fav": false,
+		"name": "Voll Damm 1/5",
+		"category": "Cervezas",
+		"price": 1.5,
+		"stock": 0
+	},
+	{
+		"code": "100400101",
+		"fav": false,
+		"name": "Bikini",
+		"category": "Bocadillos Calientes",
+		"price": 2.0,
+		"stock": 0
+	},
+	{
+		"code": "100400102",
+		"fav": false,
+		"name": "Lomo queso",
+		"category": "Bocadillos Calientes",
+		"price": 2.5,
+		"stock": 0
+	},
+	{
+		"code": "100500101",
+		"fav": false,
+		"name": "Jamón",
+		"category": "Bocadillos fríos",
+		"price": 2.5,
+		"stock": 0
+	},
+	{
+		"code": "100500102",
+		"fav": false,
+		"name": "Queso",
+		"category": "Bocadillos fríos",
+		"price": 2.5,
+		"stock": 0
+	},
+	{
+		"code": "100600101",
+		"fav": false,
+		"name": "Longaniza, patatas, huevo",
+		"category": "Platos combinados",
+		"price": 3.5,
+		"stock": 0
+	},
+	{
+		"code": "100600102",
+		"fav": false,
+		"name": "Hamburguesa, patatas, huevo",
+		"category": "Platos combinados",
+		"price": 3.5,
+		"stock": 0
+	},
+	{
+		"code": "100600103",
+		"fav": false,
+		"name": "Mexicano - arroz, chile, frijoles, burrito",
+		"category": "Platos combinados",
+		"price": 4.0,
+		"stock": 0
+	},
+	{
+		"code": "100700101",
+		"fav": false,
+		"name": "Bravas",
+		"category": "Tapas",
+		"price": 3.0,
+		"stock": 0
+	},
+	{
+		"code": "100700102",
+		"fav": false,
+		"name": "Croquetas",
+		"category": "Tapas",
+		"price": 3.0,
+		"stock": 0
+	},
+	{
+		"code": "100700103",
+		"fav": false,
+		"name": "Patatas fritas",
+		"category": "Tapas",
+		"price": 2.0,
+		"stock": 0
+	},
+	{
+		"code": "100800101",
+		"fav": false,
+		"name": "Callos",
+		"category": "Raciones",
+		"price": 3.0,
+		"stock": 0
+	},
+	{
+		"code": "100800102",
+		"fav": false,
+		"name": "Arròs, col i fesòls",
+		"category": "Raciones",
+		"price": 4.0,
+		"stock": 0
+	}
+]

@@ -9,7 +9,7 @@ const orderedProducts = [
 		"fav": false,
 		"name": "Coca-Cola",
 		"category": "Refrescos",
-		"price": 150,
+		"price": 1.50,
 		"stock": 0,
 		quantity: 2
 	},
@@ -18,7 +18,7 @@ const orderedProducts = [
 		"fav": false,
 		"name": "Damm 1/3",
 		"category": "Cervezas",
-		"price": 200,
+		"price": 2.00,
 		"stock": 0,
 		quantity: 1
 	},
@@ -27,7 +27,7 @@ const orderedProducts = [
 		"fav": false,
 		"name": "Longaniza, patatas, huevo",
 		"category": "Platos combinados",
-		"price": 350,
+		"price": 3.50,
 		"stock": 0,
 		quantity: 1
 	},
@@ -36,7 +36,7 @@ const orderedProducts = [
 		"fav": false,
 		"name": "Lomo queso",
 		"category": "Bocadillos Calientes",
-		"price": 250,
+		"price": 2.50,
 		"stock": 0,
 		quantity: 2
 	}
@@ -46,7 +46,7 @@ const orderedProducts = [
 		"fav": false,
 		"name": "Café",
 		"category": "Bebidas calientes",
-		"price": 100,
+		"price": 1.00,
 		"stock": 0,
 		quantity: 1
 	},
@@ -55,7 +55,7 @@ const orderedProducts = [
 		"fav": false,
 		"name": "Cortado",
 		"category": "Bebidas calientes",
-		"price": 100,
+		"price": 1.00,
 		"stock": 0,
 		quantity: 1
 	}

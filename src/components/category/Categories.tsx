@@ -26,6 +26,7 @@ import { useMemo, useState } from 'react';
 import DeleteButton from '../common/DeleteButton';
 import './Categories.module.css';
 import styles from './Categories.module.css';
+import InlineEdit from '../common/InlineEdit';
 
 
 const normalizeCategories = (categories: Category[]) => {
@@ -73,6 +74,7 @@ function Leaf(
 		targetDropCategory,
 
 		onDeleteCategory,
+		onEditCategory,
 		onDragStart,
 		onDragEnd,
 		onDragOver,
@@ -83,12 +85,13 @@ function Leaf(
 		: RenderTreeNodePayload
 		& {
 			draggingCategory: Category | null | undefined, targetDropCategory: Category | null | undefined,
-			onDeleteCategory: (name: string) => void
+			onDeleteCategory: (name: string) => void,
+			onEditCategory: ({ id, name }: { id: number, name: string }) => void
 		}
 		& OnDraggingProps
 ) {
 
-	const category: Category = { name: (node as TreeNodeData & Category).name, parent: (node as TreeNodeData & Category).parent }
+	const category: Category = { name: (node as TreeNodeData & Category).name, parent: (node as TreeNodeData & Category).parent, id: (node as TreeNodeData & Category).id }
 
 	return (
 
@@ -125,12 +128,9 @@ function Leaf(
 						/>
 					)}
 
-					<Text
-						className={styles.categoryLabel}
-						size="lg"
-					>
-						{node.label}
-					</Text>
+
+					<EditCategory
+						value={category.name} id={category.id ?? 0} error="" onEditCategory={onEditCategory} />
 					<DeleteButton onClick={(evt) => {
 						evt?.stopPropagation();
 						if (node.label) {
@@ -145,6 +145,12 @@ function Leaf(
 		</Tooltip>
 	);
 }
+const EditCategory = (
+	{ onEditCategory, value, id, error = "" }:
+		{ onEditCategory: ({ id, name }: { id: number, name: string }) => void, id: number, value: string, error: string }
+) => (<Box className={styles.categoryLabel}>
+	<InlineEdit value={value} id={id} error={error} inlineEditAction={onEditCategory} />
+</Box>)
 
 const CreateCategory = (
 	{ onCreateCategory, value = '', error = "" }:
@@ -203,7 +209,8 @@ const Categories = (
 		onCreateCategory,
 		newCategoryError,
 		newCategoryValue,
-		onDeleteCategory
+		onDeleteCategory,
+		onEditCategory
 	}:
 		{
 			categories: Category[],
@@ -212,6 +219,7 @@ const Categories = (
 			newCategoryError: string,
 			newCategoryValue: string,
 			onDeleteCategory: (name: string) => void
+			onEditCategory: ({ id, name }: { id: number, name: string }) => void
 
 		}
 ) => {
@@ -294,7 +302,26 @@ const Categories = (
 		<Tree
 			data={data}
 			tree={tree}
-			renderNode={(payload) => <Leaf {...payload} {...{ onDragStart, onDragEnd, onDragOver, onDragEnter, onDragLeave, onDrop, draggingCategory, targetDropCategory, onDeleteCategory }} />}
+			expandOnSpace={false}
+			renderNode={
+				(payload) => <Leaf
+					{...payload}
+					{
+					...{
+						onDragStart,
+						onDragEnd,
+						onDragOver,
+						onDragEnter,
+						onDragLeave,
+						onDrop,
+						draggingCategory,
+						targetDropCategory,
+						onDeleteCategory,
+						onEditCategory
+					}
+					}
+				/>
+			}
 			levelOffset='xl'
 		/>
 	</div >)
