@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Table, Button, TextInput, Group, NumberFormatter, ActionIcon, Select, CloseButton, NumberInput, Card, SimpleGrid, Text, Grid } from '@mantine/core';
-import { IconCheck, IconEdit } from '@tabler/icons-react';
+import { Table, Button, TextInput, Group, NumberFormatter, ActionIcon, Select, CloseButton, NumberInput, Card, SimpleGrid, Text, Grid, rem, Container } from '@mantine/core';
+import { IconCheck, IconEdit, IconHeart, IconHeartFilled, IconSearch } from '@tabler/icons-react';
 import type { Category, Product } from '@/app/_lib/_definitions/types';
 import styles from './Products.module.css';
 import DeleteButton from '../common/DeleteButton';
@@ -17,6 +17,7 @@ const Products: React.FC<ProductsProps> = (
 ) => {
 	const [products, setProducts] = useState<Product[]>(initialProducts);
 	const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+	const [searchTerm, setSearchTerm] = useState<string>('');
 
 	const handleEdit = (product: Product) => {
 		setSelectedProduct(product);
@@ -34,9 +35,36 @@ const Products: React.FC<ProductsProps> = (
 		}
 	};
 
+	const toggleFav = (product: Product) => {
+		const updatedProduct = { ...product, fav: !product.fav };
+		setProducts((prevProducts) =>
+			prevProducts.map((p) =>
+				p.id === product.id ? updatedProduct : p
+			)
+		);
+		onProductEditSave(updatedProduct);
+	};
+
+	const filteredProducts = products.filter(product =>
+		product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+		product.code.toLowerCase().includes(searchTerm.toLowerCase()) ||
+		categories.find(({ id }) => product.category === id)?.name.toLowerCase().includes(searchTerm.toLowerCase())
+	);
+
 	return (
 		<div>
-			<Card className={styles.productCard}>
+			<Container fluid className={styles.searchBox} bg="white" pb="lg" pt="sm">
+				<TextInput
+					placeholder="Search products"
+					rightSection={
+						<IconSearch style={{ width: rem(16), height: rem(16) }} />
+					}
+					value={searchTerm}
+					onChange={(event) => setSearchTerm(event.currentTarget.value)}
+				/>
+			</Container>
+
+			<Card className={[styles.productCard, styles.productHeader].join(' ')}>
 				<Grid align="center">
 					<Grid.Col span={{ base: 12, md: 1 }}>
 						<h4>Code</h4>
@@ -50,13 +78,16 @@ const Products: React.FC<ProductsProps> = (
 					<Grid.Col span={{ base: 12, md: 1 }}>
 						<h4>Price</h4>
 					</Grid.Col>
+					<Grid.Col span={{ base: 12, md: 1 }}>
+						<h4>Fav</h4>
+					</Grid.Col>
 					<Grid.Col span={{ base: 12, md: 4 }}>
 						<h4>Actions</h4>
 					</Grid.Col>
 				</Grid>
 			</Card>
 
-			{products.map((product) => (
+			{filteredProducts.map((product) => (
 				<Card className={styles.productCard} key={product.id}>
 					<Grid align="center" styles={{ inner: { minHeight: '64px' } }}>
 						<Grid.Col span={{ base: 12, md: 1 }} className={styles.productCol}>
@@ -136,6 +167,16 @@ const Products: React.FC<ProductsProps> = (
 								/>
 								</Text>
 							)}
+						</Grid.Col>
+						<Grid.Col span={{ base: 12, md: 1 }} className={styles.productCol}>
+							<h4 className={styles.productColLabel}>Fav</h4>
+							<ActionIcon
+								variant="subtle"
+								onClick={() => toggleFav(product)}
+								aria-label={`Toggle favorite for ${product.name}`}
+							>
+								{product.fav ? <IconHeartFilled color="red" /> : <IconHeart />}
+							</ActionIcon>
 						</Grid.Col>
 						<Grid.Col span={{ base: 12, md: 4 }} className={styles.productCol}>
 							<h4 className={styles.productColLabel}>Actions</h4>

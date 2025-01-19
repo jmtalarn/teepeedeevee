@@ -35,3 +35,12 @@
 		display: none;
 	}
 }
+.productHeader {
+	@media (max-width: $mantine-breakpoint-md) {
+		display: none;
+	}
+}
+.searchBox {
+	position: sticky;
+	top: 0;
+}
