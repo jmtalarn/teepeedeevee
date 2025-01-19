@@ -13,7 +13,7 @@ const meta: Meta<typeof Component> = {
 	args: {
 		categories,
 		products,
-		onProductEdit: fn(),
+		onProductEditSave: fn(),
 		onProductDelete: fn(),
 
 	}

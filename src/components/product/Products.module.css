@@ -3,7 +3,35 @@
     border-bottom: 1px solid var(--mantine-color-dimmed);
 	border-radius: 0;
 	transition: border-bottom 200ms ease;
+	padding-left: 0;
+	padding-right: 0;
+	line-height: 21.7px;
 }
 .inlineInput:focus {
 	border-bottom: 1px solid var(--mantine-primary-color-filled);
+}
+.productCard {
+    border-bottom: 1px solid var(--mantine-color-dimmed);
+	border-radius:0;
+	min-height: 64px;
+}
+
+.productCard h4{
+	margin: 0;
+}
+
+.productCol {
+	min-height: 64px;
+	display: flex;
+    align-items: center;
+	gap: 2rem;
+}
+.productCol .productColValue {
+	flex-grow: 1;
+}
+.productColLabel{
+	width: 100px;
+	@media (min-width: $mantine-breakpoint-md) {
+		display: none;
+	}
 }

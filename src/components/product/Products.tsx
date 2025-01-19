@@ -1,15 +1,20 @@
 import React, { useState } from 'react';
-import { Table, Button, TextInput, Group, NumberFormatter, ActionIcon, Select, CloseButton } from '@mantine/core';
+import { Table, Button, TextInput, Group, NumberFormatter, ActionIcon, Select, CloseButton, NumberInput, Card, SimpleGrid, Text, Grid } from '@mantine/core';
 import { IconCheck, IconEdit } from '@tabler/icons-react';
 import type { Category, Product } from '@/app/_lib/_definitions/types';
 import styles from './Products.module.css';
+import DeleteButton from '../common/DeleteButton';
 
 interface ProductsProps {
 	products: Product[];
 	categories: Category[];
+	onProductEditSave: (product: Product) => void;
+	onProductDelete: (id: Product['id']) => void;
 }
 
-const Products: React.FC<ProductsProps> = ({ products: initialProducts, categories }) => {
+const Products: React.FC<ProductsProps> = (
+	{ products: initialProducts, categories, onProductEditSave, onProductDelete }
+) => {
 	const [products, setProducts] = useState<Product[]>(initialProducts);
 	const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
@@ -24,122 +29,158 @@ const Products: React.FC<ProductsProps> = ({ products: initialProducts, categori
 					product.id === selectedProduct.id ? selectedProduct : product
 				)
 			);
+			onProductEditSave(selectedProduct);
 			setSelectedProduct(null);
 		}
 	};
 
 	return (
 		<div>
-			<Table>
-				<Table.Thead>
-					<Table.Tr>
-						<Table.Th>Code</Table.Th>
-						<Table.Th>Name</Table.Th>
-						<Table.Th>Price</Table.Th>
-						<Table.Th>Category</Table.Th>
-						<Table.Th>Actions</Table.Th>
-					</Table.Tr>
-				</Table.Thead>
-				<Table.Tbody>
-					{products.map((product) => (
-						<Table.Tr key={product.id}>
-							<Table.Td>
-								{selectedProduct?.id === product.id ? (
-									<TextInput
-										classNames={{ input: styles.inlineInput }}
-										value={selectedProduct?.code ?? ''}
-										onChange={(event) =>
-											setSelectedProduct({ ...selectedProduct, code: event.currentTarget.value })
-										}
-									/>
-								) : (
-									product.code
-								)}
-							</Table.Td>
-							<Table.Td>
-								{selectedProduct?.id === product.id ? (
-									<TextInput
-										classNames={{ input: styles.inlineInput }}
-										value={selectedProduct?.name ?? ''}
-										onChange={(event) =>
-											setSelectedProduct({ ...selectedProduct, name: event.currentTarget.value })
-										}
-									/>
-								) : (
-									product.name
-								)}
-							</Table.Td>
-							<Table.Td>
-								{selectedProduct?.id === product.id ? (
-									<TextInput
-										classNames={{ input: styles.inlineInput }}
-										type="number"
-										value={selectedProduct?.price ?? 0}
-										onChange={(event) =>
-											setSelectedProduct({ ...selectedProduct, price: Number(event.currentTarget.value) })
-										}
-									/>
-								) : (
-									<NumberFormatter
-										value={product.price}
-										prefix="$ "
-										fixedDecimalScale
-										decimalScale={2}
-									/>
-								)}
-							</Table.Td>
-							<Table.Td>
-								{selectedProduct?.id === product.id ? (
-									<Select
-										classNames={{ input: styles.inlineInput }}
-										data={categories.map(category => ({ value: category.id.toString(), label: category.name }))}
-										value={selectedProduct?.category.toString() ?? null}
-										searchable
-										onChange={(value) =>
-											setSelectedProduct({ ...selectedProduct, category: value })
-										}
-									/>
-								) : (
-									categories.find(category => category.id === product.category)?.name
-								)}
-							</Table.Td>
-							<Table.Td>
-								{selectedProduct?.id === product.id ? (
-									<Button.Group mr="xl" pr="xl" >
-										<ActionIcon
-											variant="subtle"
-											radius="xl"
-											mr="lg"
-											color="green"
-											aria-label={`Confirm changes`}
-											title="Confirm changes"
-											onClick={handleSave}
-										>
-											<IconCheck />
-										</ActionIcon>
-										<CloseButton
-											color="red"
-											aria-label="Cancel edit"
-											title="Dismiss changes"
-											onClick={() => setSelectedProduct(null)}
+			<Card className={styles.productCard}>
+				<Grid align="center">
+					<Grid.Col span={{ base: 12, md: 1 }}>
+						<h4>Code</h4>
+					</Grid.Col>
+					<Grid.Col span={{ base: 12, md: 2 }}>
+						<h4>Category</h4>
+					</Grid.Col>
+					<Grid.Col span={{ base: 12, md: 3 }}>
+						<h4>Name</h4>
+					</Grid.Col>
+					<Grid.Col span={{ base: 12, md: 1 }}>
+						<h4>Price</h4>
+					</Grid.Col>
+					<Grid.Col span={{ base: 12, md: 4 }}>
+						<h4>Actions</h4>
+					</Grid.Col>
+				</Grid>
+			</Card>
 
-										/></Button.Group>
-								) : (
+			{products.map((product) => (
+				<Card className={styles.productCard} key={product.id}>
+					<Grid align="center" styles={{ inner: { minHeight: '64px' } }}>
+						<Grid.Col span={{ base: 12, md: 1 }} className={styles.productCol}>
+							<h4 className={styles.productColLabel}>Code</h4>
+							{selectedProduct?.id === product.id ? (
+								<TextInput
+									className={styles.productColValue}
+									classNames={{ input: styles.inlineInput }}
+									value={selectedProduct?.code ?? ''}
+									onChange={(event) =>
+										setSelectedProduct({ ...selectedProduct, code: event.currentTarget.value })
+									}
+								/>
+							) : (<Text size="sm">
+								{product.code}</Text>
+							)}
+						</Grid.Col>
+						<Grid.Col span={{ base: 12, md: 2 }} className={styles.productCol}>
+							<h4 className={styles.productColLabel}>Category</h4>
+							{selectedProduct?.id === product.id ? (
+								<Select
+									className={styles.productColValue}
+									classNames={{ input: styles.inlineInput }}
+									data={categories.map(category => ({ value: category.id.toString(), label: category.name }))}
+									value={selectedProduct?.category.toString() ?? null}
+									searchable
+									onChange={(value) =>
+										setSelectedProduct({ ...selectedProduct, category: value })
+									}
+								/>
+							) : (
+								<Text size="sm">
+									{categories.find(category => category.id === product.category)?.name}
+								</Text>
+							)}
+						</Grid.Col>
+						<Grid.Col span={{ base: 12, md: 3 }} className={styles.productCol}>
+							<h4 className={styles.productColLabel}>Name</h4>
+							{selectedProduct?.id === product.id ? (
+								<TextInput
+									className={styles.productColValue}
+									classNames={{ input: styles.inlineInput }}
+									value={selectedProduct?.name ?? ''}
+									onChange={(event) =>
+										setSelectedProduct({ ...selectedProduct, name: event.currentTarget.value })
+									}
+								/>
+							) : (
+								<Text size="sm">
+									{product.name}
+								</Text>
+							)}
+						</Grid.Col>
+						<Grid.Col span={{ base: 12, md: 1 }} className={styles.productCol}>
+							<h4 className={styles.productColLabel}>Price</h4>
+							{selectedProduct?.id === product.id ? (
+								<NumberInput
+									min={0}
+									prefix="$ "
+									decimalScale={2}
+									fixedDecimalScale
+									rightSection={' '}
+									allowNegative={false}
+									className={styles.productColValue}
+									classNames={{ input: styles.inlineInput }}
+									value={selectedProduct?.price ?? 0}
+									onChange={(value) =>
+										setSelectedProduct({ ...selectedProduct, price: Number(value) })
+									}
+								/>
+							) : (
+								<Text size="sm"><NumberFormatter
+									value={product.price}
+									prefix="$ "
+									fixedDecimalScale
+									decimalScale={2}
+								/>
+								</Text>
+							)}
+						</Grid.Col>
+						<Grid.Col span={{ base: 12, md: 4 }} className={styles.productCol}>
+							<h4 className={styles.productColLabel}>Actions</h4>
+							{selectedProduct?.id === product.id ? (
+								<Button.Group >
 									<ActionIcon
 										variant="subtle"
 										radius="xl"
+										mr="lg"
+										color="green"
+										aria-label={`Confirm changes`}
+										title="Confirm changes"
+										onClick={handleSave}
+									>
+										<IconCheck />
+									</ActionIcon>
+									<CloseButton
+										color="red"
+										aria-label="Cancel edit"
+										title="Dismiss changes"
+										onClick={() => setSelectedProduct(null)}
+
+									/></Button.Group>
+							) : (
+								<Button.Group  >
+									<ActionIcon
+										variant="subtle"
+										radius="xl"
+										mr="lg"
 										aria-label={`Edit product ${product.name}`}
 										onClick={() => { handleEdit(product); }}
 									>
 										<IconEdit />
 									</ActionIcon>
-								)}
-							</Table.Td>
-						</Table.Tr>
-					))}
-				</Table.Tbody>
-			</Table>
-		</div>
+									<DeleteButton onClick={(e) =>
+										onProductDelete(product.id)
+									} ariaLabel={''} />
+								</Button.Group>
+							)}
+						</Grid.Col>
+					</Grid>
+				</Card>
+			))
+			}
+		</div >
 	);
 };
 

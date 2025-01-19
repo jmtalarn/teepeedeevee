@@ -57,7 +57,7 @@ const DeleteButton = ({ onClick, ariaLabel }: { onClick: (e?: React.MouseEvent<H
 				<Box component="div" className={styles.deleteButtonContent} style={{ ...transitionStyle, zIndex: 1 }}>
 					<UnstyledButton
 						tt="uppercase"
-						ml="sm" mr="sm"
+						pl="sm" pr="sm"
 						onClick={handleDeleteClick}
 					>
 						Confirm
