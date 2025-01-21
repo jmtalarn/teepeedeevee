@@ -8,7 +8,7 @@ import {
 	Text,
 	UnstyledButton
 } from '@mantine/core';
-import { IconChevronDown } from '@tabler/icons-react';
+import { IconChevronDown, IconStack3, IconLayoutDashboard } from '@tabler/icons-react';
 import { useState } from 'react';
 import OrderBadge from './OrderBadge';
 import styles from './OrdersDashboard.module.css';
@@ -31,13 +31,15 @@ const OrdersDashboard = ({ orders, selectOrder, products }: OrdersDashboardProps
 				className={styles.button}
 			>
 				<Paper p="sm" shadow="sm" radius="xs" className={styles.header}>
+
 					<IconChevronDown
 						className={[
 							styles.chevron,
 							opened ? styles.open : styles.closed,
 						].join(' ')}
 					/>
-					<Text fw={700}>Orders [{orders.length}]</Text>
+					{opened ? <IconLayoutDashboard /> : <IconStack3 />}
+					<Text fw={700}>{orders.length} On going orders </Text>
 				</Paper>
 			</UnstyledButton>
 
