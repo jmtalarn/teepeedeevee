@@ -47,8 +47,10 @@ const Products: React.FC<ProductsProps> = (
 
 	const filteredProducts = products.filter(product =>
 		product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-		product.code.toLowerCase().includes(searchTerm.toLowerCase()) ||
-		categories.find(({ id }) => product.category === id)?.name.toLowerCase().includes(searchTerm.toLowerCase())
+		product.code.toString().toLowerCase().includes(searchTerm.toLowerCase()) ||
+		categories
+			.find(
+				({ id }) => (product?.category === id))?.name?.toLowerCase().includes(searchTerm.toLowerCase())
 	);
 
 	return (
@@ -98,7 +100,7 @@ const Products: React.FC<ProductsProps> = (
 									classNames={{ input: styles.inlineInput }}
 									value={selectedProduct?.code ?? ''}
 									onChange={(event) =>
-										setSelectedProduct({ ...selectedProduct, code: event.currentTarget.value })
+										setSelectedProduct({ ...selectedProduct, code: Number(event.currentTarget.value) })
 									}
 								/>
 							) : (<Text size="sm">
@@ -111,11 +113,11 @@ const Products: React.FC<ProductsProps> = (
 								<Select
 									className={styles.productColValue}
 									classNames={{ input: styles.inlineInput }}
-									data={categories.map(category => ({ value: category.id.toString(), label: category.name }))}
-									value={selectedProduct?.category.toString() ?? null}
+									data={categories.map(category => ({ value: category.id.toString(), label: category.name ?? '' }))}
+									value={selectedProduct?.category?.toString() ?? null}
 									searchable
 									onChange={(value) =>
-										setSelectedProduct({ ...selectedProduct, category: value })
+										setSelectedProduct({ ...selectedProduct, category: value ? Number(value) : null })
 									}
 								/>
 							) : (
@@ -160,7 +162,7 @@ const Products: React.FC<ProductsProps> = (
 								/>
 							) : (
 								<Text size="sm"><NumberFormatter
-									value={product.price}
+									value={product.price ?? 0}
 									prefix="$ "
 									fixedDecimalScale
 									decimalScale={2}

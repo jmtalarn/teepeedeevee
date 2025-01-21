@@ -25,7 +25,6 @@
 }
 
 .header{ 
-	font-family: monospace;
 	padding: var(--mantine-spacing-xs);
 	display: flex;
 	align-items: center;

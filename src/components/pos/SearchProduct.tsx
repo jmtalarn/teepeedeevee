@@ -1,9 +1,9 @@
-import { useState, forwardRef } from "react";
+import { useState, forwardRef } from 'react';
 import { Table, ActionIcon, Text, UnstyledButton, Combobox, useCombobox, InputBase, rem, } from '@mantine/core';
 import { useId } from '@mantine/hooks';
-import { Category, Product } from "@/app/_lib/_definitions/types";
-import { IconChevronLeft, IconSearch, IconChevronRight } from "@tabler/icons-react";
-import styles from "./SearchProduct.module.css"
+import { Category, Product } from '@/app/_lib/_definitions/types';
+import { IconChevronLeft, IconSearch, IconChevronRight } from '@tabler/icons-react';
+import styles from './SearchProduct.module.css';
 
 type ProductsComboboxProps =
 	{
@@ -22,22 +22,25 @@ const ProductsCombobox = forwardRef<HTMLInputElement, ProductsComboboxProps>(({ 
 	const filteredOptions = products.filter((item) => item.name?.toLowerCase().includes(search.toLowerCase().trim()));
 	const options = filteredOptions
 		.map((item) => (
-			<Combobox.Option value={item.code} key={item.code}>
+			<Combobox.Option value={String(item.code)} key={item.code}>
 				{item.name}
 			</Combobox.Option>
 		)
 		).slice(0, 9);
 
-	const _id = useId("select-product");
+	const _id = useId('select-product');
 	return (<div>
 		<Combobox
 			store={combobox}
 			onOptionSubmit={(val) => {
 
 				if (val !== '$create') {
-					onSelectProduct?.(products.find(item => item.code === val) ?? undefined)
+					onSelectProduct?.(products.find(item => String(item.code) === val) ?? undefined);
 				} else {
-					onSelectProduct({ code: search, name: search, category: null, fav: false, price: null, stock: 0 })
+					onSelectProduct({
+						code: search, name: search, category: null, fav: false, price: null, stock: 0,
+						id: 0
+					});
 				}
 
 				combobox.closeDropdown();
@@ -71,7 +74,7 @@ const ProductsCombobox = forwardRef<HTMLInputElement, ProductsComboboxProps>(({ 
 					}}
 					onClick={() => {
 						if (!combobox.dropdownOpened) {
-							combobox.openDropdown()
+							combobox.openDropdown();
 						} else {
 							combobox.closeDropdown();
 						}
@@ -91,7 +94,7 @@ const ProductsCombobox = forwardRef<HTMLInputElement, ProductsComboboxProps>(({ 
 	</div>
 	);
 });
-ProductsCombobox.displayName = "ProductsCombobox";
+ProductsCombobox.displayName = 'ProductsCombobox';
 
 const SearchProduct = ({ categories, products, onSelectProduct }: { categories: Category[], products: Product[], onSelectProduct: (product?: Product) => void }) => {
 
@@ -126,7 +129,7 @@ const SearchProduct = ({ categories, products, onSelectProduct }: { categories: 
 								item => (
 									<Table.Tr
 										key={item.name}
-										onClick={() => { setCategory(item) }}
+										onClick={() => { setCategory(item); }}
 									>
 										<Table.Td className={styles.categoryTd}>
 											<span>{item.name}</span> <IconChevronRight size="16" />
@@ -156,7 +159,7 @@ const SearchProduct = ({ categories, products, onSelectProduct }: { categories: 
 			</Table>
 		</Table.ScrollContainer>
 	</div>
-	)
-}
+	);
+};
 
 export default SearchProduct;

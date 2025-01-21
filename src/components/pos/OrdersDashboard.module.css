@@ -1,0 +1,48 @@
+.button {
+	width: 100%;
+}
+.header {
+	display: flex;
+	gap: 0.5rem;
+	align-items: center;
+	background-color: var(--mantine-primary-color-2);
+}
+.content{
+	background-color: var(--mantine-color-gray-2);
+	box-shadow: inset 0px 0px 10px var(--mantine-color-dark-1);
+
+	@media (max-width: $mantine-breakpoint-xs) {
+		columns: 1;
+  	}
+	@media (min-width: $mantine-breakpoint-xs) {
+		columns: 2;
+  	}
+
+	@media (min-width: $mantine-breakpoint-sm) {
+  		columns: 3;
+  	}
+	@media (min-width: $mantine-breakpoint-md) {
+  		columns: 4;
+  	}
+	@media (min-width: $mantine-breakpoint-lg) {
+		columns: 5;
+  
+  	}
+	@media (min-width: $mantine-breakpoint-xl) {
+		columns: 6
+  	}
+}
+.chevron {
+	transition: transform 0.3s ease;
+}
+.chevron.closed {
+	transform: rotate(-90deg);
+}
+
+.chevron.open {
+	transform: rotate(0deg);
+}
+
+.orderLine {
+	font-family: monospace;
+}
