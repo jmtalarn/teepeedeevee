@@ -16,12 +16,11 @@ import styles from './OrdersDashboard.module.css';
 type OrdersDashboardProps = {
 	orders: Order[];
 	selectOrder: (id: number) => void;
-	products: Product[];
 };
 
 
 
-const OrdersDashboard = ({ orders, selectOrder, products }: OrdersDashboardProps) => {
+const OrdersDashboard = ({ orders, selectOrder }: OrdersDashboardProps) => {
 	const [opened, setOpened] = useState<boolean>(false);
 
 	return (
@@ -45,7 +44,7 @@ const OrdersDashboard = ({ orders, selectOrder, products }: OrdersDashboardProps
 
 			<Collapse in={opened} className={styles.content} p="sm">
 				{orders.map((order) => (
-					<OrderMinitature key={order.id} order={order} selectOrder={selectOrder} products={products} />
+					<OrderMinitature key={order.id} order={order} selectOrder={selectOrder} />
 				))}
 			</Collapse>
 		</Box>
@@ -53,8 +52,8 @@ const OrdersDashboard = ({ orders, selectOrder, products }: OrdersDashboardProps
 };
 
 const OrderMinitature = (
-	{ order, selectOrder, products }:
-		{ order: Order, selectOrder: OrdersDashboardProps['selectOrder'], products: OrdersDashboardProps['products'] }
+	{ order, selectOrder }:
+		{ order: Order, selectOrder: OrdersDashboardProps['selectOrder'] }
 ) => {
 	return (<Card m="xs" radius="sm" shadow='sm' >
 		<Card.Section p="xs" >
@@ -70,7 +69,7 @@ const OrderMinitature = (
 			{order.items.map(orderLine => (
 				<Flex key="orderLine.id" m="xs" gap="xs">
 					<Text size="xs" truncate="end">
-						{products.find(product => product.id === orderLine.product)?.name}
+						{orderLine.product.name}
 					</Text>
 					<Text size="xs">x</Text>
 					<Text size="xs">{orderLine.quantity}</Text>
