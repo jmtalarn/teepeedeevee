@@ -1,5 +1,5 @@
-import { Anchor, Group } from "@mantine/core";
-import Link from "next/link";
+import { Anchor, Group } from '@mantine/core';
+import { NavLink } from 'react-router';
 import styles from './Nav.module.css';
 
 const mainLinks = [
@@ -8,28 +8,29 @@ const mainLinks = [
 	{ link: '/warehouse', label: 'Warehouse' },
 ];
 
-const Nav = ({ active, setActive }: { active?: number, setActive: (arg0: number) => void }) => (<nav className={styles.fillHeight}>
+const Nav = () => (<nav className={styles.fillHeight}>
 	<Group
 		gap={0}
 		justify="space-between"
 		className={styles.fillHeight}
 	>
-		{mainLinks.map((item, index) => (
+		{mainLinks.map((item) => (
+
 			<Anchor
-				component={Link}
-				href={item.link}
+				component={NavLink}
+				to={item.link}
 				key={item.label}
-				className={[styles.mainLink, styles.fillHeight].join(" ")}
-				data-active={active === index || undefined}
-				onClick={(event) => {
-					event.preventDefault();
-					setActive(index);
-				}}
+				className={[styles.mainLink, styles.fillHeight].join(' ')}
+
+			// onClick={(event) => {
+			// 	event.preventDefault();
+
+			// }}
 			>
 				{item.label}
 			</Anchor>
 		))}
 	</Group>
-</nav>)
+</nav >);
 
 export default Nav;

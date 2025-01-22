@@ -1,4 +1,4 @@
-import type { Order, Product } from '@/app/_lib/_definitions/types';
+import type { Order, Product } from '@/_lib/_definitions/types';
 import {
 	Box,
 	Card,
@@ -69,7 +69,7 @@ const OrderMinitature = (
 			{order.items.map(orderLine => (
 				<Flex key="orderLine.id" m="xs" gap="xs">
 					<Text size="xs" truncate="end">
-						{orderLine.product.name}
+						{orderLine.name}
 					</Text>
 					<Text size="xs">x</Text>
 					<Text size="xs">{orderLine.quantity}</Text>

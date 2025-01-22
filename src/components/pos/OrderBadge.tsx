@@ -1,4 +1,4 @@
-import variantColorResolver from '@/app/_lib/_utils/VariantColorResolver';
+import variantColorResolver from '@/_lib/_utils/VariantColorResolver';
 import { type DefaultMantineColor, MantineProvider, Button, Text } from '@mantine/core';
 import styles from './OrderBadge.module.css';
 

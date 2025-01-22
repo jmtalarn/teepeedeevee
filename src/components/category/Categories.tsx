@@ -16,7 +16,7 @@ import {
 	useTree
 } from '@mantine/core';
 
-import type { Category } from '@/app/_lib/_definitions/types';
+import type { Category } from '@/_lib/_definitions/types';
 import {
 	IconChevronDown,
 	IconFolderPlus,

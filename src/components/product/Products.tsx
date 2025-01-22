@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Table, Button, TextInput, Group, NumberFormatter, ActionIcon, Select, CloseButton, NumberInput, Card, SimpleGrid, Text, Grid, rem, Container } from '@mantine/core';
 import { IconCheck, IconEdit, IconHeart, IconHeartFilled, IconSearch } from '@tabler/icons-react';
-import type { Category, Product } from '@/app/_lib/_definitions/types';
+import type { Category, Product } from '@/_lib/_definitions/types';
 import styles from './Products.module.css';
 import DeleteButton from '../common/DeleteButton';
 

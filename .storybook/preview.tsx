@@ -1,5 +1,10 @@
-import type { Preview } from "@storybook/react";
-import React, { useEffect } from 'react';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import type { Preview } from '@storybook/react';
+// Import styles of packages that you've installed.
+// All packages except `@mantine/hooks` require styles imports
+import '@mantine/core/styles.css';
+
+import { useEffect } from 'react';
 import { addons } from '@storybook/preview-api';
 import { DARK_MODE_EVENT_NAME } from 'storybook-dark-mode';
 import {
@@ -8,16 +13,8 @@ import {
 } from '@mantine/core';
 // theme.ts file from previous step
 import { theme } from '../src/theme';
-
-// Import styles of packages that you've installed.
-// All packages except `@mantine/hooks` require styles imports
-import '@mantine/core/styles.css';
-
-
-
-
-
-
+import React from 'react';
+import { MemoryRouter } from 'react-router';
 const channel = addons.getChannel();
 
 function ColorSchemeWrapper({
@@ -34,20 +31,22 @@ function ColorSchemeWrapper({
     return () => channel.off(DARK_MODE_EVENT_NAME, handleColorScheme);
   }, [channel]);
 
-  return <>{children}</>;
+  return <>{children} </>;
 }
 
-export const decorators = [
+
+const decorators = [
   (renderStory: any) => (
     <ColorSchemeWrapper>{renderStory()}</ColorSchemeWrapper>
   ),
   (renderStory: any) => (
-    <MantineProvider theme={theme} >{renderStory()}</MantineProvider>
+    <MantineProvider theme={theme}>{renderStory()}</MantineProvider>
   ),
+  (renderStory: any) => (<MemoryRouter initialEntries={['/']}>{renderStory()}</MemoryRouter>)
 ];
 
-
 const preview: Preview = {
+  decorators,
   parameters: {
     controls: {
       matchers: {
@@ -56,7 +55,6 @@ const preview: Preview = {
       },
     },
   },
-  decorators
 };
 
 export default preview;

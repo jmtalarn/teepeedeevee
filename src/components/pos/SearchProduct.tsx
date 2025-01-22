@@ -1,7 +1,7 @@
 import { useState, forwardRef } from 'react';
 import { Table, ActionIcon, Text, UnstyledButton, Combobox, useCombobox, InputBase, rem, } from '@mantine/core';
 import { useId } from '@mantine/hooks';
-import { Category, Product } from '@/app/_lib/_definitions/types';
+import { Category, Product } from '@/_lib/_definitions/types';
 import { IconChevronLeft, IconSearch, IconChevronRight } from '@tabler/icons-react';
 import styles from './SearchProduct.module.css';
 
@@ -99,7 +99,7 @@ ProductsCombobox.displayName = 'ProductsCombobox';
 const SearchProduct = ({ categories, products, onSelectProduct }: { categories: Category[], products: Product[], onSelectProduct: (product?: Product) => void }) => {
 
 	const [category, setCategory] = useState<Category | null>(null);
-
+	console.log({ products });
 	return (<div>
 		<ProductsCombobox products={products} onSelectProduct={onSelectProduct} />
 		<Table.ScrollContainer minWidth={300}>
@@ -124,7 +124,7 @@ const SearchProduct = ({ categories, products, onSelectProduct }: { categories: 
 				<Table.Tbody>
 					{
 						categories
-							.filter(item => item.parent === (category?.name ?? null))
+							.filter(item => item.parent === (category?.id ?? null))
 							.map(
 								item => (
 									<Table.Tr
@@ -140,7 +140,7 @@ const SearchProduct = ({ categories, products, onSelectProduct }: { categories: 
 					}
 					{
 						products
-							.filter(item => item.category === category?.name)
+							.filter(item => item.category === category?.id)
 							.map(item => (
 								<Table.Tr
 									key={item.name}

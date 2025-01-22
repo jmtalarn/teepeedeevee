@@ -1,4 +1,4 @@
-import type { OrderedProduct } from '@/app/_lib/_definitions/types';
+import type { OrderedProduct } from '@/_lib/_definitions/types';
 import {
 	ActionIcon,
 	Button,
