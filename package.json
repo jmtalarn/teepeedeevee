@@ -26,7 +26,6 @@
 		"@eslint/js": "^9.17.0",
 		"@storybook/addon-essentials": "^8.5.0",
 		"@storybook/addon-interactions": "^8.5.0",
-		"@storybook/addon-styling-webpack": "^1.0.1",
 		"@storybook/blocks": "^8.5.0",
 		"@storybook/builder-vite": "^8.5.0",
 		"@storybook/react": "^8.5.0",

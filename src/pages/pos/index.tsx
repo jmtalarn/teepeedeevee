@@ -1,7 +1,8 @@
+import styles from './page.module.css';
 
-export default function Home() {
+export default function Pos() {
 	return (
-		<div>
+		<div className={styles.pos}>
 			POS page
 		</div>
 	);

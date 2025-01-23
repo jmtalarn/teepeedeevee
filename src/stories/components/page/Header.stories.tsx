@@ -1,8 +1,8 @@
-import Component from "@/components/page/Header"
+import Component from '@/components/page/Header';
 
 export default {
-	title: "Components/Page/Header",
+	title: 'Components/Page/Header',
 	component: Component,
 };
 
-export const Header = () => <Component />
+export const Header = () => <Component />;

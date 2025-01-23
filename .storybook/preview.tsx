@@ -4,7 +4,7 @@ import type { Preview } from '@storybook/react';
 // All packages except `@mantine/hooks` require styles imports
 import '@mantine/core/styles.css';
 
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { addons } from '@storybook/preview-api';
 import { DARK_MODE_EVENT_NAME } from 'storybook-dark-mode';
 import {
@@ -13,7 +13,7 @@ import {
 } from '@mantine/core';
 // theme.ts file from previous step
 import { theme } from '../src/theme';
-import React from 'react';
+
 import { MemoryRouter } from 'react-router';
 const channel = addons.getChannel();
 
