@@ -1,7 +1,8 @@
+/* eslint-disable no-empty-pattern */
+/* eslint-disable react-hooks/rules-of-hooks */
 import type { Meta, StoryObj } from '@storybook/react';
-import { useArgs } from '@storybook/preview-api'
-import Component from "@/components/category/Categories"
-import type { Category } from '@/_lib/_definitions/types';
+import { useArgs } from '@storybook/preview-api';
+import Component from '@/components/category/Categories';
 import { fn } from '@storybook/test';
 import categories from '../../categories.json';
 
@@ -9,7 +10,7 @@ import categories from '../../categories.json';
 
 const meta: Meta<typeof Component> = {
 	component: Component,
-	title: "Components/Category/Categories",
+	title: 'Components/Category/Categories',
 	args: {
 		categories,
 		onAssignParentToCategory: fn(),
@@ -25,7 +26,7 @@ type Story = StoryObj<typeof Component>;
 
 export const Categories: Story = {
 	render: (args) => {
-		const [{ }, updateArgs] = useArgs()
+		const [{ }, updateArgs] = useArgs();
 
 		const handleCreateCategory = (newCategoryName: string) => {
 

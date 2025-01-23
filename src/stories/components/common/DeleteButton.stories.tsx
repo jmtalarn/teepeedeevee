@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 // import { useArgs } from '@storybook/preview-api'
-import Component from "@/components/common/DeleteButton"
+import Component from '@/components/common/DeleteButton';
 
 import { fn } from '@storybook/test';
 
@@ -8,7 +8,7 @@ import { fn } from '@storybook/test';
 
 const meta: Meta<typeof Component> = {
 	component: Component,
-	title: "Components/Common/DeleteButton",
+	title: 'Components/Common/DeleteButton',
 	args: {
 		onClick: fn()
 	}
