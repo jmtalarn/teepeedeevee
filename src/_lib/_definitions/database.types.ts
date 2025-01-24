@@ -78,12 +78,27 @@ export type Database = {
           product?: number | null
           quantity?: number | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: 'OrderItems_order_fkey'
+            columns: ['order']
+            isOneToOne: false
+            referencedRelation: 'Order'
+            referencedColumns: ['id']
+          },
+          {
+            foreignKeyName: 'OrderItems_product_fkey'
+            columns: ['product']
+            isOneToOne: false
+            referencedRelation: 'Product'
+            referencedColumns: ['id']
+          },
+        ]
       }
       Product: {
         Row: {
           category: number | null
-          code: string
+          code: number
           created_at: string
           fav: boolean
           id: number
@@ -93,7 +108,7 @@ export type Database = {
         }
         Insert: {
           category?: number | null
-          code: string
+          code: number
           created_at?: string
           fav?: boolean
           id?: number
@@ -103,7 +118,7 @@ export type Database = {
         }
         Update: {
           category?: number | null
-          code?: string
+          code?: number
           created_at?: string
           fav?: boolean
           id?: number
