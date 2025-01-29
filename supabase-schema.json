@@ -1,0 +1,585 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "definitions": {
+        "{}": {
+            "type": "object"
+        },
+        "{}_1": {
+            "type": "object"
+        },
+        "{}_2": {
+            "type": "object"
+        },
+        "{}_3": {
+            "type": "object"
+        }
+    },
+    "properties": {
+        "public": {
+            "properties": {
+                "CompositeTypes": {
+                    "$ref": "#/definitions/{}_3"
+                },
+                "Enums": {
+                    "$ref": "#/definitions/{}_2"
+                },
+                "Functions": {
+                    "$ref": "#/definitions/{}_1"
+                },
+                "Tables": {
+                    "properties": {
+                        "Category": {
+                            "properties": {
+                                "Insert": {
+                                    "properties": {
+                                        "created_at": {
+                                            "type": "string"
+                                        },
+                                        "id": {
+                                            "type": "number"
+                                        },
+                                        "name": {
+                                            "type": "string"
+                                        },
+                                        "parent": {
+                                            "type": "number"
+                                        }
+                                    },
+                                    "type": "object"
+                                },
+                                "Relationships": {
+                                    "items": [
+                                        {
+                                            "properties": {
+                                                "columns": {
+                                                    "items": [
+                                                        {
+                                                            "const": "parent",
+                                                            "type": "string"
+                                                        }
+                                                    ],
+                                                    "maxItems": 1,
+                                                    "minItems": 1,
+                                                    "type": "array"
+                                                },
+                                                "foreignKeyName": {
+                                                    "const": "Category_parent_fkey",
+                                                    "type": "string"
+                                                },
+                                                "isOneToOne": {
+                                                    "const": false,
+                                                    "type": "boolean"
+                                                },
+                                                "referencedColumns": {
+                                                    "items": [
+                                                        {
+                                                            "const": "id",
+                                                            "type": "string"
+                                                        }
+                                                    ],
+                                                    "maxItems": 1,
+                                                    "minItems": 1,
+                                                    "type": "array"
+                                                },
+                                                "referencedRelation": {
+                                                    "const": "Category",
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "required": [
+                                                "columns",
+                                                "foreignKeyName",
+                                                "isOneToOne",
+                                                "referencedColumns",
+                                                "referencedRelation"
+                                            ],
+                                            "type": "object"
+                                        }
+                                    ],
+                                    "maxItems": 1,
+                                    "minItems": 1,
+                                    "type": "array"
+                                },
+                                "Row": {
+                                    "properties": {
+                                        "created_at": {
+                                            "type": "string"
+                                        },
+                                        "id": {
+                                            "type": "number"
+                                        },
+                                        "name": {
+                                            "type": "string"
+                                        },
+                                        "parent": {
+                                            "type": "number"
+                                        }
+                                    },
+                                    "required": [
+                                        "created_at",
+                                        "id",
+                                        "name",
+                                        "parent"
+                                    ],
+                                    "type": "object"
+                                },
+                                "Update": {
+                                    "properties": {
+                                        "created_at": {
+                                            "type": "string"
+                                        },
+                                        "id": {
+                                            "type": "number"
+                                        },
+                                        "name": {
+                                            "type": "string"
+                                        },
+                                        "parent": {
+                                            "type": "number"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            },
+                            "required": [
+                                "Insert",
+                                "Relationships",
+                                "Row",
+                                "Update"
+                            ],
+                            "type": "object"
+                        },
+                        "Order": {
+                            "properties": {
+                                "Insert": {
+                                    "properties": {
+                                        "created_at": {
+                                            "type": "string"
+                                        },
+                                        "id": {
+                                            "type": "number"
+                                        },
+                                        "notes": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                },
+                                "Relationships": {
+                                    "maxItems": 0,
+                                    "minItems": 0,
+                                    "type": "array"
+                                },
+                                "Row": {
+                                    "properties": {
+                                        "created_at": {
+                                            "type": "string"
+                                        },
+                                        "id": {
+                                            "type": "number"
+                                        },
+                                        "notes": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "created_at",
+                                        "id",
+                                        "notes"
+                                    ],
+                                    "type": "object"
+                                },
+                                "Update": {
+                                    "properties": {
+                                        "created_at": {
+                                            "type": "string"
+                                        },
+                                        "id": {
+                                            "type": "number"
+                                        },
+                                        "notes": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            },
+                            "required": [
+                                "Insert",
+                                "Relationships",
+                                "Row",
+                                "Update"
+                            ],
+                            "type": "object"
+                        },
+                        "OrderItems": {
+                            "properties": {
+                                "Insert": {
+                                    "properties": {
+                                        "created_at": {
+                                            "type": "string"
+                                        },
+                                        "id": {
+                                            "type": "number"
+                                        },
+                                        "order": {
+                                            "type": "number"
+                                        },
+                                        "product": {
+                                            "type": "number"
+                                        },
+                                        "quantity": {
+                                            "type": "number"
+                                        }
+                                    },
+                                    "type": "object"
+                                },
+                                "Relationships": {
+                                    "items": [
+                                        {
+                                            "properties": {
+                                                "columns": {
+                                                    "items": [
+                                                        {
+                                                            "const": "order",
+                                                            "type": "string"
+                                                        }
+                                                    ],
+                                                    "maxItems": 1,
+                                                    "minItems": 1,
+                                                    "type": "array"
+                                                },
+                                                "foreignKeyName": {
+                                                    "const": "OrderItems_order_fkey",
+                                                    "type": "string"
+                                                },
+                                                "isOneToOne": {
+                                                    "const": false,
+                                                    "type": "boolean"
+                                                },
+                                                "referencedColumns": {
+                                                    "items": [
+                                                        {
+                                                            "const": "id",
+                                                            "type": "string"
+                                                        }
+                                                    ],
+                                                    "maxItems": 1,
+                                                    "minItems": 1,
+                                                    "type": "array"
+                                                },
+                                                "referencedRelation": {
+                                                    "const": "Order",
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "required": [
+                                                "columns",
+                                                "foreignKeyName",
+                                                "isOneToOne",
+                                                "referencedColumns",
+                                                "referencedRelation"
+                                            ],
+                                            "type": "object"
+                                        },
+                                        {
+                                            "properties": {
+                                                "columns": {
+                                                    "items": [
+                                                        {
+                                                            "const": "product",
+                                                            "type": "string"
+                                                        }
+                                                    ],
+                                                    "maxItems": 1,
+                                                    "minItems": 1,
+                                                    "type": "array"
+                                                },
+                                                "foreignKeyName": {
+                                                    "const": "OrderItems_product_fkey",
+                                                    "type": "string"
+                                                },
+                                                "isOneToOne": {
+                                                    "const": false,
+                                                    "type": "boolean"
+                                                },
+                                                "referencedColumns": {
+                                                    "items": [
+                                                        {
+                                                            "const": "id",
+                                                            "type": "string"
+                                                        }
+                                                    ],
+                                                    "maxItems": 1,
+                                                    "minItems": 1,
+                                                    "type": "array"
+                                                },
+                                                "referencedRelation": {
+                                                    "const": "Product",
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "required": [
+                                                "columns",
+                                                "foreignKeyName",
+                                                "isOneToOne",
+                                                "referencedColumns",
+                                                "referencedRelation"
+                                            ],
+                                            "type": "object"
+                                        }
+                                    ],
+                                    "maxItems": 2,
+                                    "minItems": 2,
+                                    "type": "array"
+                                },
+                                "Row": {
+                                    "properties": {
+                                        "created_at": {
+                                            "type": "string"
+                                        },
+                                        "id": {
+                                            "type": "number"
+                                        },
+                                        "order": {
+                                            "type": "number"
+                                        },
+                                        "product": {
+                                            "type": "number"
+                                        },
+                                        "quantity": {
+                                            "type": "number"
+                                        }
+                                    },
+                                    "required": [
+                                        "created_at",
+                                        "id",
+                                        "order",
+                                        "product",
+                                        "quantity"
+                                    ],
+                                    "type": "object"
+                                },
+                                "Update": {
+                                    "properties": {
+                                        "created_at": {
+                                            "type": "string"
+                                        },
+                                        "id": {
+                                            "type": "number"
+                                        },
+                                        "order": {
+                                            "type": "number"
+                                        },
+                                        "product": {
+                                            "type": "number"
+                                        },
+                                        "quantity": {
+                                            "type": "number"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            },
+                            "required": [
+                                "Insert",
+                                "Relationships",
+                                "Row",
+                                "Update"
+                            ],
+                            "type": "object"
+                        },
+                        "Product": {
+                            "properties": {
+                                "Insert": {
+                                    "properties": {
+                                        "category": {
+                                            "type": "number"
+                                        },
+                                        "code": {
+                                            "type": "string"
+                                        },
+                                        "created_at": {
+                                            "type": "string"
+                                        },
+                                        "fav": {
+                                            "type": "boolean"
+                                        },
+                                        "id": {
+                                            "type": "number"
+                                        },
+                                        "name": {
+                                            "type": "string"
+                                        },
+                                        "price": {
+                                            "type": "number"
+                                        },
+                                        "stock": {
+                                            "type": "number"
+                                        }
+                                    },
+                                    "required": [
+                                        "code",
+                                        "name"
+                                    ],
+                                    "type": "object"
+                                },
+                                "Relationships": {
+                                    "items": [
+                                        {
+                                            "properties": {
+                                                "columns": {
+                                                    "items": [
+                                                        {
+                                                            "const": "category",
+                                                            "type": "string"
+                                                        }
+                                                    ],
+                                                    "maxItems": 1,
+                                                    "minItems": 1,
+                                                    "type": "array"
+                                                },
+                                                "foreignKeyName": {
+                                                    "const": "Product_category_fkey",
+                                                    "type": "string"
+                                                },
+                                                "isOneToOne": {
+                                                    "const": false,
+                                                    "type": "boolean"
+                                                },
+                                                "referencedColumns": {
+                                                    "items": [
+                                                        {
+                                                            "const": "id",
+                                                            "type": "string"
+                                                        }
+                                                    ],
+                                                    "maxItems": 1,
+                                                    "minItems": 1,
+                                                    "type": "array"
+                                                },
+                                                "referencedRelation": {
+                                                    "const": "Category",
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "required": [
+                                                "columns",
+                                                "foreignKeyName",
+                                                "isOneToOne",
+                                                "referencedColumns",
+                                                "referencedRelation"
+                                            ],
+                                            "type": "object"
+                                        }
+                                    ],
+                                    "maxItems": 1,
+                                    "minItems": 1,
+                                    "type": "array"
+                                },
+                                "Row": {
+                                    "properties": {
+                                        "category": {
+                                            "type": "number"
+                                        },
+                                        "code": {
+                                            "type": "string"
+                                        },
+                                        "created_at": {
+                                            "type": "string"
+                                        },
+                                        "fav": {
+                                            "type": "boolean"
+                                        },
+                                        "id": {
+                                            "type": "number"
+                                        },
+                                        "name": {
+                                            "type": "string"
+                                        },
+                                        "price": {
+                                            "type": "number"
+                                        },
+                                        "stock": {
+                                            "type": "number"
+                                        }
+                                    },
+                                    "required": [
+                                        "category",
+                                        "code",
+                                        "created_at",
+                                        "fav",
+                                        "id",
+                                        "name",
+                                        "price",
+                                        "stock"
+                                    ],
+                                    "type": "object"
+                                },
+                                "Update": {
+                                    "properties": {
+                                        "category": {
+                                            "type": "number"
+                                        },
+                                        "code": {
+                                            "type": "string"
+                                        },
+                                        "created_at": {
+                                            "type": "string"
+                                        },
+                                        "fav": {
+                                            "type": "boolean"
+                                        },
+                                        "id": {
+                                            "type": "number"
+                                        },
+                                        "name": {
+                                            "type": "string"
+                                        },
+                                        "price": {
+                                            "type": "number"
+                                        },
+                                        "stock": {
+                                            "type": "number"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            },
+                            "required": [
+                                "Insert",
+                                "Relationships",
+                                "Row",
+                                "Update"
+                            ],
+                            "type": "object"
+                        }
+                    },
+                    "required": [
+                        "Category",
+                        "Order",
+                        "OrderItems",
+                        "Product"
+                    ],
+                    "type": "object"
+                },
+                "Views": {
+                    "$ref": "#/definitions/{}"
+                }
+            },
+            "required": [
+                "CompositeTypes",
+                "Enums",
+                "Functions",
+                "Tables",
+                "Views"
+            ],
+            "type": "object"
+        }
+    },
+    "required": [
+        "public"
+    ],
+    "type": "object"
+}
+

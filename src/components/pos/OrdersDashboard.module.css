@@ -46,3 +46,18 @@
 .orderLine {
 	font-family: monospace;
 }
+
+.createButtonSection {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: var(--mantine-primary-color-filled);
+	background-color: var(--mantine-primary-color-light); 
+	transition: background-color 300ms ease;
+}
+
+.createButtonSection:hover {
+	background-color: var(--mantine-primary-color-light-hover);
+}
+
+

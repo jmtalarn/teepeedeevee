@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import { Table, Button, TextInput, Group, NumberFormatter, ActionIcon, Select, CloseButton, NumberInput, Card, SimpleGrid, Text, Grid, rem, Container } from '@mantine/core';
-import { IconCheck, IconEdit, IconHeart, IconHeartFilled, IconSearch } from '@tabler/icons-react';
 import type { Category, Product } from '@/_lib/_definitions/types';
-import styles from './Products.module.css';
+import { ActionIcon, Button, Card, CloseButton, Container, Grid, NumberFormatter, NumberInput, rem, Select, Text, TextInput } from '@mantine/core';
+import { IconCheck, IconEdit, IconHeart, IconHeartFilled, IconSearch } from '@tabler/icons-react';
+import React, { useState } from 'react';
 import DeleteButton from '../common/DeleteButton';
+import styles from './Products.module.css';
 
 interface ProductsProps {
 	products: Product[];
@@ -44,7 +44,7 @@ const Products: React.FC<ProductsProps> = (
 		);
 		onProductEditSave(updatedProduct);
 	};
-
+	console.log({ initialProducts, categories });
 	const filteredProducts = products.filter(product =>
 		product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
 		product.code.toString().toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -189,7 +189,7 @@ const Products: React.FC<ProductsProps> = (
 										radius="xl"
 										mr="lg"
 										color="green"
-										aria-label={`Confirm changes`}
+										aria-label={'Confirm changes'}
 										title="Confirm changes"
 										onClick={handleSave}
 									>

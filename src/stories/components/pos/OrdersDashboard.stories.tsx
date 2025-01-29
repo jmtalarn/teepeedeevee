@@ -18,7 +18,10 @@ const meta: Meta<typeof Component> = {
 	title: 'Components/POS/OrdersDashboard',
 	args: {
 		orders: ordersWithProducts,
-		selectOrder: fn()
+		selectOrder: fn(),
+		createOrder: fn(),
+		open: false,
+		toggle: fn()
 	}
 };
 

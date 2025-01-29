@@ -7,7 +7,6 @@ import {
 	Input,
 	Paper,
 	type RenderTreeNodePayload,
-	Text,
 	Tooltip,
 	Tree,
 	type TreeNodeData,
@@ -24,9 +23,9 @@ import {
 } from '@tabler/icons-react';
 import { useMemo, useState } from 'react';
 import DeleteButton from '../common/DeleteButton';
+import InlineEdit from '../common/InlineEdit';
 import './Categories.module.css';
 import styles from './Categories.module.css';
-import InlineEdit from '../common/InlineEdit';
 
 
 const normalizeCategories = (categories: Category[]) => {
@@ -34,7 +33,7 @@ const normalizeCategories = (categories: Category[]) => {
 	const tree: TreeNodeData[] = [];
 
 	categories.forEach((category) => {
-		categoryMap[category.id] = { ...category, label: category.name, value: category.id, children: [] }; // Initialize children
+		categoryMap[category.id] = { ...category, label: category.name, value: category.id.toString(), children: [] }; // Initialize children
 	});
 
 	categories.forEach((category: Category) => {
@@ -50,7 +49,7 @@ const normalizeCategories = (categories: Category[]) => {
 		}
 	});
 	return tree;
-}
+};
 
 type OnDraggingProps = {
 	onDragStart: (e: React.DragEvent<HTMLElement>, item: Category) => void;
@@ -85,25 +84,25 @@ function Leaf(
 		: RenderTreeNodePayload
 		& {
 			draggingCategory: Category | null | undefined, targetDropCategory: Category | null | undefined,
-			onDeleteCategory: (name: string) => void,
+			onDeleteCategory: (id: number) => void,
 			onEditCategory: ({ id, name }: { id: number, name: string }) => void
 		}
 		& OnDraggingProps
 ) {
 
-	const category: Category = { name: (node as TreeNodeData & Category).name, parent: (node as TreeNodeData & Category).parent, id: (node as TreeNodeData & Category).id }
+	const category: Category = { name: (node as TreeNodeData & Category).name, parent: (node as TreeNodeData & Category).parent, id: (node as TreeNodeData & Category).id };
 
 	return (
 
 		<Tooltip
 			position="top-start"
-			label={`Drop ${draggingCategory?.name ?? "NONE"} here to make it as a ${category?.name} sub category`}
-			opened={targetDropCategory?.name === category?.name}
+			label={`Drop ${draggingCategory?.name ?? 'NONE'} here to make it as a ${category?.name} sub category`}
+			opened={targetDropCategory?.id === category?.id && targetDropCategory?.id !== draggingCategory?.id}
 			transitionProps={{ transition: 'fade-up', duration: 300 }}
 			color="blue"
 		>
 			<Paper
-				className={["category", styles.category].join(" ")}
+				className={['category', styles.category].join(' ')}
 				withBorder
 				mt="xs" mb="xs"
 				draggable={true}
@@ -130,11 +129,11 @@ function Leaf(
 
 
 					<EditCategory
-						value={category.name} id={category.id ?? 0} error="" onEditCategory={onEditCategory} />
+						value={category.name ?? ''} id={category.id ?? 0} error="" onEditCategory={onEditCategory} />
 					<DeleteButton onClick={(evt) => {
 						evt?.stopPropagation();
 						if (node.label) {
-							onDeleteCategory(node.value)
+							onDeleteCategory(category.id);
 						}
 					}}
 						ariaLabel={`Delete ${node.label} category`}
@@ -146,14 +145,14 @@ function Leaf(
 	);
 }
 const EditCategory = (
-	{ onEditCategory, value, id, error = "" }:
+	{ onEditCategory, value, id, error = '' }:
 		{ onEditCategory: ({ id, name }: { id: number, name: string }) => void, id: number, value: string, error: string }
 ) => (<Box className={styles.categoryLabel}>
 	<InlineEdit value={value} id={id} error={error} inlineEditAction={onEditCategory} />
-</Box>)
+</Box>);
 
 const CreateCategory = (
-	{ onCreateCategory, value = '', error = "" }:
+	{ onCreateCategory, value = '', error = '' }:
 		{ onCreateCategory: (name: string) => void, value: string, error: string }
 ) => {
 	const [inputValue, setInputValue] = useState(value);
@@ -199,9 +198,9 @@ const CreateCategory = (
 			</Button>
 
 		</Group>
-	)
+	);
 
-}
+};
 const Categories = (
 	{
 		categories,
@@ -214,11 +213,11 @@ const Categories = (
 	}:
 		{
 			categories: Category[],
-			onAssignParentToCategory: (category: Category['name'], parent: Category['parent']) => void,
+			onAssignParentToCategory: (category: Category, parent: Category['parent']) => void,
 			onCreateCategory: (name: string) => void,
 			newCategoryError: string,
 			newCategoryValue: string,
-			onDeleteCategory: (name: string) => void
+			onDeleteCategory: (id: number) => void
 			onEditCategory: ({ id, name }: { id: number, name: string }) => void
 
 		}
@@ -233,7 +232,7 @@ const Categories = (
 	const onDragStart = (e: React.DragEvent<HTMLElement>, item: Category) => {
 		setDraggingCategory(item);
 		e.dataTransfer.setData('text/plain', '');
-		e.dataTransfer.effectAllowed = "move";
+		e.dataTransfer.effectAllowed = 'move';
 	};
 
 	const onDragEnd = () => {
@@ -242,24 +241,24 @@ const Categories = (
 
 	const onDragOver = (e: React.DragEvent<HTMLElement>) => {
 		e.preventDefault();
-		e.dataTransfer.dropEffect = "move";
+		e.dataTransfer.dropEffect = 'move';
 	};
 
 	const onDragEnter = (e: React.DragEvent<HTMLElement>, targetItem: Category | null) => {
 		setTargetDropCategory(targetItem);
-		(e.target as HTMLElement)?.closest(".category")?.classList.add('dragged-over');
+		(e.target as HTMLElement)?.closest('.category')?.classList.add('dragged-over');
 	};
 	const onDragLeave = (e: React.DragEvent<HTMLElement>) => {
 		setTargetDropCategory(undefined);
-		(e.target as HTMLElement)?.closest(".category")?.classList.remove('dragged-over');
+		(e.target as HTMLElement)?.closest('.category')?.classList.remove('dragged-over');
 	};
 
 	const onDrop = (e: React.DragEvent<HTMLElement>, targetItem: Category | null) => {
 		e.stopPropagation();
 		setTargetDropCategory(undefined);
-		if (!draggingCategory) return;
 		(e.target as HTMLElement)?.classList.remove('dragged-over');
-		onAssignParentToCategory(draggingCategory.name, targetItem?.name ?? null);
+		if (!draggingCategory || draggingCategory.id === targetItem?.id) return;
+		onAssignParentToCategory(draggingCategory, targetItem?.id ?? null);
 	};
 
 	const onDraggingPropsRemoveCategory = {
@@ -268,7 +267,7 @@ const Categories = (
 		onDragEnter: (e: React.DragEvent<HTMLElement>) => onDragEnter(e, null),
 		onDragLeave: onDragLeave,
 		onDrop: (e: React.DragEvent<HTMLElement>) => onDrop(e, null),
-	}
+	};
 
 
 	return (<div>
@@ -277,14 +276,14 @@ const Categories = (
 		<Box pt={rem(1)}>
 			{draggingCategory ?
 				<Tooltip
-					label={`Drop ${draggingCategory?.name ?? "NONE"} category here to make it a main category`}
+					label={`Drop ${draggingCategory?.name ?? 'NONE'} category here to make it a main category`}
 					opened={targetDropCategory === null}
 					position="top-start"
 					transitionProps={{ transition: 'fade-up', duration: 300 }}
 					color="blue"
 				>
 					<Paper
-						className={["category", styles.rootCategoryDrop, styles.firstRow].filter(Boolean).join(" ")}
+						className={['category', styles.rootCategoryDrop, styles.firstRow].filter(Boolean).join(' ')}
 						withBorder
 						mt="xs"
 						mb="xs"
@@ -295,7 +294,7 @@ const Categories = (
 						<IconSitemapFilled color="var(--mantine-primary-color-filled)" /> Main
 					</Paper>
 
-				</Tooltip> : <CreateCategory onCreateCategory={onCreateCategory} value={newCategoryValue ?? ''} error={newCategoryError} key={newCategoryError} />
+				</Tooltip> : <CreateCategory onCreateCategory={onCreateCategory} value={newCategoryValue ?? ''} error={newCategoryError} key={`${newCategoryValue}_${newCategoryError}`} />
 			}
 		</Box>
 
@@ -324,7 +323,7 @@ const Categories = (
 			}
 			levelOffset='xl'
 		/>
-	</div >)
+	</div >);
 };
 
 export default Categories;

@@ -5,6 +5,7 @@ type ProductRow = Database['public']['Tables']['Product']['Row'];
 type OrderRow = Database['public']['Tables']['Order']['Row'];
 // type OrderItemsRow = Database['public']['Tables']['OrderItems']['Row'];
 
+export type NewCategory = Database['public']['Tables']['Category']['Insert'];
 export type Category = Omit<CategoryRow, 'created_at'> & Partial<Pick<CategoryRow, 'created_at'>>;
 
 export type Product = Omit<ProductRow, 'created_at'> & Partial<Pick<ProductRow, 'created_at'>>;

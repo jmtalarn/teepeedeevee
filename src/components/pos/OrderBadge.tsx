@@ -1,10 +1,12 @@
+import { forwardRef } from 'react';
 import variantColorResolver from '@/_lib/_utils/VariantColorResolver';
 import { type DefaultMantineColor, MantineProvider, Button, Text } from '@mantine/core';
 import styles from './OrderBadge.module.css';
 
-const OrderBadge = ({ title, label, color, onClick }: { title: string; label: string; color: DefaultMantineColor | undefined, onClick: () => void }) => (
+const OrderBadge = forwardRef<HTMLButtonElement, { title: string; label: string; color: DefaultMantineColor | undefined, onClick: () => void }>(({ title, label, color, onClick }, ref) => (
 	<MantineProvider theme={{ variantColorResolver }}>
 		<Button
+			ref={ref} // Forward the ref to the Button component
 			radius="xl"
 			size="xs"
 			variant="light"
@@ -18,6 +20,6 @@ const OrderBadge = ({ title, label, color, onClick }: { title: string; label: st
 			</Text>
 		</Button>
 	</MantineProvider>
-);
+));
 
 export default OrderBadge;

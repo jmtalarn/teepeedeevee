@@ -1,4 +1,4 @@
-import type { Order, Product } from '@/_lib/_definitions/types';
+import type { Order } from '@/_lib/_definitions/types';
 import {
 	Box,
 	Card,
@@ -8,25 +8,27 @@ import {
 	Text,
 	UnstyledButton
 } from '@mantine/core';
-import { IconChevronDown, IconStack3, IconLayoutDashboard } from '@tabler/icons-react';
-import { useState } from 'react';
+import { IconChevronDown, IconStack3, IconLayoutDashboard, IconFilePlus } from '@tabler/icons-react';
+import { useEffect, useRef, useState } from 'react';
 import OrderBadge from './OrderBadge';
 import styles from './OrdersDashboard.module.css';
 
 type OrdersDashboardProps = {
 	orders: Order[];
 	selectOrder: (id: number) => void;
+	createOrder: () => void;
+	open?: boolean;
+	toggle: () => void;
 };
 
 
 
-const OrdersDashboard = ({ orders, selectOrder }: OrdersDashboardProps) => {
-	const [opened, setOpened] = useState<boolean>(false);
+const OrdersDashboard = ({ orders, selectOrder, createOrder, open = false, toggle }: OrdersDashboardProps & { open?: boolean }) => {
 
 	return (
 		<Box>
 			<UnstyledButton
-				onClick={() => setOpened((prevState: boolean) => !prevState)}
+				onClick={() => toggle()}
 				className={styles.button}
 			>
 				<Paper p="sm" shadow="sm" radius="xs" className={styles.header}>
@@ -34,34 +36,58 @@ const OrdersDashboard = ({ orders, selectOrder }: OrdersDashboardProps) => {
 					<IconChevronDown
 						className={[
 							styles.chevron,
-							opened ? styles.open : styles.closed,
+							open ? styles.open : styles.closed,
 						].join(' ')}
 					/>
-					{opened ? <IconLayoutDashboard /> : <IconStack3 />}
+					{open ? <IconLayoutDashboard /> : <IconStack3 />}
 					<Text fw={700}>{orders.length} On going orders </Text>
 				</Paper>
 			</UnstyledButton>
 
-			<Collapse in={opened} className={styles.content} p="sm">
+			<Collapse in={open} className={styles.content} p="sm">
 				{orders.map((order) => (
-					<OrderMinitature key={order.id} order={order} selectOrder={selectOrder} />
+					<OrderMinitature
+						key={order.id}
+						order={order}
+						selectOrder={(id) => {
+							selectOrder(id);
+							setOpened((prevState: boolean) => !prevState);
+						}} />
 				))}
+				<CreateOrderButton createOrder={createOrder} />
 			</Collapse>
-		</Box>
+		</Box >
 	);
 };
+const CreateOrderButton = ({ createOrder }: { createOrder: () => void; }) => {
+	return (
 
+		<Card m="xs" radius="sm" shadow='xl' classNames={{ section: styles.createButtonSection }} >
+			<UnstyledButton onClick={createOrder} >
+				<Card.Section p="xs" >
+					<IconFilePlus size={64} />
+					<Text>Create New Order</Text>
+
+				</Card.Section>
+			</UnstyledButton >
+		</Card>
+
+	);
+};
 const OrderMinitature = (
 	{ order, selectOrder }:
 		{ order: Order, selectOrder: OrdersDashboardProps['selectOrder'] }
 ) => {
+	const badgeRef = useRef<HTMLButtonElement | null>(null);
+
 	return (<Card m="xs" radius="sm" shadow='sm' >
 		<Card.Section p="xs" >
 			<OrderBadge
+				ref={badgeRef}
 				color="indigo"
 				title="Order"
 				label={`#${order.id}`}
-				onClick={() => selectOrder(order.id)}
+				onClick={() => { selectOrder(order.id); badgeRef.current?.blur(); }}
 			/>
 		</Card.Section>
 

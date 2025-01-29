@@ -1,5 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
-import { openDB } from 'idb';
+import { openDB, type IDBPDatabase } from 'idb';
 
 // Create a collection matching your Supabase table structure.
 const CategorySchema = {
@@ -149,49 +149,91 @@ const ProductSchema = {
 // 		schema: ProductSchema
 // 	}
 // });
+const DB_NAME = 'teepeedeevee';
+const DB_VERSION = 1;
+const CATEGORY_STORE = 'Category';
+const PRODUCT_STORE = 'Product';
+const ORDER_STORE = 'Order';
+const ORDERITEMS_STORE = 'OrderItems';
+
+let dbInitialized = false;
+
+const getDB = async () => {
+	const db = await initDB();
+	if (!dbInitialized) {
+		await populateDatabase(db);
+	}
+
+	return db;
+};
 
 const supabase = createClient(import.meta.env.VITE_SUPABASE_PROJECT_URL, import.meta.env.VITE_SUPABASE_API_KEY);
 
 
-
 const initDB = async () => {
-	const db = await openDB('teepeedeevee', 1, {
-		upgrade(db) {
-			if (!db.objectStoreNames.contains('Category')) {
-				const objectStore = db.createObjectStore('Category', { keyPath: 'id' });
+	const db = await openDB(DB_NAME, DB_VERSION, {
+		async upgrade(db) {
+			if (!db.objectStoreNames.contains(CATEGORY_STORE)) {
+				const objectStore = db.createObjectStore(CATEGORY_STORE, { keyPath: 'id', autoIncrement: true });
 				objectStore.createIndex('name', 'name', { unique: true });
 			}
-			if (!db.objectStoreNames.contains('Product')) {
-				const objectStore = db.createObjectStore('Product', { keyPath: 'id' });
+			if (!db.objectStoreNames.contains(PRODUCT_STORE)) {
+				const objectStore = db.createObjectStore(PRODUCT_STORE, { keyPath: 'id', autoIncrement: true });
 				objectStore.createIndex('name', 'name', { unique: true });
 			}
-			if (!db.objectStoreNames.contains('Order')) {
-				db.createObjectStore('Order', { keyPath: 'id' });
+			if (!db.objectStoreNames.contains(ORDER_STORE)) {
+				db.createObjectStore(ORDER_STORE, { keyPath: 'id', autoIncrement: true });
 			}
-			if (!db.objectStoreNames.contains('OrderItems')) {
-				db.createObjectStore('OrderItems', { keyPath: 'id' });
+			if (!db.objectStoreNames.contains(ORDERITEMS_STORE)) {
+				const objectStore = db.createObjectStore(ORDERITEMS_STORE, { keyPath: 'id', autoIncrement: true });
+				objectStore.createIndex('order', 'order');
+				objectStore.createIndex('order_product', ['order', 'product']);
 			}
 		}
 	});
-	//Request for the data from the server
-	const { data: category, error: errorCategory } = await supabase.from('Category').select();
-	const { data: product, error: errorProduct } = await supabase.from('Product').select();
-	const { data: order, error: errorOrder } = await supabase.from('Order').select();
-	const { data: orderItems, error: errorOrderItems } = await supabase.from('OrderItems').select();
 
-	//Fill the local indexedDB
+	return db;
+};
+async function fetchDataFromAPI() {
+	// Request for the data from the server
+	try {
+		const { data: category, error: errorCategory } = await supabase.from(CATEGORY_STORE).select();
+		const { data: product, error: errorProduct } = await supabase.from(PRODUCT_STORE).select();
+		const { data: order, error: errorOrder } = await supabase.from(ORDER_STORE).select();
+		const { data: orderItems, error: errorOrderItems } = await supabase.from(ORDERITEMS_STORE).select();
+		if ([errorCategory, errorProduct, errorOrder, errorOrderItems].some(Boolean)) {
+			[errorCategory, errorProduct, errorOrder, errorOrderItems]
+				.filter(Boolean)
+				.forEach(error => { throw error; });
+		}
+		return {
+			category, product, order, orderItems
+		};
+	} catch (error) {
+		console.error(error);
+	}
+
+}
+async function populateDatabase(db) {
+	const result = await fetchDataFromAPI();
+	if (!result) {
+		throw new Error('Failed to fetch data from API');
+	}
+	const { category, product, order, orderItems } = result;
+
+	// Fill the local indexedDB
 	if (category) {
-		const txCategory = db.transaction('Category', 'readwrite');
+		const txCategory = db.transaction(CATEGORY_STORE, 'readwrite');
 		await Promise.all([...category.map(item => txCategory.store.put(item)), txCategory.done]);
 	}
 
 	if (product) {
-		const txProduct = db.transaction('Product', 'readwrite');
+		const txProduct = db.transaction(PRODUCT_STORE, 'readwrite');
 		await Promise.all([...product.map(item => txProduct.store.put(item)), txProduct.done]);
 	}
 
 	if (order) {
-		const txOrder = db.transaction('Order', 'readwrite');
+		const txOrder = db.transaction(ORDER_STORE, 'readwrite');
 		await Promise.all([...order.map(item => txOrder.store.put(item)), txOrder.done]);
 	}
 
@@ -199,8 +241,9 @@ const initDB = async () => {
 		const txOrderItems = db.transaction('OrderItems', 'readwrite');
 		await Promise.all([...orderItems.map(item => txOrderItems.store.put(item)), txOrderItems.done]);
 	}
-	console.log({ category, product, order, orderItems, error: { errorCategory, errorProduct, errorOrder, errorOrderItems } });
+	dbInitialized = true;
+
 };
 
-export { initDB };
+export { initDB, getDB, CATEGORY_STORE, PRODUCT_STORE, ORDER_STORE, ORDERITEMS_STORE };
 

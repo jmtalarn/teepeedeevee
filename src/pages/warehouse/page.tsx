@@ -1,6 +1,3 @@
-//import Image from "next/image";
-//import styles from "./page.module.css";
-
 import BigButtonPageLink from '@/components/page/BigButtonPageLink';
 import { SimpleGrid } from '@mantine/core';
 import { IconSitemap, IconBuildingStore } from '@tabler/icons-react';
