@@ -1,18 +1,16 @@
-import { Anchor, Group } from '@mantine/core';
+import { Anchor, Flex } from '@mantine/core';
 import { NavLink } from 'react-router';
 import styles from './Nav.module.css';
+import mainLinks from './mainLinks';
 
-const mainLinks = [
-	{ link: '/', label: 'Main' },
-	{ link: '/pos', label: 'POS' },
-	{ link: '/warehouse', label: 'Warehouse' },
-];
 
-const Nav = () => (<nav className={styles.fillHeight}>
-	<Group
+
+const Nav = ({ direction = 'row' }: { direction?: 'row' | 'column' }) => (<nav className={styles.fillHeight}>
+	<Flex
 		gap={0}
 		justify="space-between"
 		className={styles.fillHeight}
+		direction={direction}
 	>
 		{mainLinks.map((item) => (
 
@@ -22,15 +20,11 @@ const Nav = () => (<nav className={styles.fillHeight}>
 				key={item.label}
 				className={[styles.mainLink, styles.fillHeight].join(' ')}
 
-			// onClick={(event) => {
-			// 	event.preventDefault();
-
-			// }}
 			>
 				{item.label}
 			</Anchor>
 		))}
-	</Group>
+	</Flex>
 </nav >);
 
 export default Nav;

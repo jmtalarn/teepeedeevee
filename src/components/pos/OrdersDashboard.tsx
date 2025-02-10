@@ -9,7 +9,7 @@ import {
 	UnstyledButton
 } from '@mantine/core';
 import { IconChevronDown, IconStack3, IconLayoutDashboard, IconFilePlus } from '@tabler/icons-react';
-import { useEffect, useRef, useState } from 'react';
+import { useRef } from 'react';
 import OrderBadge from './OrderBadge';
 import styles from './OrdersDashboard.module.css';
 
@@ -51,7 +51,7 @@ const OrdersDashboard = ({ orders, selectOrder, createOrder, open = false, toggl
 						order={order}
 						selectOrder={(id) => {
 							selectOrder(id);
-							setOpened((prevState: boolean) => !prevState);
+							//setOpened((prevState: boolean) => !prevState);
 						}} />
 				))}
 				<CreateOrderButton createOrder={createOrder} />
@@ -93,7 +93,7 @@ const OrderMinitature = (
 
 		<Card.Section p="xs" className={styles.orderLine} >
 			{order.items.map(orderLine => (
-				<Flex key="orderLine.id" m="xs" gap="xs">
+				<Flex key={orderLine.id} m="xs" gap="xs">
 					<Text size="xs" truncate="end">
 						{orderLine.name}
 					</Text>

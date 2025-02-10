@@ -97,6 +97,7 @@ const Order = ({
 	onChangeAttribute1: () => void;
 	onChangeAttribute2: () => void;
 }) => {
+	console.log({ orderedProducts });
 	return (
 		<Card withBorder radius="md" className={styles.card}>
 			<Card.Section className={styles.header}>

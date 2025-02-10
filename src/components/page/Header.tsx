@@ -23,7 +23,8 @@ const Header = () => {
 					className={styles.burger}
 					size="sm"
 					hiddenFrom="sm"
-				/>
+				>
+				</Burger>
 			</Container>
 		</header>);
 };

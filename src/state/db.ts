@@ -186,8 +186,8 @@ const initDB = async () => {
 			}
 			if (!db.objectStoreNames.contains(ORDERITEMS_STORE)) {
 				const objectStore = db.createObjectStore(ORDERITEMS_STORE, { keyPath: 'id', autoIncrement: true });
-				objectStore.createIndex('order', 'order');
-				objectStore.createIndex('order_product', ['order', 'product']);
+				objectStore.createIndex('order', 'orderId');
+				objectStore.createIndex('order_product', ['orderId', 'productId']);
 			}
 		}
 	});

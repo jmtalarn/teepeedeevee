@@ -55,20 +55,24 @@ export async function deleteProduct(id: number) {
 
 export async function getAllOrders() {
 	const db = await getDB();
-	const tx = db.transaction([ORDER_STORE, ORDERITEMS_STORE], 'readonly');
+	const tx = db.transaction([ORDER_STORE, ORDERITEMS_STORE, PRODUCT_STORE], 'readonly');
 	const orderStore = tx.objectStore(ORDER_STORE);
 	const orderItemStore = tx.objectStore(ORDERITEMS_STORE);
+	const productStore = tx.objectStore(PRODUCT_STORE);
 
 	const orders = await orderStore.getAll();
 	const ordersWithItems = Promise.all(
 		[...orders.map(async (order: Order) => {
 			const items = await orderItemStore.index('order').getAll(order.id);
-			return { ...order, items };
+			const orderItemsWithProducts = await Promise.all(items.map(async item => ({ ...item, ...await productStore.get(item.productId) })));
+			return { ...order, items: orderItemsWithProducts };
 		}), tx.done]
 	);
 	return ordersWithItems;
 }
 export async function orderProductQuantity(orderId: number, productId: number, quantity: number) {
+
+	console.log({ orderId, productId, quantity });
 	const db = await getDB();
 	const tx = db.transaction([ORDER_STORE, ORDERITEMS_STORE], 'readwrite');
 	const orderItemStore = tx.objectStore(ORDERITEMS_STORE);
@@ -88,7 +92,8 @@ export async function orderProductQuantity(orderId: number, productId: number, q
 			productId,
 			quantity: quantity
 		};
-		await orderItemStore.add(newItem);
+		const res = await orderItemStore.add(newItem);
+		console.log({ res });
 	}
 
 	await tx.done;

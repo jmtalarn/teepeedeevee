@@ -1,4 +1,8 @@
-
-.pos {
-	
+.posGrid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(384px, 1fr));
+	grid-gap: 1rem;
+}
+.posGridColumn {
+	padding: 1rem;
 }

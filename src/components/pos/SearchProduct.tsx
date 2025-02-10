@@ -108,16 +108,19 @@ const SearchProduct = ({ categories, products, onSelectProduct }: { categories: 
 					<Table.Tr>
 						<Table.Th className={styles.categoryHeader}>
 							{!!category &&
-								<ActionIcon
-									onClick={() => setCategory(category ? categories.find(item => item.name === category.parent) ?? null : null)}
-									variant="default"
-									size="md"
-									aria-label="Toggle color scheme"
-								>
-									<IconChevronLeft />
-								</ActionIcon>
+								<>
+									<ActionIcon
+										onClick={() => setCategory(category ? categories.find(item => item.name === category.parent) ?? null : null)}
+										variant="default"
+										size="md"
+										aria-label="Categories"
+									>
+										<IconChevronLeft />
+									</ActionIcon>
+
+									<Text c="dimmed" tt="uppercase" fw={700} size="sm">{category?.name}</Text></>
 							}
-							<Text c="dimmed" tt="uppercase" fw={700} size="sm">{category?.name}</Text>
+							{!category && <Text c="dimmed" tt="uppercase" fw={700} size="sm">Product search...</Text>}
 						</Table.Th>
 					</Table.Tr>
 				</Table.Thead>
