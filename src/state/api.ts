@@ -47,7 +47,6 @@ export async function putProduct(product: Product) {
 }
 
 export async function deleteProduct(id: number) {
-	console.log({ 'deleteProduct': id });
 	const db = await getDB();
 	return db.delete(PRODUCT_STORE, id);
 }
@@ -72,7 +71,6 @@ export async function getAllOrders() {
 }
 export async function orderProductQuantity(orderId: number, productId: number, quantity: number) {
 
-	console.log({ orderId, productId, quantity });
 	const db = await getDB();
 	const tx = db.transaction([ORDER_STORE, ORDERITEMS_STORE], 'readwrite');
 	const orderItemStore = tx.objectStore(ORDERITEMS_STORE);
@@ -92,8 +90,7 @@ export async function orderProductQuantity(orderId: number, productId: number, q
 			productId,
 			quantity: quantity
 		};
-		const res = await orderItemStore.add(newItem);
-		console.log({ res });
+		await orderItemStore.add(newItem);
 	}
 
 	await tx.done;

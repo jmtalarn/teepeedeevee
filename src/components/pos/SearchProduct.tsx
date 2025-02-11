@@ -99,7 +99,7 @@ ProductsCombobox.displayName = 'ProductsCombobox';
 const SearchProduct = ({ categories, products, onSelectProduct }: { categories: Category[], products: Product[], onSelectProduct: (product?: Product) => void }) => {
 
 	const [category, setCategory] = useState<Category | null>(null);
-	console.log({ products });
+
 	return (<div>
 		<ProductsCombobox products={products} onSelectProduct={onSelectProduct} />
 		<Table.ScrollContainer minWidth={300}>

@@ -5,9 +5,10 @@ import { MantineLogo } from '@mantinex/mantine-logo';
 import styles from './Header.module.css';
 
 import Nav from './Nav';
+import BurgerMenu from './BurgerMenu';
 
 const Header = () => {
-	const [opened, { toggle }] = useDisclosure(false);
+	//const [opened, { toggle }] = useDisclosure(false);
 
 
 	return (
@@ -17,14 +18,8 @@ const Header = () => {
 				<Box visibleFrom="sm" >
 					<Nav />
 				</Box>
-				<Burger
-					opened={opened}
-					onClick={toggle}
-					className={styles.burger}
-					size="sm"
-					hiddenFrom="sm"
-				>
-				</Burger>
+				<BurgerMenu />
+
 			</Container>
 		</header>);
 };

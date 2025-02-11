@@ -51,7 +51,7 @@ export default function Pos() {
 						onSelectProduct={(product?: Product) => {
 							if (product && selectedOrderId && selectedOrder) {
 								const prevQuantity = selectedOrder?.items.find((item) => item.id === product.id)?.quantity ?? 0;
-								console.log({ orderId: selectedOrderId, productId: product.id, quantity: 1 });
+
 								updateMutation.mutate({ orderId: selectedOrderId, productId: product.id, quantity: prevQuantity + 1 });
 							}
 						}} />}

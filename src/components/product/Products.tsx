@@ -44,7 +44,7 @@ const Products: React.FC<ProductsProps> = (
 		);
 		onProductEditSave(updatedProduct);
 	};
-	console.log({ initialProducts, categories });
+
 	const filteredProducts = products.filter(product =>
 		product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
 		product.code.toString().toLowerCase().includes(searchTerm.toLowerCase()) ||
