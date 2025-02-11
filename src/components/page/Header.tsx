@@ -1,6 +1,5 @@
 
-import { Box, Burger, Container } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
+import { Box, Container } from '@mantine/core';
 import { MantineLogo } from '@mantinex/mantine-logo';
 import styles from './Header.module.css';
 
@@ -8,7 +7,6 @@ import Nav from './Nav';
 import BurgerMenu from './BurgerMenu';
 
 const Header = () => {
-	//const [opened, { toggle }] = useDisclosure(false);
 
 
 	return (

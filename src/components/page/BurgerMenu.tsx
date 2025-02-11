@@ -1,11 +1,11 @@
-import { Menu, Burger, MenuItem } from '@mantine/core';
+import { Menu, Burger } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import styles from './BurgerMenu.module.css';
 import Nav from './Nav';
 
 
 
-const BurgerMenu = () => {
+export const BurgerMenu = () => {
 
 	const [opened, { toggle, open, close }] = useDisclosure(false);
 
