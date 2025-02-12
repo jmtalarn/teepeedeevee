@@ -2,6 +2,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import Component from '@/components/common/ExportButton';
 import { CATEGORY_STORE } from '@/state/db';
+import { fn } from '@storybook/test';
 
 
 
@@ -9,7 +10,8 @@ const meta: Meta<typeof Component> = {
 	component: Component,
 	title: 'Components/Common/ExportButton',
 	args: {
-		storeName: CATEGORY_STORE
+		storeName: CATEGORY_STORE,
+		getData: fn()
 	}
 };
 

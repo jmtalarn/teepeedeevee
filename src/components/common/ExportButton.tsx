@@ -3,7 +3,6 @@ import { Button } from '@mantine/core';
 import {
 	IconFileExport
 } from '@tabler/icons-react';
-import { getAllCategories, getAllProducts } from '@/state/api';
 import type { Category, Product } from '@/_lib/_definitions/types';
 
 
@@ -18,12 +17,12 @@ const convertDataToCSV = (data: Array<Category | Product>): string => {
 	return [keys.join(','), ...csvRows].join('\n');
 };
 
-const ExportButton = ({ storeName }: { storeName: 'Category' | 'Product' }) => {
+const ExportButton = ({ storeName, getData }: { storeName: 'Category' | 'Product', getData: () => (Category[] | Product[]) }) => {
 
 
 	const handleExport = async () => {
 
-		const data: Category[] | Product[] = storeName === 'Category' ? await getAllCategories() : await getAllProducts();
+		const data: Category[] | Product[] = getData();
 
 		const csvData = convertDataToCSV(data);
 

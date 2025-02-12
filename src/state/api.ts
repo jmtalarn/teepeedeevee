@@ -11,26 +11,28 @@ export async function getAllCategories() {
 export async function putCategory(category: Category | NewCategory) {
 	const db = await getDB();
 	const prevData = await db.get(CATEGORY_STORE, category.id ?? -1);
-	// const tx = db.transaction(CATEGORY_STORE, 'readwrite');
-
-	// return await Promise.all([tx.store.put(category), tx.done]);
 	return db.put(CATEGORY_STORE, { ...prevData, ...category });
 }
+export async function putCategories(categories: (Category | NewCategory)[]) {
+	const db = await getDB();
+	const tx = db.transaction(CATEGORY_STORE, 'readwrite');
+	const store = tx.objectStore(CATEGORY_STORE);
+
+	for (const category of categories) {
+		const prevData = await store.get(category.id ?? -1);
+		await store.put({ ...prevData, ...category });
+	}
+
+	await tx.done;
+}
+
 
 export async function deleteCategory(id: number) {
 	const db = await getDB();
 	return db.delete(CATEGORY_STORE, id);
 }
 
-// export async function getCategoryById(id: number) {
-// 	const db = await getDB();
-// 	return db.transaction(CATEGORY_STORE).objectStore(CATEGORY_STORE).get(id);
-// }
 
-// export async function getProductById(id: number) {
-// 	const db = await getDB();
-// 	return db.transaction(PRODUCT_STORE).objectStore(PRODUCT_STORE).get(id);
-// }
 
 export async function getAllProducts() {
 	const db = await getDB();
@@ -40,12 +42,20 @@ export async function getAllProducts() {
 export async function putProduct(product: Product) {
 	const db = await getDB();
 	const prevData = await db.get(PRODUCT_STORE, product.id ?? -1);
-	// const tx = db.transaction(CATEGORY_STORE, 'readwrite');
-
-	// return await Promise.all([tx.store.put(category), tx.done]);
 	return db.put(PRODUCT_STORE, { ...prevData, ...product });
 }
+export async function putProducts(products: Product[]) {
+	const db = await getDB();
+	const tx = db.transaction(PRODUCT_STORE, 'readwrite');
+	const store = tx.objectStore(PRODUCT_STORE);
 
+	for (const product of products) {
+		const prevData = await store.get(product.id ?? -1);
+		await store.put({ ...prevData, ...product });
+	}
+
+	await tx.done;
+}
 export async function deleteProduct(id: number) {
 	const db = await getDB();
 	return db.delete(PRODUCT_STORE, id);
@@ -97,49 +107,5 @@ export async function orderProductQuantity(orderId: number, productId: number, q
 }
 export async function createNewOrder() {
 	const db = await getDB();
-
-
-	// return await Promise.all([tx.store.put(category), tx.done]);
 	return db.add(ORDER_STORE, {});
 }
-// export async function addProductToOrder(orderId: number, productId: number) {
-
-// 	const db = await getDB();
-// 	const tx = db.transaction([ORDER_STORE, ORDERITEMS_STORE], 'readwrite');
-// 	const orderItemStore = tx.objectStore(ORDERITEMS_STORE);
-
-// 	const existingItem = await orderItemStore.index('order_product').get([orderId, productId]);
-
-// 	if (existingItem) {
-// 		existingItem.quantity += 1;
-// 		await orderItemStore.put(existingItem);
-// 	} else {
-// 		const newItem = {
-// 			orderId,
-// 			productId,
-// 			quantity: 1
-// 		};
-// 		await orderItemStore.add(newItem);
-// 	}
-
-// 	await tx.done;
-// }
-
-// export async function removeProductFromOrder(orderId: number, productId: number) {
-// 	const db = await getDB();
-// 	const tx = db.transaction([ORDER_STORE, ORDERITEMS_STORE], 'readwrite');
-// 	const orderItemStore = tx.objectStore(ORDERITEMS_STORE);
-
-// 	const existingItem = await orderItemStore.index('order_product').get([orderId, productId]);
-
-// 	if (existingItem) {
-// 		if (existingItem.quantity > 1) {
-// 			existingItem.quantity -= 1;
-// 			await orderItemStore.put(existingItem);
-// 		} else {
-// 			await orderItemStore.delete(existingItem.id);
-// 		}
-// 	}
-
-// 	await tx.done;
-// }

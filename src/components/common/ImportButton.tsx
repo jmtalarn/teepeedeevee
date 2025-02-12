@@ -1,21 +1,18 @@
 import { Text, Button, FileInput, Group } from '@mantine/core';
 import { IconFileImport } from '@tabler/icons-react';
 import { useState } from 'react';
-import { useQueryClient } from '@tanstack/react-query';
-import { CATEGORY_STORE } from '@/state/db';
+import type { Category, Product } from '@/_lib/_definitions/types';
 
 
 interface ImportButtonProps {
 	storeName: string;
-	updateMutation: any;
+	storeData: (data: (Category[] | Product[])) => void;
 }
-const ImportButton = ({ storeName, updateMutation }: ImportButtonProps) => {
+const ImportButton = ({ storeName, storeData }: ImportButtonProps) => {
 	const [file, setFile] = useState<File | null>(null);
-	const queryClient = useQueryClient();
+	const [error, setError] = useState<Error | null>(null);
 
-
-
-	async function parseFile(file: File | null): Promise<any[]> {
+	async function parseFile(file: File | null): Promise<(Product[] | Category[])> {
 		if (!file) {
 			throw new Error('No file selected');
 		}
@@ -27,7 +24,8 @@ const ImportButton = ({ storeName, updateMutation }: ImportButtonProps) => {
 					const text = event.target?.result as string;
 					const [header, ...rows] = text.split('\n').map((row) => row.split(','));
 					const parsedRows = rows.map((row) => {
-						const obj: { [key: string]: string } = {};
+						// eslint-disable-next-line @typescript-eslint/no-explicit-any
+						const obj: any = {};
 						header.forEach((key, index) => {
 							obj[key] = row[index];
 						});
@@ -35,6 +33,7 @@ const ImportButton = ({ storeName, updateMutation }: ImportButtonProps) => {
 					});
 					resolve(parsedRows);
 				} catch (error) {
+					setError(error as Error);
 					reject(new Error(String(error)));
 				}
 			};
@@ -50,16 +49,16 @@ const ImportButton = ({ storeName, updateMutation }: ImportButtonProps) => {
 
 		try {
 			const rows = await parseFile(file);
-			for (const row of rows) {
-				updateMutation.mutate(row);
+			try {
+				storeData(rows);
+			} catch (error) {
+				setError(error as Error);
+				throw new Error(String(error));
 			}
-			queryClient.invalidateQueries({ queryKey: [storeName === CATEGORY_STORE ? 'categories' : 'products'] });
 		} catch (error) {
 			throw new Error(String(error));
 		}
 	}
-
-
 
 	return <Group gap="xs" grow>
 		<FileInput
@@ -74,6 +73,7 @@ const ImportButton = ({ storeName, updateMutation }: ImportButtonProps) => {
 					color="var(--mantine-primary-color-filled)" size={18}
 				/>
 			}
+			error={error && String(error)}
 		/>
 		<Button onClick={handleImport} rightSection={<IconFileImport size={18} />} variant="outline" color="blue">
 			Import {storeName} data

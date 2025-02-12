@@ -28,7 +28,7 @@ export default function CategoryManagement() {
 			queryClient.invalidateQueries({ queryKey: ['categories'] });
 		}
 	});
-	//	const { isPending, data, error, isError, isSuccess, isFetching,status } = result;
+
 	const { data, isSuccess } = result;
 
 
