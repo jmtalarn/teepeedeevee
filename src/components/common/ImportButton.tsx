@@ -3,12 +3,13 @@ import { IconFileImport, IconFileSearch } from '@tabler/icons-react';
 import { useState } from 'react';
 import type { Category, Product } from '@/_lib/_definitions/types';
 import styles from './ImportButton.module.css';
+import type { UseMutationResult } from '@tanstack/react-query';
 
 interface ImportButtonProps {
 	storeName: 'Category' | 'Product';
-	mutationFn: (data: (Category[] | Product[])) => void;
+	mutation: UseMutationResult<[...IDBValidKey[], void], Error, (Category | { created_at?: string | undefined; id?: number | undefined; name?: string | null | undefined; parent?: number | null | undefined; })[], unknown>;
 }
-const ImportButton = ({ storeName, mutationFn }: ImportButtonProps) => {
+const ImportButton = ({ storeName, mutation }: ImportButtonProps) => {
 	const [file, setFile] = useState<File | null>(null);
 	const [error, setError] = useState<Error | null>(null);
 
@@ -56,7 +57,8 @@ const ImportButton = ({ storeName, mutationFn }: ImportButtonProps) => {
 		try {
 			const rows = await parseFile(file);
 			try {
-				mutationFn(rows);
+				mutation.mutate(rows, { onSuccess: () => { setFile(null); } });
+				setFile(null);
 			} catch (error) {
 				setError(error as Error);
 				throw new Error(String(error));

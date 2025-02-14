@@ -1,8 +1,12 @@
 
 
+import ImportExportSection from '@/components/common/ImportExportSection';
 import Products from '@/components/product/Products';
 import { deleteProduct, getAllCategories, getAllProducts, putProduct } from '@/state/api';
+import { Stack } from '@mantine/core';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import styles from './page.module.css';
+import { PRODUCT_STORE } from '@/state/db';
 
 export default function ProductsPage() {
 	const queryClient = useQueryClient();
@@ -21,10 +25,15 @@ export default function ProductsPage() {
 		}
 	});
 	return (
-		products.isSuccess && categories.isSuccess && <Products
-			products={products.data}
-			categories={categories.data}
-			onProductEditSave={(product) => updateMutation.mutate(product)}
-			onProductDelete={(id) => deleteMutation.mutate(id)} />
+		<Stack>
+			{
+				products.isSuccess && categories.isSuccess && <Products
+					products={products.data}
+					categories={categories.data}
+					onProductEditSave={(product) => updateMutation.mutate(product)}
+					onProductDelete={(id) => deleteMutation.mutate(id)} />
+			}
+			<ImportExportSection className={styles.importExportSection} storeName={PRODUCT_STORE} />
+		</Stack>
 	);
 }

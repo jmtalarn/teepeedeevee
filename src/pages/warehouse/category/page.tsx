@@ -9,6 +9,7 @@ import { useState } from 'react';
 import { Stack } from '@mantine/core';
 import ImportExportSection from '@/components/common/ImportExportSection';
 import styles from './page.module.css';
+import { CATEGORY_STORE } from '@/state/db';
 
 export default function CategoryManagement() {
 	const [newCategoryValue, setNewCategoryValue] = useState<string>('');
@@ -62,6 +63,6 @@ export default function CategoryManagement() {
 				}}
 			/>
 		}
-		<ImportExportSection className={styles.importExportSection} storeName={'Category'} />
+		<ImportExportSection className={styles.importExportSection} storeName={CATEGORY_STORE} />
 	</Stack>;
 }
