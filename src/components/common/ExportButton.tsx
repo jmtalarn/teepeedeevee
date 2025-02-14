@@ -4,7 +4,7 @@ import {
 	IconFileExport
 } from '@tabler/icons-react';
 import type { Category, Product } from '@/_lib/_definitions/types';
-
+import styles from './ExportButton.module.css';
 
 const convertDataToCSV = (data: Array<Category | Product>): string => {
 	if (data.length === 0) return '';
@@ -17,12 +17,10 @@ const convertDataToCSV = (data: Array<Category | Product>): string => {
 	return [keys.join(','), ...csvRows].join('\n');
 };
 
-const ExportButton = ({ storeName, getData }: { storeName: 'Category' | 'Product', getData: () => (Category[] | Product[]) }) => {
+const ExportButton = ({ storeName, data }: { storeName: 'Category' | 'Product', data: Category[] | Product[] }) => {
 
 
 	const handleExport = async () => {
-
-		const data: Category[] | Product[] = getData();
 
 		const csvData = convertDataToCSV(data);
 
@@ -33,7 +31,14 @@ const ExportButton = ({ storeName, getData }: { storeName: 'Category' | 'Product
 
 
 	return (
-		<Button onClick={handleExport} rightSection={<IconFileExport size={18} />} variant="outline" color="blue">
+		<Button
+			className={styles.exportButton}
+			onClick={handleExport}
+			rightSection={<IconFileExport size={18} />}
+			variant="light"
+			color="var(--mantine-primary-color-filled)"
+			fullWidth
+		>
 			Export {storeName} data
 		</Button >
 	);

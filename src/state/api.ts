@@ -1,4 +1,3 @@
-//import { openDB } from 'idb';
 import type { Category, NewCategory, Order, Product } from '@/_lib/_definitions/types';
 import { getDB, CATEGORY_STORE, PRODUCT_STORE, ORDER_STORE, ORDERITEMS_STORE } from './db';
 
@@ -17,13 +16,15 @@ export async function putCategories(categories: (Category | NewCategory)[]) {
 	const db = await getDB();
 	const tx = db.transaction(CATEGORY_STORE, 'readwrite');
 	const store = tx.objectStore(CATEGORY_STORE);
-
-	for (const category of categories) {
+	console.log('PUT CATEGORIES');
+	const allPromises = Promise.all([...categories.map(async (category) => {
 		const prevData = await store.get(category.id ?? -1);
-		await store.put({ ...prevData, ...category });
-	}
+		console.log({ prevData, category });
+		return store.put({ ...prevData, ...category });
+	}), tx.done]);
+	console.log(allPromises);
+	return allPromises;
 
-	await tx.done;
 }
 
 

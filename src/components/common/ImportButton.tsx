@@ -1,14 +1,14 @@
-import { Text, Button, FileInput, Group } from '@mantine/core';
-import { IconFileImport } from '@tabler/icons-react';
+import { Text, Button, FileInput, Flex, Stack, Box } from '@mantine/core';
+import { IconFileImport, IconFileSearch } from '@tabler/icons-react';
 import { useState } from 'react';
 import type { Category, Product } from '@/_lib/_definitions/types';
-
+import styles from './ImportButton.module.css';
 
 interface ImportButtonProps {
-	storeName: string;
-	storeData: (data: (Category[] | Product[])) => void;
+	storeName: 'Category' | 'Product';
+	mutationFn: (data: (Category[] | Product[])) => void;
 }
-const ImportButton = ({ storeName, storeData }: ImportButtonProps) => {
+const ImportButton = ({ storeName, mutationFn }: ImportButtonProps) => {
 	const [file, setFile] = useState<File | null>(null);
 	const [error, setError] = useState<Error | null>(null);
 
@@ -27,7 +27,11 @@ const ImportButton = ({ storeName, storeData }: ImportButtonProps) => {
 						// eslint-disable-next-line @typescript-eslint/no-explicit-any
 						const obj: any = {};
 						header.forEach((key, index) => {
-							obj[key] = row[index];
+							if (key === 'id' || key === 'parent') {
+								obj[key] = row[index] !== null && row[index] !== undefined && row[index] !== '' ? parseInt(row[index]) : null;
+							} else {
+								obj[key] = row[index];
+							}
 						});
 						return obj;
 					});
@@ -44,13 +48,15 @@ const ImportButton = ({ storeName, storeData }: ImportButtonProps) => {
 
 	async function handleImport(): Promise<void> {
 		if (!file) {
-			throw new Error('No file selected');
+			const newError = new Error('No file selected');
+			setError(newError);
+			throw newError;
 		}
 
 		try {
 			const rows = await parseFile(file);
 			try {
-				storeData(rows);
+				mutationFn(rows);
 			} catch (error) {
 				setError(error as Error);
 				throw new Error(String(error));
@@ -60,25 +66,41 @@ const ImportButton = ({ storeName, storeData }: ImportButtonProps) => {
 		}
 	}
 
-	return <Group gap="xs" grow>
-		<FileInput
-			onChange={setFile}
-			value={file}
-			placeholder={
-				<Text truncate="end">
-					{`Select ${storeName} data file to import`}</Text>
-			}
-			rightSection={
-				<IconFileImport
-					color="var(--mantine-primary-color-filled)" size={18}
-				/>
-			}
-			error={error && String(error)}
-		/>
-		<Button onClick={handleImport} rightSection={<IconFileImport size={18} />} variant="outline" color="blue">
-			Import {storeName} data
-		</Button >
-	</Group>;
+	return <Stack gap="xs">
+		<Flex gap="xs" wrap="wrap">
+			<FileInput
+				classNames={{ root: styles.fileInput, error: styles.fileInputError }}
+				onChange={(file) => { setError(null); setFile(file); }}
+				value={file}
+				placeholder={
+					<Text truncate="end" className={styles.placeholder}>
+						{`Select ${storeName} data file to import`}
+					</Text>
+				}
+				accept=".csv"
+				clearable={true}
+				leftSection={
+					<IconFileSearch
+						color="var(--mantine-primary-color-filled)" size={18}
+					/>
+				}
+				error={!!error}
+			/>
+			<Button
+				className={styles.importButton}
+				onClick={handleImport}
+				rightSection={<IconFileImport size={18} />}
+				variant="light"
+				color="var(--mantine-primary-color-filled)"
+			>
+				Import {storeName} data
+			</Button >
+
+		</Flex>
+		<Box className={styles.fileInputError}>
+			<Text size="sm" >{error && String(error)}</Text>
+		</Box>
+	</Stack>;
 
 };
 

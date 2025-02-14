@@ -1,0 +1,14 @@
+.importButton {
+	align-self: start;
+	flex-shrink: 1;
+	flex-grow: 1;
+}
+.fileInput {
+	width: 100%;
+	flex: 1 1 25rem;
+}
+
+.fileInputError {
+	min-height: 1.5rem;
+	color: var(--mantine-color-error);
+}
