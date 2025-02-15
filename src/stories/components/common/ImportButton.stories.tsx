@@ -11,7 +11,25 @@ const meta: Meta<typeof Component> = {
 	title: 'Components/Common/ImportButton',
 	args: {
 		storeName: CATEGORY_STORE,
-		storeData: fn()
+		mutation: {
+			mutate: fn(),
+			mutateAsync: fn(),
+			reset: fn(),
+			status: 'idle',
+			isIdle: true,
+			isSuccess: false,
+			isError: false,
+			data: undefined,
+			error: null,
+			context: undefined,
+			isPaused: false,
+			variables: undefined,
+			isPending: false,
+			failureCount: 0,
+			failureReason: null,
+			submittedAt: 0,
+			...fn()
+		}
 	}
 };
 
