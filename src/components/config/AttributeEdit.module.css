@@ -1,0 +1,14 @@
+.defaultValueNumberInput {
+	display: flex;
+	align-items: center;
+}
+.defaultValueNumberInputLabel {
+	flex-grow: 0;
+	margin-right: var(--mantine-spacing-xs);
+}
+.rangeSlider {
+	flex-grow: 1;
+}
+.numberInput {
+	width: 5rem;
+}

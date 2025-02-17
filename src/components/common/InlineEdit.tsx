@@ -47,7 +47,7 @@ const InlineEdit = (
 							<IconCheck />
 						</ActionIcon>
 						<CloseButton
-							color="red"
+							color='var(--mantine-color-error)'
 							aria-label="Cancel edit"
 							title="Dismiss changes"
 							onClick={

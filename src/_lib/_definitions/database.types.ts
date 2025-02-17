@@ -38,6 +38,27 @@ export type Database = {
           },
         ]
       }
+      Config: {
+        Row: {
+          created_at: string
+          key: string
+          label: string
+          value: string | null
+        }
+        Insert: {
+          created_at?: string
+          key: string
+          label: string
+          value?: string | null
+        }
+        Update: {
+          created_at?: string
+          key?: string
+          label?: string
+          value?: string | null
+        }
+        Relationships: []
+      }
       Order: {
         Row: {
           created_at: string

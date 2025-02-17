@@ -6,6 +6,7 @@ import WarehouseHome from './pages/warehouse/page';
 import Product from './pages/warehouse/product/page';
 import Category from './pages/warehouse/category/page';
 import Layout from './pages/layout';
+import Config from './pages/config';
 
 import {
 	QueryClient,
@@ -28,6 +29,7 @@ function App() {
 					<Route path="product" element={<Product />} />
 					<Route path="category" element={<Category />} />
 				</Route>
+				<Route path="config" element={<Config />} />
 			</Route>
 		</Routes>
 		<ReactQueryDevtools initialIsOpen={false} />

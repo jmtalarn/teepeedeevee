@@ -149,6 +149,83 @@
                             ],
                             "type": "object"
                         },
+                        "Config": {
+                            "properties": {
+                                "Insert": {
+                                    "properties": {
+                                        "created_at": {
+                                            "type": "string"
+                                        },
+                                        "key": {
+                                            "type": "string"
+                                        },
+                                        "label": {
+                                            "type": "string"
+                                        },
+                                        "value": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "key",
+                                        "label"
+                                    ],
+                                    "type": "object"
+                                },
+                                "Relationships": {
+                                    "maxItems": 0,
+                                    "minItems": 0,
+                                    "type": "array"
+                                },
+                                "Row": {
+                                    "properties": {
+                                        "created_at": {
+                                            "type": "string"
+                                        },
+                                        "key": {
+                                            "type": "string"
+                                        },
+                                        "label": {
+                                            "type": "string"
+                                        },
+                                        "value": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "created_at",
+                                        "key",
+                                        "label",
+                                        "value"
+                                    ],
+                                    "type": "object"
+                                },
+                                "Update": {
+                                    "properties": {
+                                        "created_at": {
+                                            "type": "string"
+                                        },
+                                        "key": {
+                                            "type": "string"
+                                        },
+                                        "label": {
+                                            "type": "string"
+                                        },
+                                        "value": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            },
+                            "required": [
+                                "Insert",
+                                "Relationships",
+                                "Row",
+                                "Update"
+                            ],
+                            "type": "object"
+                        },
                         "Order": {
                             "properties": {
                                 "Insert": {
@@ -397,7 +474,7 @@
                                             "type": "number"
                                         },
                                         "code": {
-                                            "type": "number"
+                                            "type": "string"
                                         },
                                         "created_at": {
                                             "type": "string"
@@ -483,7 +560,7 @@
                                             "type": "number"
                                         },
                                         "code": {
-                                            "type": "number"
+                                            "type": "string"
                                         },
                                         "created_at": {
                                             "type": "string"
@@ -522,7 +599,7 @@
                                             "type": "number"
                                         },
                                         "code": {
-                                            "type": "number"
+                                            "type": "string"
                                         },
                                         "created_at": {
                                             "type": "string"
@@ -557,6 +634,7 @@
                     },
                     "required": [
                         "Category",
+                        "Config",
                         "Order",
                         "OrderItems",
                         "Product"

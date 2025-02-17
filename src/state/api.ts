@@ -1,5 +1,5 @@
-import type { Category, NewCategory, Order, Product } from '@/_lib/_definitions/types';
-import { getDB, CATEGORY_STORE, PRODUCT_STORE, ORDER_STORE, ORDERITEMS_STORE } from './db';
+import type { Category, Config, NewCategory, Order, Product } from '@/_lib/_definitions/types';
+import { getDB, CATEGORY_STORE, PRODUCT_STORE, ORDER_STORE, ORDERITEMS_STORE, CONFIG_STORE } from './db';
 
 
 export async function getAllCategories() {
@@ -109,4 +109,13 @@ export async function orderProductQuantity(orderId: number, productId: number, q
 export async function createNewOrder() {
 	const db = await getDB();
 	return db.add(ORDER_STORE, {});
+}
+
+export async function getConfig() {
+	const db = await getDB();
+	return db.getAll(CONFIG_STORE);
+}
+export async function putConfig(key: Config['key'], value: Config['value'], label: Config['label']) {
+	const db = await getDB();
+	return db.put(CONFIG_STORE, { key, value, label });
 }
