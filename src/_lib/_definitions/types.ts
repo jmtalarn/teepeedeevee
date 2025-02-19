@@ -20,3 +20,8 @@ export type Config = Omit<ConfigRow, 'created_at'> & Partial<Pick<ConfigRow, 'cr
 export enum AttributeType { NUMBER_RANGE = 'NUMBER_RANGE', STRINGS_SET = 'STRINGS_SET' };
 
 export type DefinitionType = { type?: AttributeType, list?: string[], range?: [number, number], value?: string | number | null }
+
+export type FieldLinksType = {
+	id: string;
+	label: string;
+}
