@@ -115,7 +115,7 @@ export async function getConfig() {
 	const db = await getDB();
 	return db.getAll(CONFIG_STORE);
 }
-export async function putConfig(key: Config['key'], value: Config['value'], label: Config['label']) {
+export async function putConfig(key: Config['key'], label: Config['label'], definition: Config['definition'], value: Config['value']) {
 	const db = await getDB();
-	return db.put(CONFIG_STORE, { key, value, label });
+	return db.put(CONFIG_STORE, { key, label, definition, value });
 }

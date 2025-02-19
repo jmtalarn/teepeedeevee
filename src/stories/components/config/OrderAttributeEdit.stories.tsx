@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 // import { useArgs } from '@storybook/preview-api'
-import Component from '@/components/config/AttributeEdit';
+import Component from '@/components/config/OrderAttributeEdit';
 
 
 const meta: Meta<typeof Component> = {

@@ -12,3 +12,13 @@
 .numberInput {
 	width: 5rem;
 }
+.selectValue {
+	flex-grow: 1;
+}
+.tagInputValues {
+	flex: 1 1 60%;
+}
+.checkboxDefaultValue {
+	position: relative;
+	top: -11px;
+}

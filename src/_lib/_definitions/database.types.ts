@@ -41,18 +41,21 @@ export type Database = {
       Config: {
         Row: {
           created_at: string
+          definition: Json[] | null
           key: string
           label: string
           value: string | null
         }
         Insert: {
           created_at?: string
+          definition?: Json[] | null
           key: string
           label: string
           value?: string | null
         }
         Update: {
           created_at?: string
+          definition?: Json[] | null
           key?: string
           label?: string
           value?: string | null

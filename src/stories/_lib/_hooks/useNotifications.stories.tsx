@@ -17,13 +17,13 @@ const Component = () => {
 			</Button>
 			<Button
 				onClick={() => showNotification(message, 'Warning')}
-				color='gold'
+				color='yellow'
 			>
 				Warning
 			</Button>
 			<Button
 				onClick={() => showNotification(message, 'Success')}
-				color='paleGreen'
+				color='lime'
 			>
 				Success
 			</Button>
