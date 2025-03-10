@@ -200,38 +200,42 @@ async function fetchDataFromAPI() {
 
 }
 async function populateDatabase(db: IDBPDatabase<unknown>) {
-	const result = await fetchDataFromAPI();
-	if (!result) {
-		throw new Error('Failed to fetch data from API');
-	}
-	const { category, product, order, orderItems, config } = result;
+	try {
+		const result = await fetchDataFromAPI();
+		if (!result) {
+			throw new Error('Failed to fetch data from API');
+		}
+		const { category, product, order, orderItems, config } = result;
 
-	// Fill the local indexedDB
-	if (category) {
-		const txCategory = db.transaction(CATEGORY_STORE, 'readwrite');
-		await Promise.all([...category.map(item => txCategory.store.put(item)), txCategory.done]);
-	}
+		// Fill the local indexedDB
+		if (category) {
+			const txCategory = db.transaction(CATEGORY_STORE, 'readwrite');
+			await Promise.all([...category.map(item => txCategory.store.put(item)), txCategory.done]);
+		}
 
-	if (product) {
-		const txProduct = db.transaction(PRODUCT_STORE, 'readwrite');
-		await Promise.all([...product.map(item => txProduct.store.put(item)), txProduct.done]);
-	}
+		if (product) {
+			const txProduct = db.transaction(PRODUCT_STORE, 'readwrite');
+			await Promise.all([...product.map(item => txProduct.store.put(item)), txProduct.done]);
+		}
 
-	if (order) {
-		const txOrder = db.transaction(ORDER_STORE, 'readwrite');
-		await Promise.all([...order.map(item => txOrder.store.put(item)), txOrder.done]);
-	}
+		if (order) {
+			const txOrder = db.transaction(ORDER_STORE, 'readwrite');
+			await Promise.all([...order.map(item => txOrder.store.put(item)), txOrder.done]);
+		}
 
-	if (orderItems) {
-		const txOrderItems = db.transaction(ORDERITEMS_STORE, 'readwrite');
-		await Promise.all([...orderItems.map(item => txOrderItems.store.put(item)), txOrderItems.done]);
+		if (orderItems) {
+			const txOrderItems = db.transaction(ORDERITEMS_STORE, 'readwrite');
+			await Promise.all([...orderItems.map(item => txOrderItems.store.put(item)), txOrderItems.done]);
+		}
+		if (config) {
+			const txConfigItems = db.transaction(CONFIG_STORE, 'readwrite');
+			await Promise.all([...config.map(item => txConfigItems.store.put(item)), txConfigItems.done]);
+		}
+	} catch (error) {
+		console.error('Failed to populate database', error);
+	} finally {
+		dbInitialized = true;
 	}
-	if (config) {
-		const txConfigItems = db.transaction(CONFIG_STORE, 'readwrite');
-		await Promise.all([...config.map(item => txConfigItems.store.put(item)), txConfigItems.done]);
-	}
-	dbInitialized = true;
-
 };
 
 export { initDB, getDB, CATEGORY_STORE, PRODUCT_STORE, ORDER_STORE, ORDERITEMS_STORE, CONFIG_STORE };

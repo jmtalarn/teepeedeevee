@@ -5,6 +5,8 @@ import OrderAttributeEdit from '@/components/config/OrderAttributeEdit';
 import { getConfig, putConfig } from '@/state/api';
 import { ATTRIBUTE_1_KEY_CONFIG, ATTRIBUTE_2_KEY_CONFIG } from '@/state/config';
 import { Group, Stack } from '@mantine/core';
+import { useElementSize } from '@mantine/hooks';
+import { IconCircleNumber1Filled, IconCircleNumber2Filled } from '@tabler/icons-react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useRef } from 'react';
 import { useLocation } from 'react-router';
@@ -13,8 +15,8 @@ const ORDER_ATTRIBUTE_1_ID = 'orderAttribute1';
 const ORDER_ATTRIBUTE_2_ID = 'orderAttribute2';
 const fieldLinks: FieldLinksType[] =
 	[
-		{ id: ORDER_ATTRIBUTE_1_ID, label: 'Order Attribute 1' },
-		{ id: ORDER_ATTRIBUTE_2_ID, label: 'Order Attribute 2' }
+		{ id: ORDER_ATTRIBUTE_1_ID, label: 'Order Attribute 1', icon: <IconCircleNumber1Filled /> },
+		{ id: ORDER_ATTRIBUTE_2_ID, label: 'Order Attribute 2', icon: <IconCircleNumber2Filled /> }
 	];
 
 
@@ -22,7 +24,7 @@ const fieldLinks: FieldLinksType[] =
 
 const ConfigPage = () => {
 	const { hash, pathname } = useLocation();
-
+	const { ref, width } = useElementSize();
 	const queryClient = useQueryClient();
 	const result = useQuery({ queryKey: ['config'], queryFn: getConfig });
 	const { data, isSuccess } = result;
@@ -34,7 +36,7 @@ const ConfigPage = () => {
 		}
 	});
 	const attributeData = [data?.find(({ key }) => key === ATTRIBUTE_1_KEY_CONFIG), data?.find(({ key }) => key === ATTRIBUTE_2_KEY_CONFIG)];
-
+	console.log({ ref, width });
 	return <Group>
 		<NavigationFields containerRef={stackRef} fieldLinks={fieldLinks} path={pathname} hash={hash} />
 		<Stack ref={stackRef}>

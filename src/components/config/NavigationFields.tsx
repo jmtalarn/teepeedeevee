@@ -73,9 +73,9 @@ const NavigationFields = ({ containerRef, fieldLinks, path, hash }: NavigationFi
 		const rect = entry.target.getBoundingClientRect();
 		return rect.top - 1 <= 0 + offset && rect.bottom >= 0 + offset;
 	};
-	console.log({ containerRef });
+
 	return (
-		<nav className={styles.navbar}>
+		<nav className={[styles.navbar].filter(Boolean).join(' ')}>
 			<div className={styles.aside}>
 				{fieldLinks.map((fieldLink) => {
 					return (
@@ -89,6 +89,7 @@ const NavigationFields = ({ containerRef, fieldLinks, path, hash }: NavigationFi
 
 							key={fieldLink.id}
 						>
+							{fieldLink?.icon}
 							{fieldLink.label}
 						</Link>
 					);

@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react';
 import { Database, Json } from './database.types';
 export type { Json };
 
@@ -24,4 +25,5 @@ export type DefinitionType = { type?: AttributeType, list?: string[], range?: [n
 export type FieldLinksType = {
 	id: string;
 	label: string;
+	icon?: ReactNode;
 }
